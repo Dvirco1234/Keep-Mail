@@ -1,0 +1,26 @@
+// span {
+section {
+    height: 19px;
+    width: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &.large {
+        height: 24px;
+        width: 24px;
+    }
+    svg {
+        height: 100%;
+        width: 100%;
+    }
+}
+// span {
+//     svg {
+//         height: 19px;
+//         width: 19px;
+//         &.large {
+//             height: 24px;
+//             width: 24px;
+//         }
+//     }
+// }

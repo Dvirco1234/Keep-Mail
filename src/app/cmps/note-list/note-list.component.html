@@ -1,0 +1,36 @@
+<section class="note-list">
+    <!-- <ngx-masonry [options]="{ gutter: 10 }"> -->
+    <!-- <ngx-masonry [options]="{ originLeft: true }"> -->
+    <!-- <ngx-masonry [options]="{ horizontalOrder: true }"> -->
+    <ngx-masonry
+        [options]="masonryOptions"
+        style="margin: auto; min-width: 500px"
+        [ordered]="true"
+    >
+        <!-- <div
+            ngxMasonryItem
+            class="masonry-item"
+            *ngFor="let note of masonryItems"
+        >
+            <h1
+                style="
+                    background-color: aqua;
+                    height: 200px;
+                    width: 200px;
+                    /* margin: 10px; */
+                "
+            >
+                {{ note.title }}
+            </h1>
+        </div> -->
+        <note-preview
+            ngxMasonryItem
+            class="masonry-item"
+            *ngFor="let note of masonryItems"
+            [note]="note"
+        ></note-preview>
+    </ngx-masonry>
+</section>
+<!-- <section class="note-list">
+    <note-preview *ngFor="let note of notes" [note]="note"></note-preview>
+</section> -->
