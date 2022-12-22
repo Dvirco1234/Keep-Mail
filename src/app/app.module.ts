@@ -14,6 +14,9 @@ import { SideNavFilterComponent } from './cmps/side-nav-filter/side-nav-filter.c
 import { NoteAddComponent } from './cmps/note-add/note-add.component';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { SvgIconComponent } from './cmps/utils/svg-icon/svg-icon.component';
+import { TodosNoteComponent } from './cmps/todos-note/todos-note.component';
+import { NoteTemplatesComponent } from './cmps/note-templates/note-templates.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -27,12 +30,15 @@ import { SvgIconComponent } from './cmps/utils/svg-icon/svg-icon.component';
         SideNavFilterComponent,
         NoteAddComponent,
         SvgIconComponent,
+        TodosNoteComponent,
+        NoteTemplatesComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         NgxMasonryModule,
         BrowserAnimationsModule,
+        FormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

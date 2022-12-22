@@ -1,0 +1,23 @@
+<ul class="todos-list clean-list">
+    <li
+        *ngFor="let todo of sortedTodos"
+        class="todo flex align-center"
+        [ngClass]="{ done: todo.doneAt }"
+    >
+        <div
+            class="seperator"
+            *ngIf="todo.txt === 'seperator-div'; else todoRef"
+        ></div>
+        <ng-template #todoRef>
+            <svg-icon
+                class="checkbox"
+                (click)="toggleTodo(todo.id)"
+                [icon]="{
+                    name: todo.doneAt ? 'checkbox-checked' : 'checkbox',
+                    isLarge: false
+                }"
+            ></svg-icon>
+            <p>{{ todo.txt }}</p>
+        </ng-template>
+    </li>
+</ul>

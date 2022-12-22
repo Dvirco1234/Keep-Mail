@@ -1,9 +1,18 @@
+@import "./setup/typography";
+@import "./setup/variables";
+@import "./setup/functions";
+@import "./setup/mixins";
+
+@import "./basics/layout";
+@import "./basics/base";
+@import "./basics/icons";
+@import "./basics/helpers";
+
 // /* You can add global styles to this file, and also import other style files */
 // // @font-face {
 // //     font-family: ;
 // //     src: url();
 // // }
-// @import "./styles/setup/functions";
 
 // * {
 //     box-sizing: border-box;
@@ -65,7 +74,6 @@
 //     font-weight: normal;
 //     padding: 0;
 //     font-family: sans-serif;
-//     // color: $clr1;
 // }
 
 // a {

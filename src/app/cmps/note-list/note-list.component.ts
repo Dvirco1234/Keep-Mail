@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
+import { Note } from 'src/app/models';
 
 @Component({
     selector: 'note-list',
@@ -10,11 +11,17 @@ export class NoteListComponent implements OnInit {
     constructor() {}
     public masonryOptions: NgxMasonryOptions = {
         // gutter: 16,
-        gutter: 8,
+        gutter: 10,
         fitWidth: true,
         columnWidth: 240,
     };
-    // notes: number[] = [1, 2, 3, 4, 5];
+    @Input() notes!: Note[] | null;
+
+    get notess(): Note[] {
+        return this.notes
+            ? this.notes.filter((note) => note.type === 'note-txt')
+            : [];
+    }
     masonryItems = [
         { title: 'item 1' },
         { title: 'item 2' },
@@ -45,5 +52,7 @@ export class NoteListComponent implements OnInit {
         { title: 'item 3' },
     ];
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        // console.log('this.notes:', this.notes);
+    }
 }

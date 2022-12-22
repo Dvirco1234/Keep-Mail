@@ -1,8 +1,74 @@
-<article class="note-preview">
-    <header class="note-header"></header>
-    <main class="note-content">
-        <h1>{{ note.title }}</h1>
-        <svg-icon [icon]="{ name: 'hamburger', isLarge: true }"></svg-icon>
-    </main>
-    <footer class="note-footer"></footer>
-</article>
+<div class="preview-wrapper">
+    <div class="check-note flex-center">
+        <svg-icon
+            [icon]="{ name: 'check-circle', isLarge: true }"
+            (click)="toggleCheck()"
+        ></svg-icon>
+    </div>
+    <article
+        class="note-preview"
+        [ngClass]="isImgOnly"
+        [style]="{ backgroundColor: bgc }"
+    >
+        <div class="pin icon-ctr flex-center">
+            <svg-icon
+                [icon]="{ name: 'pin', isLarge: true }"
+                (click)="togglePin()"
+            ></svg-icon>
+        </div>
+        <!-- <section class="media"> -->
+        <img
+            *ngIf="note.media?.type === 'img'"
+            class="note-img"
+            src="{{ note.media.url }}"
+        />
+        <audio
+            *ngIf="note.media?.type === 'audio'"
+            controls
+            src="/media/cc0-audio/t-rex-roar.mp3"
+        ></audio>
+        <!-- </section> -->
+        <main class="note-main" [ngSwitch]="note.type">
+            <header class="note-header flex align-center">
+                <h1 *ngIf="note.info.title">{{ note.info.title }}</h1>
+            </header>
+            <section class="note-content">
+                <pre
+                    *ngIf="note.info.txt"
+                    [ngClass]="{ 'media-note': note.media }"
+                    >{{ note.info.txt }}</pre
+                >
+                <todos-note
+                    *ngIf="note.info.todos"
+                    [info]="note.info"
+                ></todos-note>
+            </section>
+        </main>
+        <footer class="note-footer flex space-between">
+            <div class="icon-ctr flex-center" *ngFor="let act of actIcons">
+                <svg-icon
+                    [icon]="{ name: act.type, isLarge: false }"
+                    (click)="act.act()"
+                ></svg-icon>
+            </div>
+        </footer>
+        <h2 class="empty-note" *ngIf="isEmptyNote">Empty note</h2>
+    </article>
+</div>
+<!-- 
+
+
+
+
+
+
+
+
+ -->
+<!-- <svg-icon [icon]="{ name: 'hamburger', isLarge: true }"></svg-icon> -->
+<!-- <button (click)="setType()">ccccc</button> -->
+<!-- <ng-container *ngComponentOutlet="cmpType"></ng-container> -->
+<!-- <ng-container #cmp></ng-container> -->
+<!-- <ng-container *ngTemplateOutlet="aaa"></ng-container>
+<note-templates #templates></note-templates>
+<ng-template #aaa></ng-template> -->
