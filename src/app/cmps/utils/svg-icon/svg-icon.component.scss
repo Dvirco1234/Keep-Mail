@@ -10,14 +10,11 @@ section {
         width: 24px;
     }
     svg {
-        // height: 100% !important;
-        // width: 100% !important;
         height: 100%;
         width: 100%;
-        // path {
-        //     height: 100% !important;
-        //     width: 100% !important;
-        // }
+        &.redo {
+            transform: scaleX(-1);
+        }
     }
 }
 // span {

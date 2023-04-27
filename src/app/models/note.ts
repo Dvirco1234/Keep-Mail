@@ -1,10 +1,11 @@
 // import { NoteImgAudio } from './';
-import { NoteTodo } from './';
+import { NoteInfo, NoteTodo } from './';
 import { NoteTxt } from './';
 
 export class Note {
     constructor(
         public type: string,
+        // public info: NoteInfo,
         public info: NoteTodo | NoteTxt,
         public media: { type: string; url: string } | null = {
             type: '',
@@ -20,7 +21,7 @@ export class Note {
         public style: { backgroundColor: string } = { backgroundColor: 'fff' }
     ) {}
 
-    setId?(id: string = 'n101') {
+    setId?(id: string = 'n1001') {
         this._id = id;
     }
 }
@@ -36,3 +37,16 @@ export class Note {
 //     }> | null;
 //     style: { backgroundColor: string };
 // }
+export interface NoteInt {
+    [key: string]:
+        | boolean
+        | string
+        | NoteTodo
+        | NoteTxt
+        | Array<{
+              title: string;
+              color: string;
+          }>
+        | null
+        | { backgroundColor: string };
+}

@@ -4,13 +4,33 @@ export interface NoteTodo {
         | Array<{
               id: string;
               txt: string;
-              isDone: boolean;
+              isDone?: boolean; //no need
               doneAt: number | null;
           }>
         | [];
+    txt?: string;
 }
 export interface NoteTxt {
     title: string;
+    txt: string;
+    todos?: [];
+}
+export interface Todo {
+    id: string;
+    txt: string;
+    isDone?: boolean; //no need
+    doneAt: number | null;
+}
+export interface NoteInfo {
+    title: string;
+    todos:
+        | Array<{
+              id: string;
+              txt: string;
+              isDone?: boolean; //no need
+              doneAt: number | null;
+          }>
+        | [];
     txt: string;
 }
 // export interface NoteAudio {

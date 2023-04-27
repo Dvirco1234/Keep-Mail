@@ -1,32 +1,28 @@
 <section class="note-list">
-    <!-- <ngx-masonry [options]="{ gutter: 10 }"> -->
-    <!-- <ngx-masonry [options]="{ originLeft: true }"> -->
-    <!-- <ngx-masonry [options]="{ horizontalOrder: true }"> -->
+    <!-- <h3 class="notes-sep">PINNED</h3> -->
     <ngx-masonry
         [options]="masonryOptions"
-        style="margin: auto; min-width: 500px"
         [ordered]="true"
+        style="margin: 70px 0; min-width: 500px"
     >
-        <!-- <div
-            ngxMasonryItem
-            class="masonry-item"
-            *ngFor="let note of masonryItems"
-        >
-            <h1
-                style="
-                    background-color: aqua;
-                    height: 200px;
-                    width: 200px;
-                    /* margin: 10px; */
-                "
-            >
-                {{ note.title }}
-            </h1>
-        </div> -->
+        <h3 class="notes-sep">PINNED</h3>
         <note-preview
             ngxMasonryItem
             class="masonry-item"
-            *ngFor="let note of notes"
+            *ngFor="let note of pinnedNotes; trackBy: trackByFn"
+            [note]="note"
+        ></note-preview>
+    </ngx-masonry>
+    <ngx-masonry
+        [options]="masonryOptions"
+        style="margin: 70px 0; min-width: 500px"
+        [ordered]="true"
+    >
+        <h3 class="notes-sep">OTHERS</h3>
+        <note-preview
+            ngxMasonryItem
+            class="masonry-item"
+            *ngFor="let note of unpinnedNotes"
             [note]="note"
         ></note-preview>
     </ngx-masonry>

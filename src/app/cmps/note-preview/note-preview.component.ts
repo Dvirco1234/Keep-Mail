@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { UtilService } from 'src/app/services/util-service.service';
 // import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
 // import { ImgNoteComponent } from '../notes/img-note/img-note.component';
 // import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
@@ -13,7 +14,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class NotePreviewComponent implements OnInit {
     // cmpType = TxtNoteComponent;
 
-    constructor() {}
+    constructor(private utilService: UtilService) {}
 
     @Input() note!: any;
 
@@ -33,6 +34,8 @@ export class NotePreviewComponent implements OnInit {
     get bgc() {
         return { backgroundColor: this.note.style.backgroundColor };
     }
+
+    isDarkImg: boolean = false;
 
     // actIcons = ['edit','label', 'palette', 'image', 'archive', 'more-menu'];
     actIcons = [
@@ -75,8 +78,11 @@ export class NotePreviewComponent implements OnInit {
     //     return false;
     // }
 
-    ngOnInit(): void {
-        // console.log('this.note:', this.note);
+    async ngOnInit() {
+        const { media } = this.note;
+        if (media?.type === 'img')
+            this.isDarkImg = await this.utilService.isDarkImg(media.url);
+        console.log('this.note:', this.note, this.isDarkImg);
     }
 }
 

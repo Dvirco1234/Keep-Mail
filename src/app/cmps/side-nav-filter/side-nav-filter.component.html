@@ -1,9 +1,16 @@
 <section class="side-nav">
     <ul class="links clean-list">
         <!-- <li class="nav-link" *ngFor="let link of links"></li> -->
-        <li class="nav-link flex align-center">
-            <span class="nav-icon">svg</span>
-            <h2>Notes</h2>
+        <li class="nav-link flex align-center" *ngFor="let link of navLinks">
+            <svg-icon
+                class="nav-icon"
+                [icon]="{
+                    name: link.icon,
+                    isLarge: true
+                }"
+                (click)="link.act()"
+            ></svg-icon>
+            <h2>{{ link.txt }}</h2>
         </li>
     </ul>
 </section>

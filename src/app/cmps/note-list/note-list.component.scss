@@ -2,7 +2,22 @@
     // display: flex;
     // flex-direction: row;
     // flex-wrap: wrap;
+    width: 83%;
+    margin: auto;
     .masonry-item {
         width: 240px;
+    }
+
+    .notes-sep {
+        color: #5f6368;
+        letter-spacing: 0.07272727em;
+        font-family: Roboto-Medium, Arial, sans-serif;
+        font-size: 0.6875rem;
+        text-transform: uppercase;
+        // margin: 32px 32px 8px;
+
+        position: relative;
+        bottom: 28px;
+        left: 16px;
     }
 }

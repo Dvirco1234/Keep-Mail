@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { MasonryModule } from 'masonry-layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app-root/app.component';
@@ -17,6 +18,9 @@ import { SvgIconComponent } from './cmps/utils/svg-icon/svg-icon.component';
 import { TodosNoteComponent } from './cmps/todos-note/todos-note.component';
 import { NoteTemplatesComponent } from './cmps/note-templates/note-templates.component';
 import { FormsModule } from '@angular/forms';
+import { MasonryDirective } from './directives/masonary.directive';
+import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 
 @NgModule({
     declarations: [
@@ -32,6 +36,9 @@ import { FormsModule } from '@angular/forms';
         SvgIconComponent,
         TodosNoteComponent,
         NoteTemplatesComponent,
+        MasonryDirective,
+        ClickOutsideDirective,
+        UppercaseFirstPipe,
     ],
     imports: [
         BrowserModule,
@@ -39,6 +46,7 @@ import { FormsModule } from '@angular/forms';
         NgxMasonryModule,
         BrowserAnimationsModule,
         FormsModule,
+        // MasonryModule
     ],
     providers: [],
     bootstrap: [AppComponent],

@@ -1,4 +1,87 @@
-<section class="add-note">
-    <input type="text" class="title-input" placeholder="Title" />
-    <input type="text" class="txt-input" placeholder="Take a note..." />
+<section
+    class="add-note"
+    [ngClass]="{ open: isOpen }"
+    (click)="isOpen = true"
+    [clickOutside]="closeEditor.bind(this)"
+>
+    <input
+        type="text"
+        class="title-input"
+        placeholder="Title"
+        [(ngModel)]="note.info.title"
+    />
+    <input
+        type="text"
+        class="txt-input"
+        placeholder="Take a note..."
+        *ngIf="!isTodosNote; else todos"
+    />
+    <!-- *ngIf="!note.info.todos?.length; else todos" -->
+    <ng-template #todos>
+        <todos-note
+            [note]="note"
+            [isEditable]="true"
+            class="todos-list"
+            (onSaveTodo)="focusNewTodo($event[0], $event[1])"
+        ></todos-note>
+        <!-- <div
+            class="todos-list flex align-center"
+            *ngFor="let todo of note.info.todos; index as idx"
+        > -->
+        <div class="todo-input">
+            <svg-icon
+                [icon]="{ name: 'plus', isLarge: false }"
+                class="plus"
+            ></svg-icon>
+            <!-- *ngIf="!todo.txt" -->
+            <!-- [(ngModel)]="todo.txt" -->
+            <input
+                (input)="editTodo(inputElement.value)"
+                type="text"
+                class="txt-input todos"
+                placeholder="List item"
+                #inputElement
+            />
+        </div>
+        <!-- </div> -->
+    </ng-template>
+    <div class="close-btn-container">
+        <div
+            class="icon-ctr lg flex-center"
+            *ngFor="let actIcon of closeActIcons"
+            (click)="actIcon.act()"
+        >
+            <svg-icon [icon]="{ name: actIcon.type, isLarge: true }"></svg-icon>
+        </div>
+    </div>
+    <div class="open-btn-container">
+        <div class="left">
+            <div
+                class="icon-ctr flex-center"
+                *ngFor="let actIcon of openActIcons"
+                [ngClass]="actIcon.type + '-icon'"
+            >
+                <!-- <button class="clean-btn"> -->
+                <svg-icon
+                    [icon]="{ name: actIcon.type, isLarge: false }"
+                    class="svg-icon"
+                    (click)="actIcon.act()"
+                ></svg-icon>
+                <!-- </button> -->
+            </div>
+        </div>
+        <div class="right">
+            <span (click)="closeEditor($event)">Close</span>
+        </div>
+        <div class="pin icon-ctr flex-center">
+            <svg-icon
+                [icon]="{
+                    name: note.isPinned ? 'pin-full' : 'pin',
+                    isLarge: true
+                }"
+                (click)="togglePin($event)"
+            ></svg-icon>
+            <!-- (click)="note.isPinned = !note.isPinned" -->
+        </div>
+    </div>
 </section>

@@ -10,11 +10,18 @@
         [ngClass]="isImgOnly"
         [style]="{ backgroundColor: bgc }"
     >
-        <div class="pin icon-ctr flex-center">
-            <svg-icon
-                [icon]="{ name: 'pin', isLarge: true }"
-                (click)="togglePin()"
-            ></svg-icon>
+        <div class="pin icon-ctr flex-center" [ngClass]="{ dark: isDarkImg }">
+            <!-- <div class="dark-pin"></div> -->
+            <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
+            <ng-template #pin>
+                <svg-icon
+                    [icon]="{
+                        name: note.isPinned ? 'pin-full' : 'pin',
+                        isLarge: true
+                    }"
+                    (click)="togglePin()"
+                ></svg-icon>
+            </ng-template>
         </div>
         <!-- <section class="media"> -->
         <img
@@ -38,10 +45,7 @@
                     [ngClass]="{ 'media-note': note.media }"
                     >{{ note.info.txt }}</pre
                 >
-                <todos-note
-                    *ngIf="note.info.todos"
-                    [info]="note.info"
-                ></todos-note>
+                <todos-note *ngIf="note.info.todos" [note]="note"></todos-note>
             </section>
         </main>
         <footer class="note-footer flex space-between">

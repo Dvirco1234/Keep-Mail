@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { Note } from '../models';
 import { AsyncStorageService } from './async-storage-service.service';
-import { StorageService } from './storage-service.service';
+import { UtilService } from './util-service.service';
 
 // const notes = [] as Note[];
 // const notes: Note[] = ;
@@ -11,8 +11,8 @@ import { StorageService } from './storage-service.service';
     providedIn: 'root',
 })
 export class KeepService {
+    private NOTES_KEY: string = 'notesDB';
     private _notesDb: Note[] = this._createNotes();
-    private NOTES_KEY = 'notesDB';
 
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
@@ -21,7 +21,7 @@ export class KeepService {
     // public filterBy$ = this._filterBy$.asObservable();
 
     constructor(
-        private utilService: StorageService,
+        private utilService: UtilService,
         private storageService: AsyncStorageService
     ) {}
 
@@ -57,7 +57,8 @@ export class KeepService {
     public getEmptyNote() {
         return {
             type: '',
-            info: {},
+            info: { title: '', txt: '' },
+            media: null,
             _id: '',
             isPinned: false,
             labels: [],
@@ -81,14 +82,31 @@ export class KeepService {
     //     this._filterBy$.next(filterBy);
     //     this.loadNotes();
     // }
+    // public updateNote(_id: string, key: string, val: any) {
+    //     //mock the server work
+    //     const note = this._getById(_id);
+    //     if (note) note[key] = val;
+    //     this._notesDb = this._notesDb.map((c) =>
+    //         note._id === c._id ? note : c
+    //     );
+    //     // change the observable data in the service - let all the subscribers know
+    //     this._notes$.next(this._sort(this._notesDb));
+    // }
+    public updateNote(note: Note) {
+        this._notesDb = this._notesDb.map((n) =>
+            note._id === n._id ? note : n
+        );
+        this.utilService.save(this.NOTES_KEY, this._notesDb);
+    }
 
     private _updateNote(note: Note) {
         //mock the server work
-        this._notesDb = this._notesDb.map((c) =>
-            note._id === c._id ? note : c
+        this._notesDb = this._notesDb.map((n) =>
+            note._id === n._id ? note : n
         );
-        // change the observable data in the service - let all the subscribers know
+        this.utilService.save(this.NOTES_KEY, this._notesDb);
         this._notes$.next(this._sort(this._notesDb));
+        // this.loadNotes();
     }
 
     private _addNote(note: Note) {
@@ -97,6 +115,10 @@ export class KeepService {
         if (typeof newNote.setId === 'function') newNote.setId(getRandomId());
         this._notesDb.push(newNote);
         this._notes$.next(this._sort(this._notesDb));
+    }
+
+    private _getById(id: string) {
+        return this._notesDb.find((note) => note._id === id);
     }
 
     private _sort(notes: Note[]): Note[] {
@@ -125,11 +147,13 @@ export class KeepService {
     }
 
     private _createNotes() {
+        console.log('this.NOTES_KEY: ', this.NOTES_KEY);
         let notes = this.utilService.load(this.NOTES_KEY);
+        console.log('notes: ', notes);
         if (!notes || !notes.length) {
             notes = [
                 {
-                    id: 'n101',
+                    _id: 'n101',
                     type: 'txt',
                     isPinned: true,
                     media: null,
@@ -143,7 +167,7 @@ export class KeepService {
                     labels: [{ title: 'Critical', color: '#e03131' }],
                 },
                 {
-                    id: 'n102',
+                    _id: 'n102',
                     type: 'todos',
                     isPinned: true,
                     media: null,
@@ -182,12 +206,13 @@ export class KeepService {
                     },
                 },
                 {
-                    id: 'n103',
+                    _id: 'n103',
                     type: 'txt',
                     isPinned: false,
                     media: {
                         type: 'img',
-                        url: 'https://res.cloudinary.com/dvirco123/image/upload/v1658050611/cld-sample-2.jpg',
+                        // url: 'https://res.cloudinary.com/dvirco123/image/upload/v1658050611/cld-sample-2.jpg',
+                        url: 'https://res.cloudinary.com/dvirco123/image/upload/v1672011403/Keep-Mail/background2_clgeb8.png',
                         // url: 'https://media0.giphy.com/media/Hld1RfHBeQDmM/giphy.gif?cid=ecf05e47oja2qakbdabac72p1kj31udw7j8ihd0bdeeag1fo&rid=giphy.gif&ct=g',
                     },
                     info: {
@@ -199,7 +224,7 @@ export class KeepService {
                     },
                 },
                 {
-                    id: 'n104',
+                    _id: 'n104',
                     type: 'txt',
                     isPinned: false,
                     media: {
@@ -219,7 +244,7 @@ export class KeepService {
                     ],
                 },
                 {
-                    id: 'n105',
+                    _id: 'n105',
                     type: 'txt',
                     isPinned: false,
                     media: {
@@ -237,7 +262,7 @@ export class KeepService {
                     },
                 },
                 {
-                    id: 'n106',
+                    _id: 'n106',
                     type: 'txt',
                     isPinned: false,
                     media: null,
@@ -251,7 +276,7 @@ export class KeepService {
                     labels: [{ title: 'Spam', color: '#f76707' }],
                 },
                 {
-                    id: 'n107',
+                    _id: 'n107',
                     type: 'txt',
                     isPinned: false,
                     media: {
@@ -268,7 +293,7 @@ export class KeepService {
                     },
                 },
                 {
-                    id: 'n108',
+                    _id: 'n108',
                     type: 'todos',
                     isPinned: false,
                     media: null,
@@ -301,7 +326,7 @@ export class KeepService {
                     labels: [{ title: 'Work', color: '#37b24d' }],
                 },
                 {
-                    id: 'n109',
+                    _id: 'n109',
                     type: 'txt',
                     isPinned: false,
                     media: null,
@@ -316,7 +341,7 @@ export class KeepService {
                     },
                 },
                 // {
-                //     id: 'n110',
+                //     _id: 'n110',
                 //     type: 'video',
                 //     isPinned: false,
                 //     media: null,
@@ -329,13 +354,12 @@ export class KeepService {
                 // },
             ];
 
-            const pinned = notes.filter((note: Note) => note.isPinned);
-            const unpinned = notes.filter((note: Note) => !note.isPinned);
+            // const pinned = notes.filter((note: Note) => note.isPinned);
+            // const unpinned = notes.filter((note: Note) => !note.isPinned);
 
-            notes = [...pinned, ...unpinned];
-
-            this.utilService.save(this.NOTES_KEY, notes);
+            // notes = [...pinned, ...unpinned];
         }
+        this.utilService.save(this.NOTES_KEY, notes);
         return notes;
     }
 }

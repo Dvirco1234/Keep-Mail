@@ -1,6 +1,6 @@
-<ul class="todos-list clean-list">
+<ul class="todos-list clean-list" [ngClass]="{ editable: isEditable }">
     <li
-        *ngFor="let todo of sortedTodos"
+        *ngFor="let todo of sortedTodos; index as idx"
         class="todo flex align-center"
         [ngClass]="{ done: todo.doneAt }"
     >
@@ -11,13 +11,29 @@
         <ng-template #todoRef>
             <svg-icon
                 class="checkbox"
-                (click)="toggleTodo(todo.id)"
+                (click)="toggleTodo($event, todo.id)"
                 [icon]="{
                     name: todo.doneAt ? 'checkbox-checked' : 'checkbox',
                     isLarge: false
                 }"
             ></svg-icon>
-            <p>{{ todo.txt }}</p>
+            <p *ngIf="!isEditable || todo.doneAt">{{ todo.txt }}</p>
+            <!-- <form (submit)="saveTodo(idx, todo)" class="todo-form"> -->
+            <form
+                class="todo-form"
+                *ngIf="isEditable && !todo.doneAt"
+                (ngSubmit)="saveTodo(idx)"
+                (keydown)="saveTodo1($event)"
+            >
+                <input
+                    [(ngModel)]="todo.txt"
+                    type="text"
+                    name="name"
+                    class="todo-input"
+                    (focus)="setCurrInput(idx)"
+                    #todoInput
+                />
+            </form>
         </ng-template>
     </li>
 </ul>
