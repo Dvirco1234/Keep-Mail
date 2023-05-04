@@ -19,6 +19,9 @@ export class KeepService {
 
     // private _filterBy$ = new BehaviorSubject<NoteFilter>({ term: '' });
     // public filterBy$ = this._filterBy$.asObservable();
+    // public currEditedNote: Note | null = null
+    private _currNote$ = new BehaviorSubject<Note | null>(null);
+    public currNote$ = this._currNote$.asObservable();
 
     constructor(
         private utilService: UtilService,
@@ -47,11 +50,12 @@ export class KeepService {
     // }
 
     public getNoteById(id: string): Observable<Note> {
-        //mock the server work
         const note = this._notesDb.find((note) => note._id === id);
-
-        //return an observable
         return note ? of(note) : throwError(() => `Note id ${id} not found!`);
+    }
+
+    public setCurrNote(note: Note | null): void {
+        this._currNote$.next(note)
     }
 
     public getEmptyNote() {
@@ -93,28 +97,33 @@ export class KeepService {
     //     this._notes$.next(this._sort(this._notesDb));
     // }
     public updateNote(note: Note) {
-        this._notesDb = this._notesDb.map((n) =>
-            note._id === n._id ? note : n
-        );
+        this._notesDb = this._notesDb.map((n) => note._id === n._id ? note : n);
+        
+        this.utilService.save(this.NOTES_KEY, this._notesDb);
+    }
+
+    public updateNoteByKey(note: Note, key: string, value: any) {
+        note[key] = value;
+        console.log('note: ', note);
+        this._notesDb = this._notesDb.map((n) => note._id === n._id ? note : n);
         this.utilService.save(this.NOTES_KEY, this._notesDb);
     }
 
     private _updateNote(note: Note) {
-        //mock the server work
         this._notesDb = this._notesDb.map((n) =>
             note._id === n._id ? note : n
         );
         this.utilService.save(this.NOTES_KEY, this._notesDb);
-        this._notes$.next(this._sort(this._notesDb));
-        // this.loadNotes();
+        this.loadNotes();
     }
 
     private _addNote(note: Note) {
-        //mock the server work
-        const newNote = new Note(note.type, note.info);
-        if (typeof newNote.setId === 'function') newNote.setId(getRandomId());
-        this._notesDb.push(newNote);
-        this._notes$.next(this._sort(this._notesDb));
+        // const newNote = new Note(note.type, note.info);
+        // if (typeof newNote.setId === 'function') newNote.setId(getRandomId());
+        note._id = getRandomId();
+        this._notesDb.unshift(note);
+        this.utilService.save(this.NOTES_KEY, this._notesDb);
+        this.loadNotes();
     }
 
     private _getById(id: string) {

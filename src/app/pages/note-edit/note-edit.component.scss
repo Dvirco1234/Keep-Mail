@@ -1,0 +1,16 @@
+.note-edit {
+    // width: 600px;
+    // min-height: 100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    // background-color: white;
+    
+    opacity: 0;
+    transition: opacity 0.2s 0.5s;
+    &.show {
+        opacity: 1;
+    }
+
+}

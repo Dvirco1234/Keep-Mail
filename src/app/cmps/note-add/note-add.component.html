@@ -1,21 +1,37 @@
 <section
     class="add-note"
-    [ngClass]="{ open: isOpen }"
+    [ngClass]="{ open: isOpen, 'edit-mode': noteToEdit }"
+    [ngStyle]="bgc"
     (click)="isOpen = true"
     [clickOutside]="closeEditor.bind(this)"
 >
     <input
         type="text"
-        class="title-input"
+        class="input title-input"
         placeholder="Title"
         [(ngModel)]="note.info.title"
     />
-    <input
-        type="text"
-        class="txt-input"
-        placeholder="Take a note..."
+    <pre
+        contenteditable
+        class="input txt-input pre"
+        [ngClass]="{empty: !note.info.txt}"
+        (input)="setNoteTxt($event)"
         *ngIf="!isTodosNote; else todos"
-    />
+    >{{note.info.txt}}</pre>
+    <!-- <textarea
+        class="clean-textarea input txt-input"
+        placeholder="Take a note..."
+        [(ngModel)]="note.info.txt"
+        *ngIf="!isTodosNote; else todos"
+        rows="1"
+    ></textarea> -->
+    <!-- <input
+        type="text"
+        class="input txt-input"
+        placeholder="Take a note..."
+        [(ngModel)]="note.info.txt"
+        *ngIf="!isTodosNote; else todos"
+    /> -->
     <!-- *ngIf="!note.info.todos?.length; else todos" -->
     <ng-template #todos>
         <todos-note

@@ -7,19 +7,22 @@
     min-width: 550px;
     width: calc(min(60%, 600px));
     min-height: 46px;
+    max-height: 646px;
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
         0 2px 6px 2px rgba(60, 64, 67, 0.149);
 
     // &:focus-within {
+
     &.open {
+        overflow-y: auto;
         min-height: 120px;
         justify-content: flex-start;
 
-        input {
+        .input {
             &.title-input {
                 display: flex;
-                height: 40px;
+                min-height: 40px;
                 font-family: google-sans-medium, Roboto, Arial, sans-serif;
                 font-size: 17px;
                 letter-spacing: 0.5;
@@ -29,10 +32,11 @@
             // }
 
             &.txt-input {
-                height: 40px;
-                // font-family: google-sans, Roboto, Arial, sans-serif;
+                min-height: 40px;
+                // font-family: google-sans-medium, Roboto, Arial, sans-serif;
                 &.todos {
                     padding: 5px 45px 5px 53px;
+                    min-height: 30px;
                     height: 30px;
                     border-radius: 0;
                     &:focus {
@@ -49,6 +53,28 @@
 
         .open-btn-container {
             display: flex;
+        }
+    }
+
+    &.edit-mode {
+        width: 600px;
+        background-size: cover !important;
+        background-position: center !important;
+        .input {
+            background: transparent;
+
+            &.title-input {
+                font-size: 22px;
+                padding-top: 16px;
+            }
+
+            &.txt-input {
+                font-size: 16px;
+            }
+        }
+        
+        .pin {
+            top: 13px;
         }
     }
 
@@ -70,7 +96,7 @@
         right: 15px;
     }
 
-    input {
+    .input {
         border-radius: 8px;
         border: none;
         outline: none;
@@ -81,6 +107,27 @@
 
         &.title-input {
             display: none;
+        }
+
+        &.pre {
+            line-height: 1;
+            max-height: min-content;
+            height: 40px;
+            .placeholder {
+                position: absolute;
+                color: gray;
+                pointer-events: none;
+                opacity: 0;
+            }
+            &.empty {
+                .placeholder {
+                    opacity: 1;
+                }
+                &::after {
+                    content: "Take a note...";
+                    color: #777777;
+                }
+            }
         }
     }
 

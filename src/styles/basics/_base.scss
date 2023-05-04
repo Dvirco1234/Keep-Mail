@@ -88,6 +88,22 @@ button {
 input {
     font-family: inherit;
     text-align: inherit;
+    &::-moz-placeholder {
+        color: #777777;
+        opacity: 1;
+    }
+    &:-ms-input-placeholder {
+        color: #777777;
+    }
+    &::-webkit-input-placeholder {
+        color: #777777;
+    }
+}
+
+.input {
+    font-family: inherit;
+    text-align: inherit;
+
 }
 
 .container {
@@ -195,4 +211,26 @@ input {
 button.long-click:active {
     background-color: #e4f0f6;
     color: #0079bf;
+}
+
+.screen {
+    &::before {
+        content: "";
+        background-color: #202124;
+        opacity: 0;
+        transition: opacity 0.5s;
+        position: fixed;
+        top: 0;
+        left: 0;
+        translate: -50% -50%;
+        width: 200vw;
+        height: 200vh;
+        pointer-events: none;
+    }
+
+    &.show {
+        &::before {
+            opacity: 0.67;
+        }
+    }
 }

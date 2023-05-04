@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { MasonryDirective } from './directives/masonary.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
+import { NoteEditComponent } from './pages/note-edit/note-edit.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
         MasonryDirective,
         ClickOutsideDirective,
         UppercaseFirstPipe,
+        NoteEditComponent,
     ],
     imports: [
         BrowserModule,

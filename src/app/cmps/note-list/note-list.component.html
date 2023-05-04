@@ -1,5 +1,4 @@
-<section class="note-list">
-    <!-- <h3 class="notes-sep">PINNED</h3> -->
+<!-- <section class="note-list">
     <ngx-masonry
         [options]="masonryOptions"
         [ordered]="true"
@@ -11,6 +10,7 @@
             class="masonry-item"
             *ngFor="let note of pinnedNotes; trackBy: trackByFn"
             [note]="note"
+            (onUpdateNote)="onUpdateNote.emit($event)"
         ></note-preview>
     </ngx-masonry>
     <ngx-masonry
@@ -24,9 +24,17 @@
             class="masonry-item"
             *ngFor="let note of unpinnedNotes"
             [note]="note"
+            (onUpdateNote)="onUpdateNote.emit($event)"
         ></note-preview>
     </ngx-masonry>
-</section>
-<!-- <section class="note-list">
-    <note-preview *ngFor="let note of notes" [note]="note"></note-preview>
 </section> -->
+<section class="note-list">
+    <ul class="list-section">
+        <h3 class="notes-sep">PINNED</h3>
+        <note-preview *ngFor="let note of pinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
+    </ul>
+    <ul class="list-section">
+        <h3 class="notes-sep">OTHERS</h3>
+        <note-preview *ngFor="let note of unpinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
+    </ul>
+</section>

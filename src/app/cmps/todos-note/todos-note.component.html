@@ -24,15 +24,24 @@
                 *ngIf="isEditable && !todo.doneAt"
                 (ngSubmit)="saveTodo(idx)"
                 (keydown)="saveTodo1($event)"
-            >
+                >
                 <input
                     [(ngModel)]="todo.txt"
                     type="text"
                     name="name"
                     class="todo-input"
                     (focus)="setCurrInput(idx)"
+                    (keydown)="onBackspace($event, idx)"
                     #todoInput
                 />
+                <svg-icon
+                class="x"
+                (click)="removeTodo(idx)"
+                [icon]="{
+                    name: 'x',
+                    isLarge: false
+                }"
+            ></svg-icon>
             </form>
         </ng-template>
     </li>

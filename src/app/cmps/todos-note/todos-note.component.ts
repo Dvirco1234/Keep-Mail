@@ -61,6 +61,24 @@ export class TodosNoteComponent implements OnInit, AfterViewInit {
         // }, 0);
     }
 
+    onBackspace(ev: KeyboardEvent, idx: number) {
+        console.log('ev: ', ev);
+        const todos = this.info.todos;
+        if (ev.key === 'Backspace' && !todos[idx].txt) this.removeTodo(idx)
+        
+    }
+
+    removeTodo(idx: number) {
+        const todos = this.info.todos;
+        if (!todos) return;
+        todos.splice(idx, 1);
+        this.keepService.updateNote(this.note);
+        const prevIdx = idx - 1 >= 0 ? idx - 1 : 0
+        setTimeout(() => {
+            this.todoInput.toArray()[prevIdx].nativeElement.focus()
+        }, 0);
+    }
+
     saveTodo1(event: KeyboardEvent) {
         if (event.key === 'Enter') {
             // do something when the enter key is pressed

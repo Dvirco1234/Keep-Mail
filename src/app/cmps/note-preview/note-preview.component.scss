@@ -1,9 +1,12 @@
 .preview-wrapper {
     position: relative;
+    break-inside: avoid;
+    width: 240px;
 
     .note-preview {
         position: relative;
         width: 240px;
+        // max-height: 437px;
         // border: 1px solid #e0e0e0;
         outline: 1px solid #e0e0e0;
         // padding: 12px 16px;
@@ -13,12 +16,18 @@
         transition: 0.3s;
         // cursor: pointer;
         overflow: hidden;
+        background-size: cover !important;
+        background-position: center !important;
 
-        &:hover {
+        &:hover, &.shown {
             box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
                 0 1px 3px 1px rgb(60 64 67 / 15%);
             .pin {
                 opacity: 0.54;
+            }
+
+            .note-footer {
+                opacity: 1;
             }
         }
 
@@ -45,11 +54,17 @@
         }
 
         audio {
-            width: 115%;
+            width: 100%;
             position: relative;
-            right: 17px;
+            // right: 17px;
+            background: #f2f2f2;
             // right: 50%;
             // transform: translate(50%);
+        }
+
+        .note-main {
+            max-height: 400px;
+            overflow: hidden;
         }
 
         .note-header {
@@ -67,10 +82,23 @@
         .note-content {
             padding: 4px 16px 12px;
             min-height: 28px;
+            max-height: 350px;
+            overflow: hidden;
+            position: relative;
+
+            // &::after {
+            //     content: "...";
+            //     position: absolute;
+            //     bottom: 0;
+            //     left: 0;
+            //     padding: 0 10px;
+            //     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+            //   }
 
             pre {
                 font-size: 18px;
                 letter-spacing: 0;
+                white-space: break-spaces;
                 // color: #202124;
                 &.media-note {
                     font-size: 14px;
@@ -147,10 +175,6 @@
             }
         }
 
-        &:hover .note-footer {
-            opacity: 1;
-        }
-
         .empty-note {
             color: #5f6368;
             // font-size: 22px;
@@ -186,6 +210,94 @@
     &:hover {
         .check-note {
             opacity: 1;
+        }
+    }
+
+    .background-modal {
+        position: absolute;
+        left: 50%;
+        translate: -50% 100%;
+        bottom: 2px;
+        background-color: #fff;
+        z-index: 1000;
+        transition: opacity 0.218s linear;
+        border-radius: 10px;
+        flex-direction: column;
+        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+            0 2px 6px 2px rgba(60, 64, 67, 0.149);
+        opacity: 0;
+        pointer-events: none;
+        &.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .bg-options {
+            padding: 5px 9px;
+            column-gap: 4px;
+
+            &.colors {
+                border-bottom: 1px solid #dadce0;
+            }
+
+            .option {
+                position: relative;
+                border-radius: 50%;
+                width: 32px;
+                height: 32px;
+                cursor: pointer;
+
+                &:first-of-type {
+                    border: 1px solid #e8eaed;
+                }
+
+                &:hover {
+                    border: 2px solid rgb(39, 39, 39);
+                }
+
+                &.picked {
+                    border: 2px solid #a142f4;
+                    position: relative;
+
+                    .icon {
+                        position: absolute;
+                        top: -5px;
+                        right: -5px;
+                        // top: 2px;
+                        // left: 90%;
+                        // translate: -50% -50%;
+                        fill: #a142f4;
+                        background: radial-gradient(white, transparent, transparent);
+                    }
+                    
+                }
+
+                .default-icon {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    translate: -50% -50%;
+                    opacity: 0.7;
+
+                    .no-img {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+            }
+            
+            &.imgs {
+                .option {
+                    width: 40px;
+                    height: 40px;
+
+                    // background-size: cover;
+                    background-size: contain;
+                    background-position: center;
+
+                }
+            }
+
         }
     }
 }

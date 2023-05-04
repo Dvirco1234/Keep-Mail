@@ -3,10 +3,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { KeepAppComponent } from './pages/keep-app/keep-app.component';
 import { NoteDetailsComponent } from './pages/note-details/note-details.component';
+import { NoteEditComponent } from './pages/note-edit/note-edit.component';
+import { NoteResolver } from './services/note.resolver';
 
 const routes: Routes = [
-    { path: 'keep/:id', component: NoteDetailsComponent },
-    { path: 'keep', component: KeepAppComponent },
+    // { path: 'keep/:id', component: NoteDetailsComponent },
+    {
+        path: 'keep',
+        component: KeepAppComponent,
+        children: [
+            {
+                path: ':id',
+                component: NoteEditComponent,
+                resolve: { note: NoteResolver },
+            },
+        ],
+    },
     {
         path: '',
         // component: HomeComponent,

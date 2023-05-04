@@ -6,6 +6,8 @@
         width: 100%;
         padding: 0 17px;
         overflow-y: auto;
+        overflow-x: visible;
+        padding-inline: 80px;
     }
 
     .note-list {

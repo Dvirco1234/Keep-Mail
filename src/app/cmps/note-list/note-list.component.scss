@@ -4,6 +4,7 @@
     // flex-wrap: wrap;
     width: 83%;
     margin: auto;
+    padding-bottom: 100px;
     .masonry-item {
         width: 240px;
     }
@@ -16,8 +17,26 @@
         text-transform: uppercase;
         // margin: 32px 32px 8px;
 
-        position: relative;
-        bottom: 28px;
+        // position: relative;
+        // bottom: 28px;
+        // left: 16px;
+        position: absolute;
+        top: -28px;
         left: 16px;
+    }
+
+    .list-section {
+        position: relative;
+        // columns: 240px 5;
+        padding: 0;
+        column-count: 5;
+        column-width: 240px;
+        column-gap: 16px;
+        margin: 70px auto;
+        width: fit-content;
+
+        // @media (min-width: 495px) {
+        //     column-count: 2;
+        // }
     }
 }

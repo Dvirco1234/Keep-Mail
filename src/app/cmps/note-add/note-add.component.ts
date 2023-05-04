@@ -24,6 +24,9 @@ export class NoteAddComponent implements OnInit {
         private keepService: KeepService,
         private utilService: UtilService
     ) {}
+
+    @Input() isEdit!: boolean;
+    @Input() noteToEdit!: Note | undefined;
     // @Input() public isOpen = false;
     @ViewChild('inputElement') inputElement!: ElementRef;
     @ViewChild(TodosNoteComponent, { static: false })
@@ -48,6 +51,15 @@ export class NoteAddComponent implements OnInit {
         { type: 'undo', act: this.try },
         { type: 'redo', act: this.try },
     ];
+
+    get bgc() {
+        let background = this.note.style.backgroundImg
+            ? `url(${this.note.style.backgroundImg})`
+            : this.note.style.backgroundColor;
+        if (!background) background = '#fff';
+        return { background };
+    }
+
     try() {
         console.log('work:');
     }
@@ -74,11 +86,11 @@ export class NoteAddComponent implements OnInit {
         if (idx === lastIdx) this.inputElement.nativeElement.focus();
         else {
             this.newTodo(idx + 1);
-            setTimeout(() => {
-                this.todosNoteCmp.todoInput
-                    .toArray()
-                    [idx + 1].nativeElement.focus();
-            }, 0);
+            // setTimeout(() => {
+            //     this.todosNoteCmp.todoInput
+            //         .toArray()
+            //         [idx + 1].nativeElement.focus();
+            // }, 0);
         }
     }
 
@@ -90,12 +102,9 @@ export class NoteAddComponent implements OnInit {
 
     editTodo(val: string) {
         this.newTodo();
-        console.log('val: ', val);
         const { todos } = this.note.info;
-        console.log('todos: ', todos);
         const lastIdx = todos?.length ? todos.length - 1 : 0;
         if (todos) todos[lastIdx].txt = val;
-        console.log('todos: ', todos);
         this.inputElement.nativeElement.value = '';
         setTimeout(() => {
             this.todosNoteCmp.todoInput
@@ -103,22 +112,6 @@ export class NoteAddComponent implements OnInit {
                 [lastIdx].nativeElement.focus();
         }, 0);
     }
-
-    // saveTodo(
-    //     idx: number,
-    //     todo: {
-    //         id: string;
-    //         txt: string;
-    //         isDone?: boolean;
-    //         doneAt: number | null;
-    //     }
-    // ) {
-    //     this.note.info.todos?.splice(idx, 1, todo);
-    // }
-
-    // get noteTodos() {
-    //     return this.note.info.todos || [];
-    // }
 
     setTodosNote() {
         // this.note.type = 'todos';
@@ -135,30 +128,43 @@ export class NoteAddComponent implements OnInit {
         // }, 0);
     }
 
-    // openEditor() {
-    //     this.isOpen = true;
-    // }
-    // close(ev: Event) {
-    //     ev.stopPropagation();
-    //     this.isOpen = false;
-    // }
-
     togglePin(ev: Event) {
         ev.stopPropagation();
         this.note.isPinned = !this.note.isPinned;
     }
 
     public closeEditor(ev: MouseEvent): void {
-        ev.stopPropagation();
-        console.log('this.note.info: ', this.note.info);
+        if (!this.isOpen) return;
+        if (ev) ev.stopPropagation();
+        const type = this.note.info.todos ? 'todos' : 'txt';
+        const { title, txt, todos } = this.note.info;
         this.isOpen = false;
+        this.isTodosNote = false;
+        if (!title && !txt && !todos?.length) return;
+        this.keepService.saveNote(
+            JSON.parse(JSON.stringify({ ...this.note, type }))
+        );
         this.note.info = {
             title: '',
             txt: '',
         };
-        this.isTodosNote = false;
         // this.cdr.markForCheck();
     }
 
-    ngOnInit(): void {}
+    setNoteTxt(ev: Event) {
+        if (ev.target instanceof HTMLElement) {
+            console.log('ev: ', ev.target.innerText);
+            this.note.info.txt = ev.target.innerText;
+        }
+    }
+
+    ngOnInit(): void {
+        console.log('this.note:', this.note);
+        console.log('this.noteToEdit: ', this.noteToEdit);
+        if (this.noteToEdit) {
+            this.note = this.noteToEdit;
+            this.isOpen = true;
+            if (this.noteToEdit.info.todos) this.isTodosNote = true;
+        }
+    }
 }

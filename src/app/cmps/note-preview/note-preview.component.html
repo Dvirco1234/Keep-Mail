@@ -1,16 +1,17 @@
-<div class="preview-wrapper">
-    <div class="check-note flex-center">
+<div class="preview-wrapper" >
+    <div class="check-note flex-center" (mouseover)="isShown = true" (mouseleave)="isShown = false">
         <svg-icon
             [icon]="{ name: 'check-circle', isLarge: true }"
             (click)="toggleCheck()"
         ></svg-icon>
     </div>
+    <!-- [style]="{ background: bgc }" -->
     <article
         class="note-preview"
-        [ngClass]="isImgOnly"
-        [style]="{ backgroundColor: bgc }"
+        [ngClass]="{isImgOnly, shown: isShown}"
+        [ngStyle]="bgc"
     >
-        <div class="pin icon-ctr flex-center" [ngClass]="{ dark: isDarkImg }">
+        <div class="pin icon-ctr flex-center" [ngClass]="{ dark: isDarkImg }" (click)="togglePin()">
             <!-- <div class="dark-pin"></div> -->
             <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
             <ng-template #pin>
@@ -19,7 +20,6 @@
                         name: note.isPinned ? 'pin-full' : 'pin',
                         isLarge: true
                     }"
-                    (click)="togglePin()"
                 ></svg-icon>
             </ng-template>
         </div>
@@ -58,21 +58,20 @@
         </footer>
         <h2 class="empty-note" *ngIf="isEmptyNote">Empty note</h2>
     </article>
+    <article class="background-modal" [ngClass]="{open: isPaletteOpen}" [clickOutside]="closePalette.bind(this)">
+        <div class="bg-options colors flex justify-center">
+            <div class="option" *ngFor="let color of colors" [ngStyle]="{background: color.color}" [title]="color.name" 
+                (click)="pickBg(color.color, 'backgroundColor')" [ngClass]="{picked: color.color === note.style.backgroundColor}">
+                <svg-icon *ngIf="!color.color" class="no-color default-icon" [icon]="{ name: 'no-color' }"></svg-icon>
+                <svg *ngIf="color.color === note.style.backgroundColor" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960"><path d="m423.231 746.153 268.922-268.922L650 435.078 423.231 661.847l-114-114L267.078 590l156.153 156.153Zm56.836 209.846q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z"/></svg>
+            </div>
+        </div>
+        <div class="bg-options imgs flex justify-center">
+            <div class="option" *ngFor="let image of images" [ngStyle]="{background: 'url(' + image.smallUrl + ')'}" [title]="image.name" 
+                (click)="pickBg(image.url, 'backgroundImg')" [ngClass]="{picked: image.url === note.style.backgroundImg}">
+                <svg-icon *ngIf="!image.url" class="no-img default-icon" [icon]="{ name: 'no-img' }"></svg-icon>
+                <svg *ngIf="image.url === note.style.backgroundImg" class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 96 960 960"><path d="m423.231 746.153 268.922-268.922L650 435.078 423.231 661.847l-114-114L267.078 590l156.153 156.153Zm56.836 209.846q-78.836 0-148.204-29.92-69.369-29.92-120.682-81.21-51.314-51.291-81.247-120.629-29.933-69.337-29.933-148.173t29.92-148.204q29.92-69.369 81.21-120.682 51.291-51.314 120.629-81.247 69.337-29.933 148.173-29.933t148.204 29.92q69.369 29.92 120.682 81.21 51.314 51.291 81.247 120.629 29.933 69.337 29.933 148.173t-29.92 148.204q-29.92 69.369-81.21 120.682-51.291 51.314-120.629 81.247-69.337 29.933-148.173 29.933Z"/></svg>
+            </div>
+        </div>
+    </article>
 </div>
-<!-- 
-
-
-
-
-
-
-
-
- -->
-<!-- <svg-icon [icon]="{ name: 'hamburger', isLarge: true }"></svg-icon> -->
-<!-- <button (click)="setType()">ccccc</button> -->
-<!-- <ng-container *ngComponentOutlet="cmpType"></ng-container> -->
-<!-- <ng-container #cmp></ng-container> -->
-<!-- <ng-container *ngTemplateOutlet="aaa"></ng-container>
-<note-templates #templates></note-templates>
-<ng-template #aaa></ng-template> -->

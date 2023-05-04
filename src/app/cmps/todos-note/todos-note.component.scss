@@ -32,13 +32,26 @@
         .todo {
             position: relative;
             display: list-item;
-            .checkbox {
+            .checkbox, .x {
                 position: absolute;
                 z-index: 10;
                 left: 25px;
                 top: 50%;
                 transform: translateY(-50%);
             }
+
+            .x {
+                left: auto;
+                right: 25px;
+                cursor: pointer;
+                scale: 0;
+            }
+            &:focus-within {
+                .x {
+                    scale: 1;
+                }
+            }
+
             p {
                 padding: 5px 45px 5px 53px;
             }

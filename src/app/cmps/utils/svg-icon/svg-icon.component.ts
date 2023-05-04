@@ -14,6 +14,7 @@ export class SvgIconComponent implements OnInit {
         isLarge?: boolean;
         size?: string;
         class?: string;
+        fill?: string;
     };
     ngOnInit(): void {}
 }

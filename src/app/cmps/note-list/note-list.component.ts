@@ -5,6 +5,9 @@ import {
     OnChanges,
     SimpleChanges,
     ViewChild,
+    Output,
+    EventEmitter,
+    ElementRef,
 } from '@angular/core';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { Note } from 'src/app/models';
@@ -18,9 +21,12 @@ export class NoteListComponent implements OnInit, OnChanges {
     @ViewChild(NgxMasonryComponent, { static: false }) masonry:
         | NgxMasonryComponent
         | any;
+    
+    // @ViewChild('parentElement') parentElementRef!: ElementRef;
 
     constructor() {}
-
+    @Output() onUpdateNote = new EventEmitter<{ note: Note, key: string, value: any }>();
+    
     updateLayout(): void {
         //     // Update the Masonry layout
         //     this.masonry.updateLayout();
@@ -38,6 +44,7 @@ export class NoteListComponent implements OnInit, OnChanges {
     };
 
     @Input() notes!: Note[] | null;
+    @Input() currNote!: Note | null;
 
     ngOnChanges(changes: SimpleChanges): void {
         // Check if the "myProperty" input has changed
