@@ -24,6 +24,7 @@ import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
 import { MoveToCenterDirective } from './directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from './directives/move-modal-to-center.directive';
+import { ResponsiveColumnsDirective } from './directives/responsive-columns.directive';
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import { MoveModalToCenterDirective } from './directives/move-modal-to-center.di
         NoteEditComponent,
         MoveToCenterDirective,
         MoveModalToCenterDirective,
+        ResponsiveColumnsDirective,
     ],
     imports: [
         BrowserModule,

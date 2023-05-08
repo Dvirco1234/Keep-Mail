@@ -10,12 +10,14 @@ import {
     ElementRef,
 } from '@angular/core';
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
+import { ResponsiveColumnsDirective } from 'src/app/directives/responsive-columns.directive'
 import { Note } from 'src/app/models';
 
 @Component({
     selector: 'note-list',
     templateUrl: './note-list.component.html',
     styleUrls: ['./note-list.component.scss'],
+    providers: [ResponsiveColumnsDirective],
 })
 export class NoteListComponent implements OnInit, OnChanges {
     @ViewChild(NgxMasonryComponent, { static: false }) masonry:

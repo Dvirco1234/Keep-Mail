@@ -28,7 +28,7 @@
         ></note-preview>
     </ngx-masonry>
 </section> -->
-<section class="note-list">
+<section class="note-list" [responsiveColumns]="240">
     <ul class="list-section">
         <h3 class="notes-sep">PINNED</h3>
         <note-preview *ngFor="let note of pinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
