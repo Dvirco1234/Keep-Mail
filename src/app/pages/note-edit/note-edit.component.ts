@@ -43,7 +43,11 @@ export class NoteEditComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     closeEdit() {
+        this.isShow = false
+        setTimeout(() => { 
         this.router.navigateByUrl('/keep');
+        // this.router.navigate([{ outlets: { modal: null } }], { skipLocationChange: true });
+        }, 450)
     }
 
     ngAfterViewInit() {

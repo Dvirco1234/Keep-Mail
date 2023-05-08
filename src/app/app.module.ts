@@ -22,6 +22,8 @@ import { MasonryDirective } from './directives/masonary.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
+import { MoveToCenterDirective } from './directives/move-to-center.directive';
+import { MoveModalToCenterDirective } from './directives/move-modal-to-center.directive';
 
 @NgModule({
     declarations: [
@@ -41,6 +43,8 @@ import { NoteEditComponent } from './pages/note-edit/note-edit.component';
         ClickOutsideDirective,
         UppercaseFirstPipe,
         NoteEditComponent,
+        MoveToCenterDirective,
+        MoveModalToCenterDirective,
     ],
     imports: [
         BrowserModule,

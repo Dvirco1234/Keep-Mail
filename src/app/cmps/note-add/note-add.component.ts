@@ -134,6 +134,7 @@ export class NoteAddComponent implements OnInit {
     }
 
     public closeEditor(ev: MouseEvent): void {
+        if (this.noteToEdit) return
         if (!this.isOpen) return;
         if (ev) ev.stopPropagation();
         const type = this.note.info.todos ? 'todos' : 'txt';

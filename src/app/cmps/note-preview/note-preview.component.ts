@@ -4,6 +4,8 @@ import { UtilService } from 'src/app/services/util-service.service';
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
 import { Router, ActivatedRoute } from '@angular/router'
 import { Subscription } from 'rxjs'
+import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive'
+import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive'
 // import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
 // import { ImgNoteComponent } from '../notes/img-note/img-note.component';
 // import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
@@ -14,7 +16,7 @@ import { Subscription } from 'rxjs'
     selector: 'note-preview',
     templateUrl: './note-preview.component.html',
     styleUrls: ['./note-preview.component.scss'],
-    providers: [ClickOutsideDirective],
+    providers: [ClickOutsideDirective, MoveToCenterDirective, MoveModalToCenterDirective,],
 })
 export class NotePreviewComponent implements OnInit {
     // cmpType = TxtNoteComponent;
@@ -47,6 +49,10 @@ export class NotePreviewComponent implements OnInit {
             : this.note.style.backgroundColor;
         return { background };
     }
+
+    // get moveToCenter() {
+
+    // }
 
     isDarkImg: boolean = false;
     isShown: boolean = false;
@@ -136,6 +142,9 @@ export class NotePreviewComponent implements OnInit {
 
     editNote() { 
         this.router.navigateByUrl(`/keep/${this.note._id}`);
+    }
+    openEditModal(el: EventTarget | null) {
+        console.log('el: ', el);
     }
     toggleAddLabels() {
         console.log('toggleAddLabels: ');

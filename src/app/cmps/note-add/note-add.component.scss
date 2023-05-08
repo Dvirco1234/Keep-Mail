@@ -1,5 +1,6 @@
 .add-note {
     position: relative;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -57,12 +58,12 @@
     }
 
     &.edit-mode {
-        width: 600px;
+        // width: 600px;
         background-size: cover !important;
         background-position: center !important;
         .input {
             background: transparent;
-
+            transition: font-size 0.4s 0.1s;
             &.title-input {
                 font-size: 22px;
                 padding-top: 16px;
@@ -70,6 +71,10 @@
 
             &.txt-input {
                 font-size: 16px;
+
+                &.todos {
+                    background-color: transparent;
+                }
             }
         }
         

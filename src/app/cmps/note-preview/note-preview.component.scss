@@ -2,6 +2,12 @@
     position: relative;
     break-inside: avoid;
     width: 240px;
+    
+    &.curr-note {
+        .check-note {
+            display: none;
+        }
+    }
 
     .note-preview {
         position: relative;
@@ -19,7 +25,26 @@
         background-size: cover !important;
         background-position: center !important;
 
-        &:hover, &.shown {
+        &.curr-note {
+            // width: 600px;
+            
+            // header {
+            //     // margin-bottom: 12px;
+            //     font-size: 22px;
+            //     padding: 12px 16px 9px;
+            // }
+
+            // .note-content {
+            //     margin-bottom: 8px;
+            // }
+            // z-index: 1;
+            // transition: opacity 0.1s 0.4s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        &:hover,
+        &.shown {
             box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
                 0 1px 3px 1px rgb(60 64 67 / 15%);
             .pin {
@@ -231,7 +256,7 @@
             opacity: 1;
             pointer-events: all;
         }
-        
+
         .bg-options {
             padding: 5px 9px;
             column-gap: 4px;
@@ -267,9 +292,12 @@
                         // left: 90%;
                         // translate: -50% -50%;
                         fill: #a142f4;
-                        background: radial-gradient(white, transparent, transparent);
+                        background: radial-gradient(
+                            white,
+                            transparent,
+                            transparent
+                        );
                     }
-                    
                 }
 
                 .default-icon {
@@ -285,7 +313,7 @@
                     }
                 }
             }
-            
+
             &.imgs {
                 .option {
                     width: 40px;
@@ -294,10 +322,8 @@
                     // background-size: cover;
                     background-size: contain;
                     background-position: center;
-
                 }
             }
-
         }
     }
 }

@@ -1,4 +1,4 @@
-<div class="preview-wrapper" >
+<div class="preview-wrapper" [class.curr-note]="isCurrNote">
     <div class="check-note flex-center" (mouseover)="isShown = true" (mouseleave)="isShown = false">
         <svg-icon
             [icon]="{ name: 'check-circle', isLarge: true }"
@@ -9,8 +9,12 @@
     <article
         class="note-preview"
         [ngClass]="{isImgOnly, shown: isShown}"
+        [class.curr-note]="isCurrNote"
+        [moveModalToCenter]="isCurrNote"
+        (click)="openEditModal($event.currentTarget)"
         [ngStyle]="bgc"
-    >
+        >
+        <!-- [moveToCenter]="isCurrNote" -->
         <div class="pin icon-ctr flex-center" [ngClass]="{ dark: isDarkImg }" (click)="togglePin()">
             <!-- <div class="dark-pin"></div> -->
             <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>

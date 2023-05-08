@@ -234,3 +234,23 @@ button.long-click:active {
         }
     }
 }
+
+.note-edit {
+    // .add-note.edit-mode {
+    //     transition: width 0.4s 0.1s, max-height 0.2s 0.3s !important;
+    // }
+    &.show {
+        .add-note.edit-mode {
+            transition: width 0.3s 0.2s, max-height 0.2s 0.3s !important;
+            // width: 600px;
+            max-height: 85vh !important;
+        }
+    }
+    &.hide {
+        transform: translate(0px, 0px) !important;
+        .add-note.edit-mode {
+            transition: width 0.3s !important;
+            width: 240px !important;
+        }
+    }
+}

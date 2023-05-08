@@ -1,5 +1,5 @@
-<section #noteEdit class="note-edit screen" [clickOutside]="closeEdit.bind(this)" [class.show]="isShow">
+<section #noteEdit class="note-edit screen" [clickOutside]="closeEdit.bind(this)" [class.show]="isShow" [class.hide]="!isShow" id="edit-modal">
     <!-- <p>note-edit works!</p> -->
     <!-- <note-preview [note]="note" class="note-preview"></note-preview> -->
-    <note-add [noteToEdit]="note"></note-add>
+    <note-add [noteToEdit]="note" class="note-add"></note-add>
 </section>
