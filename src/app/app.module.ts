@@ -25,7 +25,8 @@ import { NoteEditComponent } from './pages/note-edit/note-edit.component';
 import { MoveToCenterDirective } from './directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from './directives/move-modal-to-center.directive';
 import { ResponsiveColumnsDirective } from './directives/responsive-columns.directive';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component'
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import { HttpClientModule } from '@angular/common/http'
         MoveToCenterDirective,
         MoveModalToCenterDirective,
         ResponsiveColumnsDirective,
+        LabelsModalComponent,
     ],
     imports: [
         BrowserModule,

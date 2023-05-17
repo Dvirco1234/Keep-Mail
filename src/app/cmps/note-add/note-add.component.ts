@@ -1,9 +1,12 @@
 import {
+    AfterViewInit,
     ChangeDetectorRef,
     Component,
     ElementRef,
+    EventEmitter,
     Input,
     OnInit,
+    Output,
     ViewChild,
 } from '@angular/core';
 
@@ -20,7 +23,7 @@ import { UploadService } from 'src/app/services/upload-service.service';
     styleUrls: ['./note-add.component.scss'],
     providers: [ClickOutsideDirective],
 })
-export class NoteAddComponent implements OnInit {
+export class NoteAddComponent implements OnInit, AfterViewInit {
     constructor(
         private keepService: KeepService,
         private utilService: UtilService,
@@ -29,6 +32,8 @@ export class NoteAddComponent implements OnInit {
 
     @Input() isEdit!: boolean;
     @Input() noteToEdit!: Note | undefined;
+    @Output() onSaveTodo = new EventEmitter<Note>();
+    @Output() onCloseEditor = new EventEmitter();
     // @Input() public isOpen = false;
     @ViewChild('inputElement') inputElement!: ElementRef;
     @ViewChild('preElement') preElement!: ElementRef;
@@ -155,7 +160,10 @@ export class NoteAddComponent implements OnInit {
     }
 
     public closeEditor(ev: MouseEvent): void {
-        if (this.noteToEdit) return;
+        if (this.noteToEdit) {
+            if(ev) this.onCloseEditor.emit();
+            return this.onSaveTodo.emit(this.noteToEdit);
+        }
         if (!this.isOpen) return;
         if (ev) ev.stopPropagation();
         const type = this.note.info.todos ? 'todos' : 'txt';
@@ -201,5 +209,9 @@ export class NoteAddComponent implements OnInit {
             this.isOpen = true;
             if (this.noteToEdit.info.todos) this.isTodosNote = true;
         }
+    }
+
+    ngAfterViewInit(): void {
+        this.preElement.nativeElement.innerText = this.note.info.txt || '';
     }
 }

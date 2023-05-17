@@ -98,7 +98,7 @@ export class KeepService {
     // }
     public updateNote(note: Note) {
         this._notesDb = this._notesDb.map((n) => note._id === n._id ? note : n);
-        
+        this._notes$.next(this._notesDb);
         this.utilService.save(this.NOTES_KEY, this._notesDb);
     }
 

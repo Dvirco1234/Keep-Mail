@@ -1,16 +1,22 @@
 <section class="side-nav">
     <ul class="links clean-list">
         <!-- <li class="nav-link" *ngFor="let link of links"></li> -->
-        <li class="nav-link flex align-center" *ngFor="let link of navLinks">
-            <svg-icon
-                class="nav-icon"
-                [icon]="{
-                    name: link.icon,
-                    isLarge: true
-                }"
-                (click)="link.act()"
-            ></svg-icon>
-            <h2>{{ link.txt }}</h2>
-        </li>
+        <a
+            [routerLink]="link.link"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            *ngFor="let link of navLinks"
+        >
+            <li class="nav-link flex align-center">
+                <svg-icon
+                    class="nav-icon"
+                    [icon]="{
+                        name: link.icon,
+                        isLarge: true
+                    }"
+                ></svg-icon>
+                <h2>{{ link.txt }}</h2>
+            </li>
+        </a>
     </ul>
 </section>

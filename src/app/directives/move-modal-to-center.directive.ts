@@ -116,15 +116,12 @@ export class MoveModalToCenterDirective implements OnInit, OnChanges {
 
     private resetModal(): void {
         const modal = document.getElementById('edit-modal');
-        console.log('modal: ', modal);
         const modalContent = document.querySelector(
           '.add-note.edit-mode'
           ) as HTMLElement;
-          console.log('modalContent: ', modalContent);
           if (modal)
             modal.style.transform = `translate(0px, 0px) `;
-        console.log('this.topOffset: ', this.topOffset);
-        console.log('this.leftOffset: ', this.leftOffset);
+
         if (modalContent) modalContent.style.width = '600px';
         if (modalContent) modalContent.style.height = 'auto';
         // Hide modal

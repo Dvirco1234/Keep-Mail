@@ -1,6 +1,12 @@
 .side-nav {
     padding-top: 8px;
     width: 280px;
+    a {
+        text-decoration: none;
+        &.active .nav-link {
+            background-color: #feefc3;
+        }
+    }
     .nav-link {
         width: 100%;
         height: 48px;
@@ -12,12 +18,8 @@
         &:hover {
             background-color: #f1f3f4;
         }
-        &.active {
-            background-color: #feefc3;
-            // .nav-icon {
-            //     fill: #5f6368;
-            // }
-        }
+
+
         .nav-icon {
             line-height: 10px;
             vertical-align: baseline;

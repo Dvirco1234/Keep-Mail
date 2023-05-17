@@ -36,10 +36,14 @@ export class NoteEditComponent implements OnInit, AfterViewInit, OnDestroy {
         this.subscription = this.route.data
             .pipe(takeUntil(this.destroy$))
             .subscribe((data) => {
-                this.note = data['note'];
+                this.note = JSON.parse(JSON.stringify(data['note']));
                 this.keepService.setCurrNote(this.note);
                 console.log('this.note: ', this.note);
             });
+    }
+
+    saveTodo(note: Note) {
+        this.keepService.updateNote(note);
     }
 
     closeEdit() {
