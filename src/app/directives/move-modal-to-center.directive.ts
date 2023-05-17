@@ -87,6 +87,10 @@ export class MoveModalToCenterDirective implements OnInit, OnChanges {
         // setTimeout(() => {
         //     if (modalContent) modalContent.style.height = 'auto';
         // }, 300);
+        const scrollWrapper = modalContent.querySelector('.scroll-wrapper') as HTMLElement;
+        setTimeout(() => {
+            if (scrollWrapper) scrollWrapper.style.overflow = 'auto';
+        }, 500);
         const contentRect = modalContent.getBoundingClientRect();
 
         const viewportWidth = window.innerWidth;

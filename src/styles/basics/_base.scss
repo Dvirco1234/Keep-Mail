@@ -244,6 +244,7 @@ button.long-click:active {
             transition: width 0.3s 0.2s, max-height 0.2s 0.3s !important;
             // width: 600px;
             max-height: 85vh !important;
+
         }
     }
     &.hide {
@@ -251,6 +252,10 @@ button.long-click:active {
         .add-note.edit-mode {
             transition: width 0.3s !important;
             width: 240px !important;
+
+            .scroll-wrapper {
+                overflow: hidden !important;
+            }
         }
     }
 }
