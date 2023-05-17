@@ -5,6 +5,7 @@
     (click)="isOpen = true"
     [clickOutside]="closeEditor.bind(this)"
 >
+<div class="scroll-wrapper">
     <input
         type="text"
         class="input title-input"
@@ -70,6 +71,7 @@
             <svg-icon [icon]="{ name: actIcon.type, isLarge: true }"></svg-icon>
         </div>
     </div>
+</div>
     <div class="open-btn-container">
         <div class="left">
             <div
