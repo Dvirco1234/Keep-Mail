@@ -29,6 +29,7 @@ export class NoteAddComponent implements OnInit {
     @Input() noteToEdit!: Note | undefined;
     // @Input() public isOpen = false;
     @ViewChild('inputElement') inputElement!: ElementRef;
+    @ViewChild('preElement') preElement!: ElementRef;
     @ViewChild(TodosNoteComponent, { static: false })
     todosNoteCmp!: TodosNoteComponent;
 
@@ -149,9 +150,16 @@ export class NoteAddComponent implements OnInit {
             title: '',
             txt: '',
         };
+        this.preElement.nativeElement.innerText = '';
         // this.cdr.markForCheck();
     }
 
+    // setNoteTxt(txt: string | null) {
+    //     if (ev.target instanceof HTMLElement) {
+    //         console.log('ev: ', ev.target.innerText);
+    //         this.note.info.txt = ev.target.innerText;
+    //     }
+    // }
     setNoteTxt(ev: Event) {
         if (ev.target instanceof HTMLElement) {
             console.log('ev: ', ev.target.innerText);

@@ -5,64 +5,71 @@
     (click)="isOpen = true"
     [clickOutside]="closeEditor.bind(this)"
 >
-<div class="scroll-wrapper">
-    <input
-        type="text"
-        class="input title-input"
-        placeholder="Title"
-        [(ngModel)]="note.info.title"
-    />
-    <pre
-        contenteditable
-        class="input txt-input pre"
-        [ngClass]="{empty: !note.info.txt}"
-        (input)="setNoteTxt($event)"
-        *ngIf="!isTodosNote; else todos"
-    >{{note.info.txt}}</pre>
-    <!-- <textarea
+    <div class="scroll-wrapper">
+        <img
+            *ngIf="note.media?.type === 'img'"
+            class="note-img"
+            src="{{ note.media?.url }}"
+        />
+        <input
+            type="text"
+            class="input title-input"
+            placeholder="Title"
+            [(ngModel)]="note.info.title"
+        />
+        <pre
+            contenteditable
+            class="input txt-input pre"
+            [ngClass]="{ empty: !note.info.txt }"
+            (input)="setNoteTxt($event)"
+            *ngIf="!isTodosNote; else todos"
+            #preElement
+            ></pre
+        >
+        <!-- <textarea
         class="clean-textarea input txt-input"
         placeholder="Take a note..."
         [(ngModel)]="note.info.txt"
         *ngIf="!isTodosNote; else todos"
         rows="1"
     ></textarea> -->
-    <!-- <input
+        <!-- <input
         type="text"
         class="input txt-input"
         placeholder="Take a note..."
         [(ngModel)]="note.info.txt"
         *ngIf="!isTodosNote; else todos"
     /> -->
-    <!-- *ngIf="!note.info.todos?.length; else todos" -->
-    <ng-template #todos>
-        <todos-note
-            [note]="note"
-            [isEditable]="true"
-            class="todos-list"
-            (onSaveTodo)="focusNewTodo($event[0], $event[1])"
-        ></todos-note>
-        <!-- <div
+        <!-- *ngIf="!note.info.todos?.length; else todos" -->
+        <ng-template #todos>
+            <todos-note
+                [note]="note"
+                [isEditable]="true"
+                class="todos-list"
+                (onSaveTodo)="focusNewTodo($event[0], $event[1])"
+            ></todos-note>
+            <!-- <div
             class="todos-list flex align-center"
             *ngFor="let todo of note.info.todos; index as idx"
         > -->
-        <div class="todo-input">
-            <svg-icon
-                [icon]="{ name: 'plus', isLarge: false }"
-                class="plus"
-            ></svg-icon>
-            <!-- *ngIf="!todo.txt" -->
-            <!-- [(ngModel)]="todo.txt" -->
-            <input
-                (input)="editTodo(inputElement.value)"
-                type="text"
-                class="input txt-input todos"
-                placeholder="List item"
-                #inputElement
-            />
-        </div>
-        <!-- </div> -->
-    </ng-template>
-</div>
+            <div class="todo-input">
+                <svg-icon
+                    [icon]="{ name: 'plus', isLarge: false }"
+                    class="plus"
+                ></svg-icon>
+                <!-- *ngIf="!todo.txt" -->
+                <!-- [(ngModel)]="todo.txt" -->
+                <input
+                    (input)="editTodo(inputElement.value)"
+                    type="text"
+                    class="input txt-input todos"
+                    placeholder="List item"
+                    #inputElement
+                />
+            </div>
+            <!-- </div> -->
+        </ng-template>
+    </div>
     <div class="close-btn-container">
         <div
             class="icon-ctr lg flex-center"
@@ -99,6 +106,15 @@
                 }"
                 (click)="togglePin($event)"
             ></svg-icon>
+            <!-- <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
+            <ng-template #pin>
+                <svg-icon
+                    [icon]="{
+                        name: note.isPinned ? 'pin-full' : 'pin',
+                        isLarge: true
+                    }"
+                ></svg-icon>
+            </ng-template> -->
             <!-- (click)="note.isPinned = !note.isPinned" -->
         </div>
     </div>

@@ -38,6 +38,7 @@
 
             &.txt-input {
                 min-height: 40px;
+                line-height: 1.4;
                 // font-family: google-sans-medium, Roboto, Arial, sans-serif;
                 &.todos {
                     padding: 5px 45px 5px 53px;
@@ -123,9 +124,9 @@
         }
 
         &.pre {
-            line-height: 1;
+            // line-height: 1;
             max-height: min-content;
-            height: 40px;
+            // height: 40px;
             .placeholder {
                 position: absolute;
                 color: gray;
