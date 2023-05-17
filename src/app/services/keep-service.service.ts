@@ -66,7 +66,7 @@ export class KeepService {
             _id: '',
             isPinned: false,
             labels: [],
-            style: { backgroundColor: 'fff' },
+            style: { backgroundColor: '', backgroundImg: '' },
         };
     }
 

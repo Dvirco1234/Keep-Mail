@@ -55,7 +55,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         { type: 'edit', act: this.try },
         { type: 'label', act: this.try },
         { type: 'palette', act: this.try },
-        { type: 'image', act: this.try },
+        { type: 'image', act: this.openImgUploader.bind(this) },
         { type: 'archive', act: this.try },
         { type: 'more-menu', act: this.try },
         { type: 'undo', act: this.try },

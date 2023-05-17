@@ -26,7 +26,8 @@ import { MoveToCenterDirective } from './directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from './directives/move-modal-to-center.directive';
 import { ResponsiveColumnsDirective } from './directives/responsive-columns.directive';
 import { HttpClientModule } from '@angular/common/http';
-import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component'
+import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component';
+import { PalleteModalComponent } from './cmps/pallete-modal/pallete-modal.component'
 
 @NgModule({
     declarations: [
@@ -50,6 +51,7 @@ import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component
         MoveModalToCenterDirective,
         ResponsiveColumnsDirective,
         LabelsModalComponent,
+        PalleteModalComponent,
     ],
     imports: [
         BrowserModule,
