@@ -45,6 +45,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     isDarkImg: boolean = false;
     isOpen = false;
     isTodosNote = false;
+    isPaletteOpen = false;
     closeActIcons = [
         { type: 'checkbox-checked', act: this.setTodosNote.bind(this) },
         { type: 'draw', act: this.try },
@@ -54,7 +55,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     openActIcons = [
         { type: 'edit', act: this.try },
         { type: 'label', act: this.try },
-        { type: 'palette', act: this.try },
+        { type: 'palette', act: this.openPalette.bind(this) },
         { type: 'image', act: this.openImgUploader.bind(this) },
         { type: 'archive', act: this.try },
         { type: 'more-menu', act: this.try },
@@ -141,6 +142,23 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     togglePin(ev: Event) {
         ev.stopPropagation();
         this.note.isPinned = !this.note.isPinned;
+    }
+
+    setBackground(key: string, val: any) {
+        this.note.style = val
+    }
+
+    openPalette() {
+        if (this.isPaletteOpen) return;
+        setTimeout(() => {
+            this.isPaletteOpen = true;  
+        })
+    }
+
+    closePalette() {
+        console.log('close');
+        if (!this.isPaletteOpen) return;
+        this.isPaletteOpen = false
     }
 
     async handleImage(ev: any) {

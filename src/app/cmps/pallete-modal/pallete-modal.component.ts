@@ -15,6 +15,7 @@ type KeyValue = {
 export class PalleteModalComponent implements OnInit {
     constructor() {}
     @Input() note!: Note;
+    // @Input() isOpen!: boolean;
     @Output() onUpdateNote = new EventEmitter<[string, any]>();
     @Output() onClose = new EventEmitter();
 
