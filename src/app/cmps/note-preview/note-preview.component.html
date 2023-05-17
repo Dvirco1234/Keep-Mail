@@ -8,7 +8,8 @@
     <!-- [style]="{ background: bgc }" -->
     <article
         class="note-preview"
-        [ngClass]="{isImgOnly, shown: isShown}"
+        [class.shown]="isShown"
+        [ngClass]="isImgOnly"
         [class.curr-note]="isCurrNote"
         [moveModalToCenter]="isCurrNote"
         (click)="openEditModal($event.currentTarget)"
@@ -39,7 +40,7 @@
             src="/media/cc0-audio/t-rex-roar.mp3"
         ></audio>
         <!-- </section> -->
-        <main class="note-main" [ngSwitch]="note.type">
+        <main class="note-main" [ngSwitch]="note.type" >
             <header class="note-header flex align-center">
                 <h1 *ngIf="note.info.title">{{ note.info.title }}</h1>
             </header>

@@ -5,6 +5,7 @@
     (click)="isOpen = true"
     [clickOutside]="closeEditor.bind(this)"
 >
+<!-- <pre>{{ note | json}}</pre> -->
     <div class="scroll-wrapper">
         <img
             *ngIf="note.media?.type === 'img'"
@@ -98,15 +99,15 @@
         <div class="right">
             <span (click)="closeEditor($event)">Close</span>
         </div>
-        <div class="pin icon-ctr flex-center">
-            <svg-icon
+        <div class="pin icon-ctr flex-center" (click)="togglePin($event)">
+            <!-- <svg-icon
                 [icon]="{
                     name: note.isPinned ? 'pin-full' : 'pin',
                     isLarge: true
                 }"
                 (click)="togglePin($event)"
-            ></svg-icon>
-            <!-- <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
+            ></svg-icon> -->
+            <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
             <ng-template #pin>
                 <svg-icon
                     [icon]="{
@@ -114,8 +115,9 @@
                         isLarge: true
                     }"
                 ></svg-icon>
-            </ng-template> -->
+            </ng-template>
             <!-- (click)="note.isPinned = !note.isPinned" -->
         </div>
     </div>
+    <input type="file" hidden accept="image/*" (change)="handleImage($event)" multiple="false" #fileInput>
 </section>

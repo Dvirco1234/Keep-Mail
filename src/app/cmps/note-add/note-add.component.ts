@@ -12,6 +12,7 @@ import { Note, Todo } from 'src/app/models';
 import { KeepService } from 'src/app/services/keep-service.service';
 import { UtilService } from 'src/app/services/util-service.service';
 import { TodosNoteComponent } from '../todos-note/todos-note.component';
+import { UploadService } from 'src/app/services/upload-service.service';
 
 @Component({
     selector: 'note-add',
@@ -22,7 +23,8 @@ import { TodosNoteComponent } from '../todos-note/todos-note.component';
 export class NoteAddComponent implements OnInit {
     constructor(
         private keepService: KeepService,
-        private utilService: UtilService
+        private utilService: UtilService,
+        private uploadService: UploadService
     ) {}
 
     @Input() isEdit!: boolean;
@@ -30,16 +32,18 @@ export class NoteAddComponent implements OnInit {
     // @Input() public isOpen = false;
     @ViewChild('inputElement') inputElement!: ElementRef;
     @ViewChild('preElement') preElement!: ElementRef;
+    @ViewChild('fileInput') fileInput!: ElementRef;
     @ViewChild(TodosNoteComponent, { static: false })
     todosNoteCmp!: TodosNoteComponent;
 
     note: Note = this.keepService.getEmptyNote();
+    isDarkImg: boolean = false;
     isOpen = false;
     isTodosNote = false;
     closeActIcons = [
         { type: 'checkbox-checked', act: this.setTodosNote.bind(this) },
         { type: 'draw', act: this.try },
-        { type: 'image', act: this.try },
+        { type: 'image', act: this.openImgUploader.bind(this) },
     ];
 
     openActIcons = [
@@ -134,23 +138,41 @@ export class NoteAddComponent implements OnInit {
         this.note.isPinned = !this.note.isPinned;
     }
 
+    async handleImage(ev: any) {
+        const file = ev.target.files[0];
+        try {
+            const res = await this.uploadService.uploadImg(file);
+            console.log('res: ', res);
+            this.note.media = {
+                type: 'img',
+                url: res.url,
+            };
+
+            this.isDarkImg = await this.utilService.isDarkImg(res.url);
+        } catch (error) {
+            // console.error(error);
+        }
+    }
+
     public closeEditor(ev: MouseEvent): void {
-        if (this.noteToEdit) return
+        if (this.noteToEdit) return;
         if (!this.isOpen) return;
         if (ev) ev.stopPropagation();
         const type = this.note.info.todos ? 'todos' : 'txt';
         const { title, txt, todos } = this.note.info;
         this.isOpen = false;
         this.isTodosNote = false;
-        if (!title && !txt && !todos?.length) return;
+        if (!title && !txt && !todos?.length && !this.note.media) return;
         this.keepService.saveNote(
             JSON.parse(JSON.stringify({ ...this.note, type }))
         );
-        this.note.info = {
-            title: '',
-            txt: '',
-        };
+        // this.note.info = {
+        //     title: '',
+        //     txt: '',
+        // };
+        // this.note.media = null
         this.preElement.nativeElement.innerText = '';
+        this.note = this.keepService.getEmptyNote();
         // this.cdr.markForCheck();
     }
 
@@ -165,6 +187,10 @@ export class NoteAddComponent implements OnInit {
             console.log('ev: ', ev.target.innerText);
             this.note.info.txt = ev.target.innerText;
         }
+    }
+
+    openImgUploader() {
+        this.fileInput.nativeElement.click();
     }
 
     ngOnInit(): void {
