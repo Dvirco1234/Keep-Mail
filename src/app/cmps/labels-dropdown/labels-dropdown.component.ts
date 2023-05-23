@@ -29,6 +29,10 @@ export class LabelsDropdownComponent implements OnInit {
     }
 
     get labelsToShow(): Label[] {
+        this.labels = this.user['labels'].map((l: Label) => ({
+            ...l,
+            isChecked: this.note.labels?.some((label) => label.name === l.name) || false,
+        }));
         const regex = new RegExp(this.searchTerm, 'i')
         return this.labels.filter((label) => regex.test(label.name));
     }

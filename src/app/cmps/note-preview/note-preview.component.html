@@ -62,12 +62,8 @@
             </section>
         </main>
         <section class="labels flex" *ngIf="note.labels?.length">
-            <!-- <pre>{{ note.labels | json }}</pre> -->
             <div class="label flex-center" *ngFor="let label of note.labels" (mouseover)="setSpanWidth()">
                 <span class="label-name" #labelSpan>{{ label.name }}</span>
-                <!-- <div class="label-close">
-                    
-                </div> -->
                     <svg-icon
                         class="label-close"
                         [icon]="{ name: 'x-thin', isLarge: false }"
@@ -112,7 +108,6 @@
         [note]="note"
         class="preview-modal labels-dropdown"
         [class.open]="isLabelsModalOpen"
-        *ngIf="isLabelsModalOpen"
         (onClose)="closeLabels()"
     ></labels-dropdown>
 </div>

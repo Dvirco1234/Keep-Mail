@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
-import { Note, Todo } from 'src/app/models';
+import { Label, Note, Todo } from 'src/app/models';
 import { KeepService } from 'src/app/services/keep-service.service';
 import { UtilService } from 'src/app/services/util-service.service';
 import { TodosNoteComponent } from '../todos-note/todos-note.component';
@@ -43,6 +43,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
 
     note: Note = this.keepService.getEmptyNote();
     isDarkImg: boolean = false;
+    isLabelsModalOpen: boolean = false;
     isOpen = false;
     isTodosNote = false;
     isPaletteOpen = false;
@@ -54,7 +55,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
 
     openActIcons = [
         { type: 'edit', act: this.try },
-        { type: 'label', act: this.try },
+        { type: 'label', act: this.openLabels.bind(this) },
         { type: 'palette', act: this.openPalette.bind(this) },
         { type: 'image', act: this.openImgUploader.bind(this) },
         { type: 'archive', act: this.try },
@@ -154,10 +155,26 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
             this.isPaletteOpen = true;  
         })
     }
-
+    
     closePalette() {
         if (!this.isPaletteOpen) return;
         this.isPaletteOpen = false
+    }
+    openLabels() {
+        if (this.isLabelsModalOpen) return;
+        setTimeout(() => {
+            this.isLabelsModalOpen = true;  
+        })
+    }
+    closeLabels() {
+        if (!this.isLabelsModalOpen) return;
+        this.isLabelsModalOpen = false
+    }
+
+    removeLabel(id: string, ev: Event) {
+        ev.stopPropagation();
+        // let labels = JSON.parse(JSON.stringify(this.note.labels || []));
+        this.note.labels = this.note.labels.filter((l: Label) => l.id !== id);
     }
 
     async handleImage(ev: any) {
@@ -187,7 +204,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         const { title, txt, todos } = this.note.info;
         this.isOpen = false;
         this.isTodosNote = false;
-        if (!title && !txt && !todos?.length && !this.note.media) return;
+        if (!title && !txt && !todos?.length && !this.note.media && !this.note.labels?.length) return;
         this.keepService.saveNote(
             JSON.parse(JSON.stringify({ ...this.note, type }))
         );

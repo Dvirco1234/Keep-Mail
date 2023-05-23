@@ -71,6 +71,16 @@
             <!-- </div> -->
         </ng-template>
     </div>
+    <section class="labels flex" *ngIf="note.labels?.length">
+        <div class="label flex-center" *ngFor="let label of note.labels">
+            <span class="label-name" #labelSpan>{{ label.name }}</span>
+                <svg-icon
+                    class="label-close"
+                    [icon]="{ name: 'x-thin', isLarge: false }"
+                    (click)="removeLabel(label.id, $event)"
+                    ></svg-icon>
+        </div>
+    </section>
     <div class="close-btn-container">
         <div
             class="icon-ctr lg flex-center"
@@ -121,4 +131,10 @@
     </div>
     <input type="file" hidden accept="image/*" (change)="handleImage($event)" multiple="false" #fileInput>
     <pallete-modal class="background-modal" [class.open]="isPaletteOpen" [note]="note" (onUpdateNote)="setBackground($event[0], $event[1])" (onClose)="closePalette()"></pallete-modal>
+    <labels-dropdown
+        [note]="note"
+        class="background-modal labels-dropdown"
+        [class.open]="isLabelsModalOpen"
+        (onClose)="closeLabels()"
+    ></labels-dropdown>
 </section>
