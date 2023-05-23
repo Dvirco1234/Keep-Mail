@@ -1,5 +1,6 @@
-<section class="labels-modal-wrapper screen show">
-    <div class="labels-modal">
+<!-- <section class="labels-modal-wrapper screen show" *ngIf="isModalOpen"> -->
+<section class="labels-modal-wrapper screen show" >
+    <div class="labels-modal" [clickOutside]="closeLabelsModal.bind(this)">
         <main>
             <h3>Edit lablels</h3>
             <div class="new-label">
@@ -56,7 +57,7 @@
                         <svg-icon
                             [icon]="{ name: label.isEditable || label['mouseover']? 'trash' : 'label-full', isLarge: false }"
                             class="svg-icon"
-                            (click)="toggleLabelEditable(idx)"
+                            (click)="removeLabel(label.id)"
                         ></svg-icon>
                     </div>
                     <input
@@ -95,7 +96,7 @@
             </div>
         </main>
         <footer class="flex flex-end">
-            <button class="clean-btn">Done</button>
+            <button class="clean-btn" (click)="closeLabelsModal()">Done</button>
         </footer>
     </div>
 </section>

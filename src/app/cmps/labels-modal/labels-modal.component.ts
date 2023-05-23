@@ -7,7 +7,9 @@ import {
     ViewChild,
     ViewChildren,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
+import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
 import { Label, User } from 'src/app/models';
 import { UserService } from 'src/app/services/user-service.service';
 
@@ -15,15 +17,17 @@ import { UserService } from 'src/app/services/user-service.service';
     selector: 'labels-modal',
     templateUrl: './labels-modal.component.html',
     styleUrls: ['./labels-modal.component.scss'],
+    providers: [ClickOutsideDirective],
 })
 export class LabelsModalComponent implements AfterViewInit {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private router: Router) {}
     // @ViewChild('fileInput') dialog!: ElementRef;
     @ViewChild('newLabelInput') newLabelInput!: ElementRef;
     @ViewChildren('labelInput', { read: ElementRef })
     labelInput!: QueryList<ElementRef>;
     // user$!: Observable<User>;
     // subscription!: Subscription
+    // isModalOpen: boolean = true;
     user!: User;
     isEdit: boolean = false;
     newLabel: string = '';
@@ -31,9 +35,7 @@ export class LabelsModalComponent implements AfterViewInit {
 
     toggleNewLabelEditable(isSave: boolean = false): void {
         if (this.isEdit) {
-            if (isSave) {
-                //save new label
-            }
+            if (isSave) this.saveLabel({ name: this.newLabel } as Label);
             //clear input
             this.newLabel = '';
             this.isEdit = false;
@@ -50,9 +52,8 @@ export class LabelsModalComponent implements AfterViewInit {
         ev: Event | undefined = undefined
     ): void {
         if (this.labels[idx].isEditable && ev?.type !== 'focus') {
-            if (isSave) {
-                //save new label
-            }
+            // if (isSave) this.saveLabel(this.user['labels'][idx]);
+            if (isSave) this.saveLabel(this.labels[idx]);
             this.labels[idx].isEditable = false;
             this.labelInput.toArray()[idx].nativeElement.blur();
         } else {
@@ -62,9 +63,18 @@ export class LabelsModalComponent implements AfterViewInit {
         }
     }
 
-    saveLabel() {}
+    saveLabel(label: Label) {
+        console.log('label: ', label);
+        delete label.isEditable;
+        delete label['mouseover'];
+        this.userService.saveLabel(label);
+        this.loadUser();
+    }
 
-    removeLabel() {}
+    removeLabel(id: string) {
+        this.userService.removeLabel(id);
+        this.loadUser();
+    }
 
     closeLabels() {
         // this.labels.forEach((label) => (label.isEditable = false));
@@ -81,17 +91,32 @@ export class LabelsModalComponent implements AfterViewInit {
             // id: l.id,
             // name: l.name,
             // isEditable: false,
-          ...l,  isEditable: false,
+            ...l,
+            isEditable: false,
         }));
+    }
+
+    loadUser() {
+        this.user = this.userService.getLoggedInUser();
+        this.labels = this.user['labels'].map((l: Label) => ({
+            ...l,
+            isEditable: false,
+        }));
+    }
+
+    closeLabelsModal() {
+        // console.log('this.router.url: ', this.router.url);
+        this.router.navigateByUrl(`/keep`);
     }
     // get labels(): Label[] {
     //   return this.user['labels'].map((l: string) => ({ name: l, isEditable: false }));
     // }
 
     ngOnInit(): void {
+        this.loadUser();
         // this.user$ = this.userService.user$;
-        this.user = this.userService.getLoggedInUser();
-        this.initLabels();
+        // this.user = this.userService.getLoggedInUser();
+        // this.initLabels();
         // this.subscription = this.userService.user$.subscribe(user => {
         //       this.user = user
         //   })

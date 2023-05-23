@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UtilService } from './util-service.service'
-import { User } from '../models'
+import { Label, User } from '../models'
 import { BehaviorSubject } from 'rxjs'
 
 @Injectable({
@@ -42,9 +42,9 @@ export class UserService {
     //     })
     // }
     getLoggedInUser(): User { 
-        const user = this.utilService.load(this.KEY)
+        let user = this.utilService.load(this.KEY)
         if (user) return user
-        return {
+        user = {
             _id: 'u101',
             name: 'Dvir Cohen',
             // labels: ['Work', 'Ideas', 'Movies']
@@ -54,10 +54,27 @@ export class UserService {
                 {name: 'Movies', id: 'l103'},
             ]
         }
+        this.utilService.save(this.KEY, user)
+        return user
     }
 
-    saveLabel(label: string) {
+    saveLabel(label: Label) {
+        const user = this.utilService.load(this.KEY)
+        if (label.id) {
+            const idx = user.labels.findIndex((l: Label) => l.id === label.id)
+            user.labels[idx] = label
+        } else {
+            label.id = this.utilService.makeId()
+            user.labels.push(label)
+        }
+        this.utilService.save(this.KEY, user)
+    }
 
+    removeLabel(id: string) {
+        const user = this.utilService.load(this.KEY)
+        console.log('user: ', user);
+        user.labels = user.labels.filter((label: Label) => label.id !== id)
+        this.utilService.save(this.KEY, user)
     }
 
     // public getUsers() {

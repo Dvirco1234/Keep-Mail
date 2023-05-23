@@ -17,12 +17,20 @@ const routes: Routes = [
                 path: 'labels-modal',
                 component: LabelsModalComponent,
             },
+            // {
+            //     path: 'labels/:labelId',
+            //     component: KeepAppComponent,
+            // },
             {
                 path: ':id',
                 component: NoteEditComponent,
                 resolve: { note: NoteResolver },
             },
         ],
+    },
+    {
+        path: 'keep/label/:labelId',
+        component: KeepAppComponent,
     },
     {
         path: '',

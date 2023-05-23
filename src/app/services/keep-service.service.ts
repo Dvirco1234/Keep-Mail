@@ -33,9 +33,12 @@ export class KeepService {
         private storageService: AsyncStorageService
     ) {}
 
-    public loadNotes() {
+    public loadNotes(labelId: string | undefined = '') {
         // const filterBy = this._filterBy$.getValue();
         let notes = this._notesDb;
+        console.log('labelId: ', labelId);
+        if (labelId) notes = notes.filter((note: Note) => note.labels?.some(l => l.id === labelId) || false);
+        console.log('notes: ', notes);
         // console.log('notes: ', notes);
 
         // if (filterBy && filterBy.term) {
@@ -178,7 +181,7 @@ export class KeepService {
                     style: {
                         backgroundColor: '#495057',
                     },
-                    labels: [{ title: 'Critical', color: '#e03131' }],
+                    labels: [{ id: 'l101', name: 'Work', color: '#e03131' }],
                 },
                 {
                     _id: 'n102',
@@ -253,8 +256,8 @@ export class KeepService {
                         backgroundColor: '#f03e3e',
                     },
                     labels: [
-                        { title: 'Memories', color: '#ae3ec9' },
-                        { title: 'Romantic', color: '#1098ad' },
+                        { name: 'Ideas', id: 'l102', color: '#ae3ec9' },
+                        { id: 'l101', name: 'Work', color: '#e03131' },
                     ],
                 },
                 {
@@ -287,7 +290,7 @@ export class KeepService {
                     style: {
                         backgroundColor: '#fcc419',
                     },
-                    labels: [{ title: 'Spam', color: '#f76707' }],
+                    labels: [{ id: 'l101', name: 'Work', color: '#e03131' }],
                 },
                 {
                     _id: 'n107',
@@ -337,7 +340,7 @@ export class KeepService {
                     style: {
                         backgroundColor: '#ff922b',
                     },
-                    labels: [{ title: 'Work', color: '#37b24d' }],
+                    labels: [{ name: 'Ideas', id: 'l102', color: '#37b24d' }],
                 },
                 {
                     _id: 'n109',

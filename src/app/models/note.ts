@@ -33,8 +33,9 @@ export interface Note {
     media: { type: string; url: string } | null;
     info: NoteTodo | NoteTxt;
     labels: Array<{
-        title: string;
-        color: string;
+        id: string;
+        name: string;
+        color?: string;
     }>;
     style: { backgroundColor: string, backgroundImg?: string };
     [key: string]: any; // Index signature
