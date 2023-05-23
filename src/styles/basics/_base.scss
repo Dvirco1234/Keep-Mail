@@ -225,7 +225,7 @@ button.long-click:active {
         translate: -50% -50%;
         width: 200vw;
         height: 200vh;
-        pointer-events: none;
+        // pointer-events: none;
     }
 
     &.show {

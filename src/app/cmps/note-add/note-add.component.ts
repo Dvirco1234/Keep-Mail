@@ -156,7 +156,6 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     }
 
     closePalette() {
-        console.log('close');
         if (!this.isPaletteOpen) return;
         this.isPaletteOpen = false
     }

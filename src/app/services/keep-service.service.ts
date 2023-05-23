@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { Note } from '../models';
+import { Label, Note } from '../models';
 import { AsyncStorageService } from './async-storage-service.service';
 import { UtilService } from './util-service.service';
 
@@ -12,10 +12,15 @@ import { UtilService } from './util-service.service';
 })
 export class KeepService {
     private NOTES_KEY: string = 'notesDB';
+    private LABELS_KEY: string = 'labelsDB';
     private _notesDb: Note[] = this._createNotes();
+    private _labelsDb: Note[] = this._createLabels();
 
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
+    
+    private _labels$ = new BehaviorSubject<Label[]>([]);
+    public labels$ = this._labels$.asObservable();
 
     // private _filterBy$ = new BehaviorSubject<NoteFilter>({ term: '' });
     // public filterBy$ = this._filterBy$.asObservable();
@@ -370,6 +375,20 @@ export class KeepService {
         }
         this.utilService.save(this.NOTES_KEY, notes);
         return notes;
+    }
+
+    private _createLabels() {
+        let labels = this.utilService.load(this.LABELS_KEY);
+        if (!labels || !labels.length) {
+            labels = [
+                {
+                    name: 'Work',
+                    color: ''
+                },
+            ];
+        }
+        this.utilService.save(this.LABELS_KEY, labels);
+        return labels;
     }
 }
 

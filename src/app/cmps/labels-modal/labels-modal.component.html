@@ -1,1 +1,101 @@
-<p>labels-modal works!</p>
+<section class="labels-modal-wrapper screen show">
+    <div class="labels-modal">
+        <main>
+            <h3>Edit lablels</h3>
+            <div class="new-label">
+                <form class="flex align-center">
+                    <div class="icon-ctr flex-center">
+                        <svg-icon
+                            [icon]="{ name: 'x-thin', isLarge: false }"
+                            class="svg-icon"
+                            *ngIf="isEdit"
+                            (click)="toggleNewLabelEditable()"
+                        ></svg-icon>
+                        <svg-icon
+                            [icon]="{ name: 'plus', isLarge: false }"
+                            class="svg-icon"
+                            *ngIf="!isEdit"
+                            (click)="toggleNewLabelEditable()"
+                        ></svg-icon>
+                    </div>
+                    <input
+                        class="clean-input"
+                        type="text"
+                        name="input"
+                        (focus)="isEdit = true"
+                        [(ngModel)]="newLabel"
+                        placeholder="Create new label"
+                        #newLabelInput
+                    />
+                    <div class="icon-ctr flex-center">
+                        <button class="clean-btn " (click)="toggleNewLabelEditable(true)">
+                            <svg-icon
+                                [icon]="{ name: 'done-thin', isLarge: false }"
+                                class="svg-icon"
+                                *ngIf="isEdit"
+                            ></svg-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="labels-list">
+                <form class="flex align-center label" *ngFor="let label of labels; index as idx" (mouseover)="label['mouseover'] = true" (mouseleave)="label['mouseover'] = false">
+                    <div class="icon-ctr flex-center">
+                        <!-- <svg-icon
+                            [icon]="{ name: 'trash', isLarge: false }"
+                            class="svg-icon"
+                            *ngIf="label.isEditable"
+                            (click)="toggleLabelEditable(idx)"
+                        ></svg-icon>
+                        <svg-icon
+                            [icon]="{ name: 'label-full', isLarge: false }"
+                            class="svg-icon"
+                            *ngIf="!label.isEditable"
+                            (click)="toggleLabelEditable(idx)"
+                        ></svg-icon> -->
+                        <svg-icon
+                            [icon]="{ name: label.isEditable || label['mouseover']? 'trash' : 'label-full', isLarge: false }"
+                            class="svg-icon"
+                            (click)="toggleLabelEditable(idx)"
+                        ></svg-icon>
+                    </div>
+                    <input
+                        class="clean-input"
+                        type="text"
+                        name="input"
+                        (focus)="toggleLabelEditable(idx, false, $event)"
+                        [(ngModel)]="label.name"
+                        placeholder="Create new label"
+                        #labelInput
+                    />
+                    <div class="icon-ctr flex-center">
+                        <button class="clean-btn " (click)="toggleLabelEditable(idx, true)">
+                            <!-- <svg-icon
+                                [icon]="{ name: 'done-thin', isLarge: false }"
+                                class="svg-icon"
+                                *ngIf="label.isEditable"
+                            ></svg-icon> -->
+                            <!-- <svg-icon
+                                [icon]="{ name: 'edit', isLarge: false }"
+                                class="svg-icon"
+                                *ngIf="!label.isEditable"
+                            ></svg-icon>
+                            <svg-icon
+                                [icon]="{ name: 'done-thin', isLarge: false }"
+                                class="svg-icon"
+                                *ngIf="label.isEditable"
+                            ></svg-icon> -->
+                            <svg-icon
+                                [icon]="{ name: label.isEditable ? 'done-thin' : 'edit', isLarge: false }"
+                                class="svg-icon"
+                            ></svg-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+        <footer class="flex flex-end">
+            <button class="clean-btn">Done</button>
+        </footer>
+    </div>
+</section>
