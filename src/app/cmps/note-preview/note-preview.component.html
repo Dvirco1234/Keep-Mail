@@ -1,5 +1,9 @@
 <div class="preview-wrapper" [class.curr-note]="isCurrNote">
-    <div class="check-note flex-center" (mouseover)="isShown = true" (mouseleave)="isShown = false">
+    <div
+        class="check-note flex-center"
+        (mouseover)="isShown = true"
+        (mouseleave)="isShown = false"
+    >
         <svg-icon
             [icon]="{ name: 'check-circle', isLarge: true }"
             (click)="toggleCheck()"
@@ -14,9 +18,13 @@
         [moveModalToCenter]="isCurrNote"
         (click)="openEditModal($event.currentTarget)"
         [ngStyle]="bgc"
-        >
+    >
         <!-- [moveToCenter]="isCurrNote" -->
-        <div class="pin icon-ctr flex-center" [ngClass]="{ dark: isDarkImg }" (click)="togglePin()">
+        <div
+            class="pin icon-ctr flex-center"
+            [ngClass]="{ dark: isDarkImg }"
+            (click)="togglePin()"
+        >
             <!-- <div class="dark-pin"></div> -->
             <div class="dark-pin" *ngIf="isDarkImg; else pin"></div>
             <ng-template #pin>
@@ -40,7 +48,7 @@
             src="/media/cc0-audio/t-rex-roar.mp3"
         ></audio>
         <!-- </section> -->
-        <main class="note-main" [ngSwitch]="note.type" >
+        <main class="note-main" [ngSwitch]="note.type">
             <header class="note-header flex align-center">
                 <h1 *ngIf="note.info.title">{{ note.info.title }}</h1>
             </header>
@@ -53,6 +61,20 @@
                 <todos-note *ngIf="note.info.todos" [note]="note"></todos-note>
             </section>
         </main>
+        <section class="labels flex" *ngIf="note.labels?.length">
+            <!-- <pre>{{ note.labels | json }}</pre> -->
+            <div class="label flex-center" *ngFor="let label of note.labels" (mouseover)="setSpanWidth()">
+                <span class="label-name" #labelSpan>{{ label.name }}</span>
+                <!-- <div class="label-close">
+                    
+                </div> -->
+                    <svg-icon
+                        class="label-close"
+                        [icon]="{ name: 'x-thin', isLarge: false }"
+                        (click)="removeLabel(label.id, $event)"
+                    ></svg-icon>
+            </div>
+        </section>
         <footer class="note-footer flex space-between">
             <div class="icon-ctr flex-center" *ngFor="let act of actIcons">
                 <svg-icon
@@ -79,5 +101,18 @@
             </div>
         </div>
     </article> -->
-    <pallete-modal class="background-modal" [ngClass]="{open: isPaletteOpen}" [note]="note" (onUpdateNote)="updateNote($event[0], $event[1])" (onClose)="closePalette()"></pallete-modal>
+    <pallete-modal
+        class="preview-modal"
+        [ngClass]="{ open: isPaletteOpen }"
+        [note]="note"
+        (onUpdateNote)="updateNote($event[0], $event[1])"
+        (onClose)="closePalette()"
+    ></pallete-modal>
+    <labels-dropdown
+        [note]="note"
+        class="preview-modal labels-dropdown"
+        [class.open]="isLabelsModalOpen"
+        *ngIf="isLabelsModalOpen"
+        (onClose)="closeLabels()"
+    ></labels-dropdown>
 </div>

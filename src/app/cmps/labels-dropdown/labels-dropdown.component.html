@@ -1,0 +1,37 @@
+<section class="labels-dropdown" [clickOutside]="close.bind(this)">
+    <h4>Label note</h4>
+    <!-- <input type="text" placeholder="Enter label name" /> -->
+    <form class="flex align-center space-between">
+        <input
+            class="clean-input"
+            type="text"
+            name="input"
+            [(ngModel)]="searchTerm"
+            placeholder="Enter label name"
+        />
+            <svg-icon
+                [icon]="{ name: 'search', isLarge: false }"
+                class="search-icon"
+            ></svg-icon>
+    </form>
+    <div>
+        <ul class="clean-list">
+            <li
+                class="flex align-center cursor-pointer"
+                *ngFor="let label of labelsToShow"
+                (click)="toggleLabel(label, $event)"
+            >
+                <!-- (click)="toggleLabel($event, todo.id)" -->
+                <svg-icon
+                    class="checkbox svg-icon"
+                    [icon]="{
+                        name: label['isChecked'] ? 'checkbox-checked' : 'checkbox',
+                        isLarge: false
+                    }"
+                ></svg-icon>
+                <p class="label-name">{{ label.name }}</p>
+                <!-- <pre>{{ label | json }}</pre> -->
+            </li>
+        </ul>
+    </div>
+</section>

@@ -1,11 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Note } from 'src/app/models';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+} from '@angular/core';
+import { Label, Note } from 'src/app/models';
 import { UtilService } from 'src/app/services/util-service.service';
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
-import { Router, ActivatedRoute } from '@angular/router'
-import { Subscription } from 'rxjs'
-import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive'
-import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive'
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive';
+import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive';
 // import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
 // import { ImgNoteComponent } from '../notes/img-note/img-note.component';
 // import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
@@ -16,11 +24,16 @@ import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-cen
     selector: 'note-preview',
     templateUrl: './note-preview.component.html',
     styleUrls: ['./note-preview.component.scss'],
-    providers: [ClickOutsideDirective, MoveToCenterDirective, MoveModalToCenterDirective,],
+    providers: [
+        ClickOutsideDirective,
+        MoveToCenterDirective,
+        MoveModalToCenterDirective,
+    ],
 })
 export class NotePreviewComponent implements OnInit {
     // cmpType = TxtNoteComponent;
-    constructor (private utilService: UtilService, private router: Router) {}
+    constructor(private utilService: UtilService, private router: Router) {}
+    @ViewChild('labelSpan') labelSpan!: ElementRef;
 
     @Input() note!: any;
     @Input() isCurrNote!: boolean;
@@ -32,12 +45,24 @@ export class NotePreviewComponent implements OnInit {
 
     get isImgOnly() {
         const { info } = this.note;
-        return { 'img-only': !info.txt && !info.title && this.note.media };
+        return {
+            'img-only':
+                !info.txt &&
+                !info.title &&
+                this.note.media &&
+                !this.note.labels?.length,
+        };
     }
 
     get isEmptyNote() {
         const { info } = this.note;
-        if (info.title || this.note.media || info.txt || info.todos?.length) {
+        if (
+            info.title ||
+            this.note.media ||
+            info.txt ||
+            info.todos?.length ||
+            this.note.labels?.length
+        ) {
             return false;
         }
         return true;
@@ -57,11 +82,12 @@ export class NotePreviewComponent implements OnInit {
     isDarkImg: boolean = false;
     isShown: boolean = false;
     isPaletteOpen: boolean = false;
+    isLabelsModalOpen: boolean = false;
 
     // actIcons = ['edit','label', 'palette', 'image', 'archive', 'more-menu'];
     actIcons = [
         { type: 'edit', act: this.editNote.bind(this) },
-        { type: 'label', act: this.toggleAddLabels },
+        { type: 'label', act: this.openLabels.bind(this) },
         { type: 'palette', act: this.openPalette.bind(this) },
         { type: 'image', act: this.uploadImg },
         { type: 'archive', act: this.archiveNote },
@@ -140,20 +166,29 @@ export class NotePreviewComponent implements OnInit {
     //     },
     // ];
 
-    editNote() { 
+    editNote() {
         this.router.navigateByUrl(`/keep/${this.note._id}`);
     }
     openEditModal(el: EventTarget | null) {
         console.log('el: ', el);
     }
-    toggleAddLabels() {
-        console.log('toggleAddLabels: ');
+    openLabels() {
+        if (this.isLabelsModalOpen) return;
+        setTimeout(() => {
+            this.isLabelsModalOpen = !this.isLabelsModalOpen;
+            this.isShown = !this.isShown;
+        });
+    }
+    closeLabels() {
+        if (!this.isLabelsModalOpen) return;
+        this.isLabelsModalOpen = false;
+        this.isShown = false;
     }
     openPalette() {
         if (this.isPaletteOpen) return;
         setTimeout(() => {
             this.isPaletteOpen = !this.isPaletteOpen;
-            this.isShown = !this.isShown;    
+            this.isShown = !this.isShown;
         });
     }
     closePalette() {
@@ -183,6 +218,13 @@ export class NotePreviewComponent implements OnInit {
         this.onUpdateNote.emit({ note: this.note, key, value });
     }
 
+    removeLabel(id: string, ev: Event) {
+        ev.stopPropagation();
+        let labels = JSON.parse(JSON.stringify(this.note.labels || []));
+        labels = labels.filter((l: Label) => l.id !== id);
+        this.updateNote('labels', labels);
+    }
+
     toggleCheck() {}
 
     togglePin() {
@@ -204,7 +246,12 @@ export class NotePreviewComponent implements OnInit {
             this.isDarkImg = await this.utilService.isDarkImg(media.url);
         console.log('this.note:', this.note, this.isDarkImg);
         // console.log('this.isEdit: ', this.isEdit);
+    }
 
+    setSpanWidth() {
+        // const rect = this.labelSpan.nativeElement.getBoundingClientRect()
+        // this.labelSpan.nativeElement.style.width = rect.width - 15 + 'px';
+        // console.log('this.labelSpan.nativeElement.getBoundingClientRect(): ', this.labelSpan.nativeElement.getBoundingClientRect());
     }
 }
 

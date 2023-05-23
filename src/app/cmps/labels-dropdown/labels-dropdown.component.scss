@@ -1,0 +1,52 @@
+.labels-dropdown {
+    // padding: 10px;
+    position: relative;
+    background-color: #fff;
+    // .svg-icon {
+    //     opacity: 0.54
+    // }
+
+    h4 {
+        padding: 10px;
+    }
+    input {
+        border: none;
+        // padding: 12px 0 12px 10px;
+        // padding-inline-start: 0;
+    }
+    
+    form {
+        padding-inline-end: 10px;
+
+    }
+
+    // .search-icon {
+    //     opacity: 0.54;
+
+    //     svg {
+    //         width: 15px !important;
+    //         height: 15px !important;
+    //     }
+    // }
+
+    ul {
+        padding: 16px 10px;
+        max-height: 40vh;
+        overflow-y: auto;
+        display: block;
+    }
+
+    li {
+        opacity: 0.54;
+        padding: 5px 0;
+
+        &:hover {
+            // background-color: rgba(95, 99, 104, 0.039);
+            background-color: rgba(95, 99, 104, 0.092);
+        }
+
+        .label-name {
+            margin-inline-start: 7px;
+        }
+    }
+}
