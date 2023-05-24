@@ -59,6 +59,5 @@ export class LabelsDropdownComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadUser();
-        console.log('this.note:', this.note)
     }
 }

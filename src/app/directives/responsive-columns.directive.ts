@@ -15,11 +15,11 @@ export class ResponsiveColumnsDirective implements OnInit, OnDestroy {
 
     // Create a ResizeObserver to track changes in container width
     this.resizeObserver = new ResizeObserver(entries => {
-      console.log('entries: ', entries);
+      // console.log('entries: ', entries);
       for (const entry of entries) {
-        console.log('entry: ', entry);
+        // console.log('entry: ', entry);
         const { width } = entry.contentRect;
-        console.log('width: ', width);
+        // console.log('width: ', width);
         this.adjustColumns(width);
       }
     });

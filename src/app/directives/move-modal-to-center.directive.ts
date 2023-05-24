@@ -46,9 +46,9 @@ export class MoveModalToCenterDirective implements OnInit, OnChanges {
         const modalContent = document.querySelector(
             '.add-note.edit-mode'
         ) as HTMLElement;
-        console.log('modalContent: ', modalContent);
+        // console.log('modalContent: ', modalContent);
         const cardRect = card.getBoundingClientRect();
-        console.log('cardRect: ', cardRect);
+        // console.log('cardRect: ', cardRect);
 
         // Store card position and size
         const cardPosition = {
@@ -77,7 +77,7 @@ export class MoveModalToCenterDirective implements OnInit, OnChanges {
 
     private moveToCenter(): void {
         const card = document.getElementById('edit-modal');
-        console.log('card: ', card);
+        // console.log('card: ', card);
         const modalContent = document.querySelector(
             '.add-note.edit-mode'
         ) as HTMLElement;

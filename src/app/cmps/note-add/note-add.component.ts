@@ -73,7 +73,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     }
 
     try() {
-        console.log('work:');
+        // console.log('work:');
     }
     newTodo(idx: number = 0, newTodo: Todo | null = null) {
         if (!idx) idx = this.note.info.todos?.length || 0;
@@ -181,7 +181,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         const file = ev.target.files[0];
         try {
             const res = await this.uploadService.uploadImg(file);
-            console.log('res: ', res);
+            // console.log('res: ', res);
             this.note.media = {
                 type: 'img',
                 url: res.url,
@@ -226,7 +226,6 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     // }
     setNoteTxt(ev: Event) {
         if (ev.target instanceof HTMLElement) {
-            console.log('ev: ', ev.target.innerText);
             this.note.info.txt = ev.target.innerText;
         }
     }
@@ -236,8 +235,6 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        console.log('this.note:', this.note);
-        console.log('this.noteToEdit: ', this.noteToEdit);
         if (this.noteToEdit) {
             this.note = this.noteToEdit;
             this.isOpen = true;

@@ -127,7 +127,7 @@ export class KeepService {
 
     public updateNoteByKey(note: Note, key: string, value: any) {
         note[key] = value;
-        console.log('note: ', note);
+        // console.log('note: ', note);
         this._notesDb = this._notesDb.map((n) =>
             note._id === n._id ? note : n
         );
@@ -198,9 +198,7 @@ export class KeepService {
     }
 
     private _createNotes() {
-        console.log('this.NOTES_KEY: ', this.NOTES_KEY);
         let notes = this.utilService.load(this.NOTES_KEY);
-        console.log('notes: ', notes);
         if (!notes || !notes.length) {
             notes = [
                 {

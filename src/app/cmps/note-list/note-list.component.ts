@@ -19,7 +19,7 @@ import { Note } from 'src/app/models';
     styleUrls: ['./note-list.component.scss'],
     providers: [ResponsiveColumnsDirective],
 })
-export class NoteListComponent implements OnInit, OnChanges {
+export class NoteListComponent implements OnInit {
     @ViewChild(NgxMasonryComponent, { static: false }) masonry:
         | NgxMasonryComponent
         | any;
@@ -48,16 +48,16 @@ export class NoteListComponent implements OnInit, OnChanges {
     @Input() notes!: Note[] | null;
     @Input() currNote!: Note | null;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        // Check if the "myProperty" input has changed
-        if (changes['notes']) {
-            // this.masonry.reloadItems();
-            // this.masonry.updateLayout();
-            // this.masonry.layout();
-            // Do something with the new value of "myProperty"
-            console.log(changes['notes'].currentValue);
-        }
-    }
+    // ngOnChanges(changes: SimpleChanges): void {
+    //     // Check if the "myProperty" input has changed
+    //     if (changes['notes']) {
+    //         // this.masonry.reloadItems();
+    //         // this.masonry.updateLayout();
+    //         // this.masonry.layout();
+    //         // Do something with the new value of "myProperty"
+    //         // console.log(changes['notes'].currentValue);
+    //     }
+    // }
 
     get notess(): Note[] {
         return this.notes

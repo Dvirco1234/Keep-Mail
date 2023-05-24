@@ -24,7 +24,6 @@ export class KeepAppComponent implements OnInit {
             // this.labelId = params['labelId'];
             // this.keepService.loadNotes(this.labelId);
             this.labelId = params['labelId'];
-            console.log('this.labelId: ', this.labelId);
             this.keepService.setCurrLabelId(this.labelId);
         });
         // if(this.labelId) 
@@ -35,7 +34,6 @@ export class KeepAppComponent implements OnInit {
     }
 
     updateNote({ note, key, value }: { note: Note; key: string; value: any }) {
-        console.log('note, key, value: ', note, key, value);
         this.keepService.updateNoteByKey(note, key, value);
     }
 }

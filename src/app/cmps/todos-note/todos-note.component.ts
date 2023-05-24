@@ -62,7 +62,6 @@ export class TodosNoteComponent implements OnInit, AfterViewInit {
     }
 
     onBackspace(ev: KeyboardEvent, idx: number) {
-        console.log('ev: ', ev);
         const todos = this.info.todos;
         if (ev.key === 'Backspace' && !todos[idx].txt) this.removeTodo(idx)
         

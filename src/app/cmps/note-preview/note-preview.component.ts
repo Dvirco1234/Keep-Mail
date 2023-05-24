@@ -170,7 +170,7 @@ export class NotePreviewComponent implements OnInit {
         this.router.navigateByUrl(`/keep/${this.note._id}`);
     }
     openEditModal(el: EventTarget | null) {
-        console.log('el: ', el);
+        // console.log('el: ', el);
     }
     openLabels() {
         if (this.isLabelsModalOpen) return;
@@ -206,11 +206,9 @@ export class NotePreviewComponent implements OnInit {
         console.log('toggleMenu: ');
     }
     pickBg(color: string, key: string) {
-        console.log('color: ', color);
         // const style = color.length < 10 && color.length ? {...this.note.style, backgroundColor: color} : {...this.note.style, backgroundImg: color}
         const style = { ...this.note.style };
         style[key] = color;
-        console.log('style: ', style);
         this.updateNote('style', style);
     }
 
@@ -229,7 +227,6 @@ export class NotePreviewComponent implements OnInit {
 
     togglePin() {
         this.updateNote('isPinned', !this.note.isPinned);
-        console.log('this.note.isPinned: ', this.note.isPinned);
     }
     // get isEmptyNote() {
     //     const { info } = this.note;
@@ -244,8 +241,6 @@ export class NotePreviewComponent implements OnInit {
         const { media } = this.note;
         if (media?.type === 'img')
             this.isDarkImg = await this.utilService.isDarkImg(media.url);
-        console.log('this.note:', this.note, this.isDarkImg);
-        // console.log('this.isEdit: ', this.isEdit);
     }
 
     setSpanWidth() {

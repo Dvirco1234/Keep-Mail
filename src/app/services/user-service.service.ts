@@ -72,7 +72,7 @@ export class UserService {
 
     removeLabel(id: string) {
         const user = this.utilService.load(this.KEY)
-        console.log('user: ', user);
+        // console.log('user: ', user);
         user.labels = user.labels.filter((label: Label) => label.id !== id)
         this.utilService.save(this.KEY, user)
     }

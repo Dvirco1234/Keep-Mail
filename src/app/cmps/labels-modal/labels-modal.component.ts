@@ -64,7 +64,6 @@ export class LabelsModalComponent implements AfterViewInit {
     }
 
     saveLabel(label: Label) {
-        console.log('label: ', label);
         delete label.isEditable;
         delete label['mouseover'];
         this.userService.saveLabel(label);
