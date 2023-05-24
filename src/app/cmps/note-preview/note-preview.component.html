@@ -110,4 +110,5 @@
         [class.open]="isLabelsModalOpen"
         (onClose)="closeLabels()"
     ></labels-dropdown>
+    <input type="file" hidden accept="image/*" (change)="handleImage($event)" multiple="false" #fileInput>
 </div>

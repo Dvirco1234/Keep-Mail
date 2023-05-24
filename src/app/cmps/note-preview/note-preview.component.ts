@@ -14,6 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive';
+import { UploadService } from 'src/app/services/upload-service.service';
 // import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
 // import { ImgNoteComponent } from '../notes/img-note/img-note.component';
 // import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
@@ -32,8 +33,13 @@ import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-cen
 })
 export class NotePreviewComponent implements OnInit {
     // cmpType = TxtNoteComponent;
-    constructor(private utilService: UtilService, private router: Router) {}
+    constructor(
+        private utilService: UtilService,
+        private router: Router,
+        private uploadService: UploadService
+    ) {}
     @ViewChild('labelSpan') labelSpan!: ElementRef;
+    @ViewChild('fileInput') fileInput!: ElementRef;
 
     @Input() note!: any;
     @Input() isCurrNote!: boolean;
@@ -89,9 +95,9 @@ export class NotePreviewComponent implements OnInit {
         { type: 'edit', act: this.editNote.bind(this) },
         { type: 'label', act: this.openLabels.bind(this) },
         { type: 'palette', act: this.openPalette.bind(this) },
-        { type: 'image', act: this.uploadImg },
-        { type: 'archive', act: this.archiveNote },
-        { type: 'more-menu', act: this.toggleMenu },
+        { type: 'image', act: this.uploadImg.bind(this) },
+        { type: 'archive', act: this.archiveNote.bind(this) },
+        { type: 'more-menu', act: this.toggleMenu.bind(this) },
     ];
 
     // colors = [
@@ -197,7 +203,7 @@ export class NotePreviewComponent implements OnInit {
         this.isShown = false;
     }
     uploadImg() {
-        console.log('uploadImg: ');
+        this.fileInput.nativeElement.click();
     }
     archiveNote() {
         console.log('archiveNote: ');
@@ -236,6 +242,20 @@ export class NotePreviewComponent implements OnInit {
     //     }
     //     return false;
     // }
+    async handleImage(ev: any) {
+        const file = ev.target.files[0];
+        try {
+            const res = await this.uploadService.uploadImg(file);
+            this.updateNote('media', {
+                type: 'img',
+                url: res.url,
+            });
+
+            this.isDarkImg = await this.utilService.isDarkImg(res.url);
+        } catch (error) {
+            // console.error(error);
+        }
+    }
 
     async ngOnInit() {
         const { media } = this.note;
