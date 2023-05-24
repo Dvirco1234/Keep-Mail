@@ -9,6 +9,21 @@
         <img src="../../../assets/imgs/keep-brand.png" >
         <h2>Keep</h2>
     </div>
+    <form class="search-form flex align-center">
+        <div class="icon-ctr flex-center">
+            <svg-icon
+                [icon]="{ name: 'search', isLarge: false }"
+                class="svg-icon"
+            ></svg-icon>
+        </div>
+        <input type="text" placeholder="Search" [(ngModel)]="searchTerm" name="input" (input)="search()">
+        <div class="icon-ctr flex-center">
+            <svg-icon
+                [icon]="{ name: 'x', isLarge: false }"
+                class="svg-icon"
+            ></svg-icon>
+        </div>
+    </form>
     <nav>
         <a routerLink="/"></a>
     </nav>

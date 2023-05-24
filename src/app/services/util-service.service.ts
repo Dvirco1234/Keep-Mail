@@ -33,6 +33,20 @@ export class UtilService {
         return txt;
     }
 
+    public debounce(func: Function, wait = 500) {
+        let timeout: any
+      
+        return function (...args: any[]) {
+          const later = () => {
+            clearTimeout(timeout)
+            func(...args)
+          }
+      
+          clearTimeout(timeout)
+          timeout = setTimeout(later, wait)
+        }
+      }
+
     public isDarkImg(imageUrl: string): Promise<boolean> {
         // Create an image element
         return new Promise((resolve) => {

@@ -21,8 +21,11 @@ export class KeepAppComponent implements OnInit {
     labelId!: string;
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
+            // this.labelId = params['labelId'];
+            // this.keepService.loadNotes(this.labelId);
             this.labelId = params['labelId'];
-            this.keepService.loadNotes(this.labelId);
+            console.log('this.labelId: ', this.labelId);
+            this.keepService.setCurrLabelId(this.labelId);
         });
         // if(this.labelId) 
 

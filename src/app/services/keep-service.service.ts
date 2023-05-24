@@ -16,9 +16,12 @@ export class KeepService {
     private _notesDb: Note[] = this._createNotes();
     private _labelsDb: Note[] = this._createLabels();
 
+    public searchTerm: string = '';
+    public currLabelId: string = '';
+
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
-    
+
     private _labels$ = new BehaviorSubject<Label[]>([]);
     public labels$ = this._labels$.asObservable();
 
@@ -33,17 +36,18 @@ export class KeepService {
         private storageService: AsyncStorageService
     ) {}
 
-    public loadNotes(labelId: string | undefined = '') {
+    public loadNotes() {
         // const filterBy = this._filterBy$.getValue();
         let notes = this._notesDb;
-        console.log('labelId: ', labelId);
-        if (labelId) notes = notes.filter((note: Note) => note.labels?.some(l => l.id === labelId) || false);
-        console.log('notes: ', notes);
+        // console.log('labelId: ', this.currLabelId);
+        if (this.currLabelId)
+            notes = notes.filter(
+                (note: Note) =>
+                    note.labels?.some((l) => l.id === this.currLabelId) || false
+            );
         // console.log('notes: ', notes);
 
-        // if (filterBy && filterBy.term) {
-        //     notes = this._filter(notes, filterBy.term);
-        // }
+        if (this.searchTerm) notes = this._filter(notes, this.searchTerm);
         this._notes$.next(this._sort(notes as Note[]));
     }
     // public loadNotes() {
@@ -63,7 +67,7 @@ export class KeepService {
     }
 
     public setCurrNote(note: Note | null): void {
-        this._currNote$.next(note)
+        this._currNote$.next(note);
     }
 
     public getEmptyNote() {
@@ -90,6 +94,15 @@ export class KeepService {
         return note._id ? this._updateNote(note) : this._addNote(note);
     }
 
+    public setSearchFilter(term: string) {
+        this.searchTerm = term;
+        this.loadNotes()
+    }
+    public setCurrLabelId(labelId: string) {
+        this.currLabelId = labelId;
+        this.loadNotes()
+    }
+
     // public setFilterBy(filterBy: NoteFilter) {
     //     this._filterBy$.next(filterBy);
     //     this.loadNotes();
@@ -105,7 +118,9 @@ export class KeepService {
     //     this._notes$.next(this._sort(this._notesDb));
     // }
     public updateNote(note: Note) {
-        this._notesDb = this._notesDb.map((n) => note._id === n._id ? note : n);
+        this._notesDb = this._notesDb.map((n) =>
+            note._id === n._id ? note : n
+        );
         this._notes$.next(this._notesDb);
         this.utilService.save(this.NOTES_KEY, this._notesDb);
     }
@@ -113,7 +128,9 @@ export class KeepService {
     public updateNoteByKey(note: Note, key: string, value: any) {
         note[key] = value;
         console.log('note: ', note);
-        this._notesDb = this._notesDb.map((n) => note._id === n._id ? note : n);
+        this._notesDb = this._notesDb.map((n) =>
+            note._id === n._id ? note : n
+        );
         this.utilService.save(this.NOTES_KEY, this._notesDb);
     }
 
@@ -152,15 +169,32 @@ export class KeepService {
     }
 
     private _filter(notes: Note[], term: string) {
-        return notes;
-        //     term = term.toLocaleLowerCase();
-        //     return notes.filter((note) => {
-        //         return (
-        //             note.name.toLocaleLowerCase().includes(term) ||
-        //             note.phone.toLocaleLowerCase().includes(term) ||
-        //             note.email.toLocaleLowerCase().includes(term)
-        //         );
-        //     });
+        return notes.filter((note: Note) => {
+            const { title, txt, todos } = note.info;
+            const regex = new RegExp(term, 'i');
+            if (title) {
+                if (regex.test(title)) return true;
+            }
+            if (txt) {
+                if (regex.test(txt)) return true;
+            }
+            if (todos && todos.length) {
+                if (todos.some((todo) => regex.test(todo.txt))) return true;
+            }
+            return false;
+            // return (
+            //     (!title || regex.test(title)) ||
+            //     (!txt || regex.test(txt)) ||
+            //     (!todos || !todos.length || todos.some(todo => regex.test(todo.txt)))
+            //   )
+        });
+        // return notes.filter((note) => {
+        //     return (
+        //         note.name.toLocaleLowerCase().includes(term) ||
+        //         note.phone.toLocaleLowerCase().includes(term) ||
+        //         note.email.toLocaleLowerCase().includes(term)
+        //     );
+        // });
     }
 
     private _createNotes() {
@@ -386,7 +420,7 @@ export class KeepService {
             labels = [
                 {
                     name: 'Work',
-                    color: ''
+                    color: '',
                 },
             ];
         }
