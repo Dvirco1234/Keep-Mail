@@ -91,14 +91,25 @@ export class NotePreviewComponent implements OnInit {
     isLabelsModalOpen: boolean = false;
 
     // actIcons = ['edit','label', 'palette', 'image', 'archive', 'more-menu'];
-    actIcons = [
-        { type: 'edit', act: this.editNote.bind(this) },
-        { type: 'label', act: this.openLabels.bind(this) },
-        { type: 'palette', act: this.openPalette.bind(this) },
-        { type: 'image', act: this.uploadImg.bind(this) },
-        { type: 'archive', act: this.archiveNote.bind(this) },
-        { type: 'more-menu', act: this.toggleMenu.bind(this) },
-    ];
+    // actIcons = [
+    //     { type: 'edit', act: this.editNote.bind(this) },
+    //     { type: 'label', act: this.openLabels.bind(this) },
+    //     { type: 'palette', act: this.openPalette.bind(this) },
+    //     { type: 'image', act: this.uploadImg.bind(this) },
+    //     { type: 'archive', act: this.archiveNote.bind(this) },
+    //     { type: 'more-menu', act: this.toggleMenu.bind(this) },
+    // ];
+
+    get actIcons() {
+        return [
+            { type: 'edit', act: this.editNote.bind(this), title: 'Edit note' },
+            { type: 'label', act: this.openLabels.bind(this), title: 'Manage labels' },
+            { type: 'palette', act: this.openPalette.bind(this), title: 'Background options' },
+            { type: 'image', act: this.uploadImg.bind(this), title: 'Add image' },
+            { type: this.note.isArchived? 'unarchive' : 'archive', act: this.archiveNote.bind(this), title: this.note.isArchived? 'Unarchive' : 'Archive' },
+            { type: 'more-menu', act: this.toggleMenu.bind(this), title: 'More' },
+        ];
+    }
 
     // colors = [
     //     { name: 'Default', color: '' },
@@ -206,8 +217,7 @@ export class NotePreviewComponent implements OnInit {
         this.fileInput.nativeElement.click();
     }
     archiveNote() {
-        // if (this.note.isArchived)
-        this.updateNote('isArchived', !this.note.isArchived)
+        this.updateNote('isArchived', !this.note.isArchived);
     }
     toggleMenu() {
         console.log('toggleMenu: ');

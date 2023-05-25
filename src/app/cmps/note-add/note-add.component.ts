@@ -177,6 +177,10 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         this.note.labels = this.note.labels.filter((l: Label) => l.id !== id);
     }
 
+    archiveNote() {
+        this.note.isArchived = !this.note.isArchived
+    }
+
     async handleImage(ev: any) {
         const file = ev.target.files[0];
         try {
