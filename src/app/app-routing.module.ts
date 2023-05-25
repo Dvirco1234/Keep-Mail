@@ -6,9 +6,19 @@ import { NoteDetailsComponent } from './pages/note-details/note-details.componen
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
 import { NoteResolver } from './services/note.resolver';
 import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component'
+import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component'
+import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
 
 const routes: Routes = [
     // { path: 'keep/:id', component: NoteDetailsComponent },
+    {
+        path: 'keep/archive',
+        component: KeepAppComponent,
+    },
+    {
+        path: 'keep/trash',
+        component: KeepAppComponent,
+    },
     {
         path: 'keep',
         component: KeepAppComponent,
@@ -18,7 +28,11 @@ const routes: Routes = [
                 component: LabelsModalComponent,
             },
             // {
-            //     path: 'labels/:labelId',
+            //     path: 'archive',
+            //     component: KeepAppComponent,
+            // },
+            // {
+            //     path: 'trash',
             //     component: KeepAppComponent,
             // },
             {

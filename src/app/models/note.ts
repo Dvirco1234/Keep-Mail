@@ -38,6 +38,8 @@ export interface Note {
         color?: string;
     }>;
     style: { backgroundColor: string, backgroundImg?: string };
+    deletedAt?: number | Date;
+    isArchived?: boolean;
     [key: string]: any; // Index signature
 }
 export interface NoteInt {

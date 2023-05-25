@@ -30,7 +30,7 @@
 </section> -->
 <section class="note-list" [responsiveColumns]="240" >
     <div class="no-notes flex-center"  *ngIf="!notes?.length; else noteList">
-        <h1>No notes with this label yet</h1>
+        <h1>{{isSearch? 'No notes found': 'No notes with this label yet'}}</h1>
         <!-- No notes with this label yet -->
     </div>
     <ng-template #noteList>

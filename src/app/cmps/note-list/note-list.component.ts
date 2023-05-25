@@ -12,6 +12,7 @@ import {
 import { NgxMasonryOptions, NgxMasonryComponent } from 'ngx-masonry';
 import { ResponsiveColumnsDirective } from 'src/app/directives/responsive-columns.directive'
 import { Note } from 'src/app/models';
+import { KeepService } from 'src/app/services/keep-service.service'
 
 @Component({
     selector: 'note-list',
@@ -26,7 +27,7 @@ export class NoteListComponent implements OnInit {
     
     // @ViewChild('parentElement') parentElementRef!: ElementRef;
 
-    constructor() {}
+    constructor(private keepService: KeepService) {}
     @Output() onUpdateNote = new EventEmitter<{ note: Note, key: string, value: any }>();
     
     updateLayout(): void {
@@ -58,6 +59,10 @@ export class NoteListComponent implements OnInit {
     //         // console.log(changes['notes'].currentValue);
     //     }
     // }
+    
+    get isSearch(): boolean {
+        return this.keepService.searchTerm? true : false;
+    }
 
     get notess(): Note[] {
         return this.notes

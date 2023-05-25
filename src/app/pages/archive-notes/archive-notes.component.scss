@@ -1,0 +1,17 @@
+.keep-app {
+    height: 100vh;
+    width: 100%;
+
+    .main-note-app {
+        position: relative;
+        width: 100%;
+        padding: 0 17px;
+        overflow-y: auto;
+        overflow-x: visible;
+        padding-inline: 80px;
+    }
+
+    .note-list {
+        max-width: 80%;
+    }
+}

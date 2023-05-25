@@ -18,6 +18,8 @@ export class KeepService {
 
     public searchTerm: string = '';
     public currLabelId: string = '';
+    public isArchivedFilter: boolean = false;
+    public isTrashNotes: boolean = false;
 
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
@@ -47,7 +49,8 @@ export class KeepService {
             );
         // console.log('notes: ', notes);
 
-        if (this.searchTerm) notes = this._filter(notes, this.searchTerm);
+        // if (this.searchTerm || this.isArchivedFilter) notes = this._filter(notes, this.searchTerm);
+        notes = this._filter(notes, this.searchTerm);
         this._notes$.next(this._sort(notes as Note[]));
     }
     // public loadNotes() {
@@ -102,6 +105,13 @@ export class KeepService {
         this.currLabelId = labelId;
         this.loadNotes()
     }
+    public setArchiveTrashRoute(route: string) {
+        // let notes = this._notesDb;
+        // if (route === 'archive') this._notes$.next(notes.filter(note => note.isArchived));
+        // else if (route === 'trash') this._notes$.next(notes.filter(note => note.deletedAt));
+        this.isArchivedFilter = route === 'archive'
+        this.loadNotes()
+    }
 
     // public setFilterBy(filterBy: NoteFilter) {
     //     this._filterBy$.next(filterBy);
@@ -132,6 +142,7 @@ export class KeepService {
             note._id === n._id ? note : n
         );
         this.utilService.save(this.NOTES_KEY, this._notesDb);
+        this.loadNotes() 
     }
 
     private _updateNote(note: Note) {
@@ -170,6 +181,8 @@ export class KeepService {
 
     private _filter(notes: Note[], term: string) {
         return notes.filter((note: Note) => {
+            if (this.isArchivedFilter) return note.isArchived
+            else if (!this.isArchivedFilter && note.isArchived) return false
             const { title, txt, todos } = note.info;
             const regex = new RegExp(term, 'i');
             if (title) {

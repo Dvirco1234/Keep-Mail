@@ -206,7 +206,8 @@ export class NotePreviewComponent implements OnInit {
         this.fileInput.nativeElement.click();
     }
     archiveNote() {
-        console.log('archiveNote: ');
+        // if (this.note.isArchived)
+        this.updateNote('isArchived', !this.note.isArchived)
     }
     toggleMenu() {
         console.log('toggleMenu: ');

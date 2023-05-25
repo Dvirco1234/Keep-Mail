@@ -19,14 +19,27 @@ export class KeepAppComponent implements OnInit {
     currNote$!: Observable<Note | null>;
     currEditedNote: Note | null = null;
     labelId!: string;
+
+    isArchiveRoute!: boolean;
+    isTrashRoute!: boolean;
+
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
-            // this.labelId = params['labelId'];
-            // this.keepService.loadNotes(this.labelId);
             this.labelId = params['labelId'];
             this.keepService.setCurrLabelId(this.labelId);
         });
-        // if(this.labelId) 
+        // this.route.firstChild?.paramMap.subscribe(params => {
+        //     const childSegment = params.get('childSegment');
+        //     console.log('childSegment: ', childSegment);
+        //   });
+        this.route.url.subscribe((segments) => {
+            const currentRoute = segments[segments.length - 1].path;
+            console.log('currentRoute: ', currentRoute);
+            this.keepService.setArchiveTrashRoute(currentRoute);
+
+            this.isArchiveRoute = currentRoute === 'archive';
+            this.isTrashRoute = currentRoute === 'trash';
+        });
 
         this.notes$ = this.keepService.notes$;
         this.currNote$ = this.keepService.currNote$;

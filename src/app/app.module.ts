@@ -28,7 +28,9 @@ import { ResponsiveColumnsDirective } from './directives/responsive-columns.dire
 import { HttpClientModule } from '@angular/common/http';
 import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component';
 import { PalleteModalComponent } from './cmps/pallete-modal/pallete-modal.component';
-import { LabelsDropdownComponent } from './cmps/labels-dropdown/labels-dropdown.component'
+import { LabelsDropdownComponent } from './cmps/labels-dropdown/labels-dropdown.component';
+import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component';
+import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
 
 @NgModule({
     declarations: [
@@ -54,6 +56,8 @@ import { LabelsDropdownComponent } from './cmps/labels-dropdown/labels-dropdown.
         LabelsModalComponent,
         PalleteModalComponent,
         LabelsDropdownComponent,
+        ArchiveNotesComponent,
+        TrashNotesComponent,
     ],
     imports: [
         BrowserModule,
