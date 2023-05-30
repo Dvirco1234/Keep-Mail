@@ -112,10 +112,15 @@ export class NotePreviewComponent implements OnInit {
                 title: this.note.isArchived ? 'Unarchive' : 'Archive',
             },
             {
-                type: 'more-menu',
-                act: this.toggleMenu.bind(this),
-                title: 'More',
+                type: 'trash',
+                act: this.removeNote.bind(this),
+                title: 'Remove note',
             },
+            // {
+            //     type: 'more-menu',
+            //     act: this.toggleMenu.bind(this),
+            //     title: 'More',
+            // },
         ];
     }
 
@@ -155,8 +160,8 @@ export class NotePreviewComponent implements OnInit {
     archiveNote() {
         this.updateNote('isArchived', !this.note.isArchived);
     }
-    toggleMenu() {
-        console.log('toggleMenu: ');
+    removeNote() {
+        this.keepService.removeNote(this.note._id)
     }
     pickBg(color: string, key: string) {
         // const style = color.length < 10 && color.length ? {...this.note.style, backgroundColor: color} : {...this.note.style, backgroundImg: color}
