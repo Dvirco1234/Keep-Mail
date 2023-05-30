@@ -116,22 +116,20 @@ export class KeepService {
     }
     public setCurrLabelId(labelId: string) {
         this.currLabelId = labelId;
-        if (!this.currLabelId)
-            return this._notes$.next(this._filter(this._notesDb));
-        const notes = this._notesDb.filter(
-            (note: Note) =>
-                note.labels?.some((l) => l.id === this.currLabelId) || false
-        );
+        console.log('this.currLabelId: ', this.currLabelId);
+        if (!this.currLabelId) return this._notes$.next(this._filter(this._notesDb));
+        const notes = this._notesDb.filter((note: Note) => note.labels?.some((l) => l.id === this.currLabelId));
+        console.log('notes: ', notes);
+        console.log('this._filter(notes): ', this._filter(notes));
         this._notes$.next(this._filter(notes));
     }
     public setCurrRoute(route: string) {
-        // let notes = this._notesDb;
-        // if (route === 'archive') this._notes$.next(notes.filter(note => note.isArchived));
-        // else if (route === 'trash') this._notes$.next(notes.filter(note => note.deletedAt));
-        this.currRoute = route;
-        this.isArchivedFilter = route === 'archive';
-        const notes = this._filter(this._notesDb);
-        this._notes$.next(notes);
+        if (route === 'keep' || route === 'archive' || route === 'trash') {
+            this.currRoute = route;
+            this.isArchivedFilter = route === 'archive';
+            const notes = this._filter(this._notesDb);
+            this._notes$.next(notes);
+        }
     }
 
     public async updateNote(note: Note) {

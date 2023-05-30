@@ -65,12 +65,6 @@ export class NoteListComponent implements OnInit {
         return this.keepService.searchTerm? true : false;
     }
 
-    get notess(): Note[] {
-        return this.notes
-            ? this.notes.filter((note) => note.type === 'note-txt')
-            : [];
-    }
-
     get pinnedNotes(): Note[] {
         return this.notes ? this.notes.filter((note) => note.isPinned) : [];
     }
