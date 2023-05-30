@@ -11,10 +11,11 @@ import { Label, Note } from 'src/app/models';
 import { UtilService } from 'src/app/services/util-service.service';
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, lastValueFrom } from 'rxjs';
 import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive';
 import { UploadService } from 'src/app/services/upload-service.service';
+import { KeepService } from 'src/app/services/keep-service.service';
 // import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
 // import { ImgNoteComponent } from '../notes/img-note/img-note.component';
 // import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
@@ -36,7 +37,8 @@ export class NotePreviewComponent implements OnInit {
     constructor(
         private utilService: UtilService,
         private router: Router,
-        private uploadService: UploadService
+        private uploadService: UploadService,
+        private keepService: KeepService
     ) {}
     @ViewChild('labelSpan') labelSpan!: ElementRef;
     @ViewChild('fileInput') fileInput!: ElementRef;
@@ -81,107 +83,41 @@ export class NotePreviewComponent implements OnInit {
         return { background };
     }
 
-    // get moveToCenter() {
-
-    // }
-
     isDarkImg: boolean = false;
     isShown: boolean = false;
     isPaletteOpen: boolean = false;
     isLabelsModalOpen: boolean = false;
 
-    // actIcons = ['edit','label', 'palette', 'image', 'archive', 'more-menu'];
-    // actIcons = [
-    //     { type: 'edit', act: this.editNote.bind(this) },
-    //     { type: 'label', act: this.openLabels.bind(this) },
-    //     { type: 'palette', act: this.openPalette.bind(this) },
-    //     { type: 'image', act: this.uploadImg.bind(this) },
-    //     { type: 'archive', act: this.archiveNote.bind(this) },
-    //     { type: 'more-menu', act: this.toggleMenu.bind(this) },
-    // ];
-
     get actIcons() {
         return [
             { type: 'edit', act: this.editNote.bind(this), title: 'Edit note' },
-            { type: 'label', act: this.openLabels.bind(this), title: 'Manage labels' },
-            { type: 'palette', act: this.openPalette.bind(this), title: 'Background options' },
-            { type: 'image', act: this.uploadImg.bind(this), title: 'Add image' },
-            { type: this.note.isArchived? 'unarchive' : 'archive', act: this.archiveNote.bind(this), title: this.note.isArchived? 'Unarchive' : 'Archive' },
-            { type: 'more-menu', act: this.toggleMenu.bind(this), title: 'More' },
+            {
+                type: 'label',
+                act: this.openLabels.bind(this),
+                title: 'Manage labels',
+            },
+            {
+                type: 'palette',
+                act: this.openPalette.bind(this),
+                title: 'Background options',
+            },
+            {
+                type: 'image',
+                act: this.uploadImg.bind(this),
+                title: 'Add image',
+            },
+            {
+                type: this.note.isArchived ? 'unarchive' : 'archive',
+                act: this.archiveNote.bind(this),
+                title: this.note.isArchived ? 'Unarchive' : 'Archive',
+            },
+            {
+                type: 'more-menu',
+                act: this.toggleMenu.bind(this),
+                title: 'More',
+            },
         ];
     }
-
-    // colors = [
-    //     { name: 'Default', color: '' },
-    //     { name: 'Red', color: '#f28b82' },
-    //     { name: 'Orange', color: '#fbbc04' },
-    //     { name: 'Yellow', color: '#fff475' },
-    //     { name: 'Green', color: '#ccff90' },
-    //     { name: 'Teal', color: '#a7ffeb' },
-    //     { name: 'Blue', color: '#cbf0f8' },
-    //     { name: 'Dark blue', color: '#aecbfa' },
-    //     { name: 'Purple', color: '#d7aefb' },
-    //     { name: 'Pink', color: '#fdcfe8' },
-    //     { name: 'Brown', color: '#e6c9a8' },
-    //     { name: 'Gray', color: '#e8eaed' },
-    // ];
-    // images = [
-    //     { name: 'Default', url: '' },
-    //     {
-    //         name: 'Groceries',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/grocery_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/grocery_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Food',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/food_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/food_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Music',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/music_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/music_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Recipes',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/recipe_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/recipe_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Notes',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/notes_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/notes_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Places',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/places_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/places_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Travel',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/travel_light_0614.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/travel_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Video',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/video_light_0609.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/video_light_thumb_0615.svg',
-    //     },
-    //     {
-    //         name: 'Celebration',
-    //         url: 'https://www.gstatic.com/keep/backgrounds/celebration_light_0714.svg',
-    //         smallUrl:
-    //             'https://www.gstatic.com/keep/backgrounds/celebration_light_thumb_0715.svg',
-    //     },
-    // ];
 
     editNote() {
         this.router.navigateByUrl(`/keep/${this.note._id}`);
@@ -229,8 +165,19 @@ export class NotePreviewComponent implements OnInit {
         this.updateNote('style', style);
     }
 
-    updateNote(key: string, value: any) {
-        this.onUpdateNote.emit({ note: this.note, key, value });
+    // updateNote(key: string, value: any) {
+    //     this.onUpdateNote.emit({ note: this.note, key, value });
+    // }
+    async updateNote(key: string, value: any) {
+        try {
+            const updatedNote = await lastValueFrom(
+                this.keepService.updateNoteByKey(this.note, key, value)
+            );
+            console.log('updatedNote: ', updatedNote);
+            this.note = updatedNote;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     removeLabel(id: string, ev: Event) {
