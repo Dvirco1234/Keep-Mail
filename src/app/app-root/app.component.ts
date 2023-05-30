@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { KeepService } from '../services/keep-service.service';
 
 @Component({
     selector: 'app-root',
@@ -7,6 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     title = 'Keep-Mail';
+
+    constructor(private keepService: KeepService) {}
+
+    ngOnInit(): void {
+        this.keepService.loadNotes();
+    }
 }
 //TODO - connect observable
 //TODO - learn classes

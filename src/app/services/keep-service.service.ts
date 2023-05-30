@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import {
+    BehaviorSubject,
+    Observable,
+    lastValueFrom,
+    of,
+    throwError,
+} from 'rxjs';
 import { Label, Note } from '../models';
 import { AsyncStorageService } from './async-storage-service.service';
 import { UtilService } from './util-service.service';
@@ -18,7 +24,7 @@ const BASE_URL =
 export class KeepService {
     private NOTES_KEY: string = 'notesDB';
     private LABELS_KEY: string = 'labelsDB';
-    private _notesDb: Note[] = this._createNotes();
+    private _notesDb: Note[] = [];
 
     public searchTerm: string = '';
     public currLabelId: string = '';
@@ -35,10 +41,7 @@ export class KeepService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
 
-    constructor(
-        private utilService: UtilService,
-        private http: HttpClient
-    ) {}
+    constructor(private utilService: UtilService, private http: HttpClient) {}
 
     public loadNotes(): void {
         const params = {
@@ -46,13 +49,29 @@ export class KeepService {
             searchTerm: this.searchTerm,
             archiveOnly: this.isArchivedFilter,
         };
-
+        console.log('here');
+        
         this.http.get(`${BASE_URL}note`, { params }).subscribe(
             (notes) => {
-                console.log('notes: ', notes);
-                const filteredNotes = this._filter(notes as Note[], this.searchTerm);
-                const sortedNotes = this._sort(filteredNotes as Note[]);
-                this._notes$.next(sortedNotes);
+                this._notesDb = notes as Note[];
+                let filteredNotes = this._notesDb;
+                if (this.currLabelId) {
+                    filteredNotes = this._notesDb.filter(
+                        (note: Note) =>
+                            note.labels?.some(
+                                (l) => l.id === this.currLabelId
+                            ) || false
+                    );
+                }
+                if (this.isArchivedFilter) {
+                    filteredNotes = this._filter(this._notesDb, this.searchTerm);
+                }
+                // this._notesDb = this._filter(
+                //     this._notesDb as Note[],
+                //     this.searchTerm
+                // );
+                // this._notesDb = this._sort(this._notesDb as Note[]);
+                this._notes$.next(filteredNotes);
             },
             (error) => {
                 console.error(error);
@@ -64,7 +83,7 @@ export class KeepService {
     public getNoteById(id: number): Observable<Note> {
         const url = `${BASE_URL}note/${id}`;
         return this.http.get<Note>(url);
-  }
+    }
 
     public deleteNote(id: string) {
         //mock the server work
@@ -80,53 +99,86 @@ export class KeepService {
 
     public setSearchFilter(term: string) {
         this.searchTerm = term;
-        this.loadNotes();
+        const notes = this._filter(this._notesDb, term);
+        this._notes$.next(notes);
     }
     public setCurrLabelId(labelId: string) {
         this.currLabelId = labelId;
-        this.loadNotes();
+        if (!this.currLabelId) return this._notes$.next(this._notesDb);
+        const notes = this._notesDb.filter(
+            (note: Note) =>
+                note.labels?.some((l) => l.id === this.currLabelId) || false
+        );
+        this._notes$.next(notes);
     }
     public setArchiveTrashRoute(route: string) {
         // let notes = this._notesDb;
         // if (route === 'archive') this._notes$.next(notes.filter(note => note.isArchived));
         // else if (route === 'trash') this._notes$.next(notes.filter(note => note.deletedAt));
         this.isArchivedFilter = route === 'archive';
-        this.loadNotes();
+        if (this.isArchivedFilter) {
+            const notes = this._filter(this._notesDb, this.searchTerm);
+            this._notes$.next(notes);
+        }
     }
 
-    public updateNote(note: Note) {
+    public async updateNote(note: Note) {
         const url = `${BASE_URL}note/${note._id}`;
-        return this.http.put<any>(url, note)
+        try {
+            const updatedNote = await lastValueFrom(
+                this.http.put<any>(url, note)
+            );
+            this._notesDb = this._notesDb.map((n) =>
+                updatedNote._id === n._id ? updatedNote : n
+            );
+            this._notes$.next(this._notesDb);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    public updateNoteByKey(note: Note, key: string, value: any) {
+    public async updateNoteByKey(note: Note, key: string, value: any) {
         const url = `${BASE_URL}note/by-key/${note._id}`;
-        return this.http.put<any>(url, { key, value })
+        try {
+            const updatedNote = await lastValueFrom(
+                this.http.put<any>(url, { key, value })
+            );
+            this._notesDb = this._notesDb.map((n) =>
+                updatedNote._id === n._id ? updatedNote : n
+            );
+            this._notes$.next(this._notesDb);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    // private _updateNote(note: Note) {
-    //     this._notesDb = this._notesDb.map((n) =>
-    //         note._id === n._id ? note : n
-    //     );
-    //     this.utilService.save(this.NOTES_KEY, this._notesDb);
-    //     this.loadNotes();
-    // }
-
-    private _updateNote(note: Note) {
+    private async _updateNote(note: Note) {
         const url = `${BASE_URL}note/${note._id}`;
-        this.http.put<any>(url, note).subscribe((res) => { 
-            console.log('res: ', res);
-            this.loadNotes()
-        })
-      }
+        try {
+            const updatedNote = await lastValueFrom(
+                this.http.put<any>(url, note)
+            );
+            this._notesDb = this._notesDb.map((n) =>
+                updatedNote._id === n._id ? updatedNote : n
+            );
+            this._notes$.next(this._notesDb);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-    private _addNote(note: Note) {
-        // const newNote = new Note(note.type, note.info);
-        // if (typeof newNote.setId === 'function') newNote.setId(getRandomId());
-        note._id = getRandomId();
-        this._notesDb.unshift(note);
-        this.utilService.save(this.NOTES_KEY, this._notesDb);
-        this.loadNotes();
+    private async _addNote(note: Note) {
+        const url = `${BASE_URL}note`;
+        try {
+            const addedNote = await lastValueFrom(
+                this.http.post<any>(url, note)
+            );
+            console.log('addedNote: ', addedNote);
+            this._notesDb.unshift(addedNote);
+            this._notes$.next(this._notesDb);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     public setCurrNote(note: Note | null): void {

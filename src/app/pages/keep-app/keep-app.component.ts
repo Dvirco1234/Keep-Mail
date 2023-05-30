@@ -40,7 +40,7 @@ export class KeepAppComponent implements OnInit {
             this.isArchiveRoute = currentRoute === 'archive';
             this.isTrashRoute = currentRoute === 'trash';
         });
-
+        
         this.notes$ = this.keepService.notes$;
         this.currNote$ = this.keepService.currNote$;
         // console.log('this.notes$: ', this.notes$);

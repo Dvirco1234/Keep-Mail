@@ -165,20 +165,20 @@ export class NotePreviewComponent implements OnInit {
         this.updateNote('style', style);
     }
 
-    // updateNote(key: string, value: any) {
-    //     this.onUpdateNote.emit({ note: this.note, key, value });
-    // }
-    async updateNote(key: string, value: any) {
-        try {
-            const updatedNote = await lastValueFrom(
-                this.keepService.updateNoteByKey(this.note, key, value)
-            );
-            console.log('updatedNote: ', updatedNote);
-            this.note = updatedNote;
-        } catch (error) {
-            console.error(error);
-        }
+    updateNote(key: string, value: any) {
+        this.onUpdateNote.emit({ note: this.note, key, value });
     }
+    // async updateNote(key: string, value: any) {
+    //     try {
+    //         const updatedNote = await lastValueFrom(
+    //             this.keepService.updateNoteByKey(this.note, key, value)
+    //         );
+    //         console.log('updatedNote: ', updatedNote);
+    //         this.note = updatedNote;
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     removeLabel(id: string, ev: Event) {
         ev.stopPropagation();
