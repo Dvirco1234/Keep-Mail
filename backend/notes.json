@@ -1,0 +1,123 @@
+[
+    {
+        "type": "txt",
+        "info": { "title": "", "txt": "עכי" },
+        "media": null,
+        "isPinned": false,
+        "labels": [],
+        "style": { "backgroundColor": "", "backgroundImg": "" }
+    },
+    {
+        "type": "txt",
+        "info": { "title": "", "txt": "" },
+        "media": { "type": "img", "url": "http://res.cloudinary.com/dvirco123/image/upload/v1684940100/123_jkjqsf.png" },
+        "isPinned": false,
+        "labels": [{ "name": "Ideas", "id": "l102", "isChecked": false }],
+        "style": { "backgroundColor": "", "backgroundImg": "" }
+    },
+    {
+        "type": "txt",
+        "info": { "title": "", "txt": "fgh" },
+        "media": null,
+        "isPinned": false,
+        "labels": [{ "name": "Movies", "id": "l103", "isChecked": false }],
+        "style": { "backgroundColor": "", "backgroundImg": "" }
+    },
+    {
+        "type": "txt",
+        "info": {
+            "title": "Movies ",
+            "txt": "Here i should insert movies ideas, \nbut maybe it is a better idea to use checklist note for that"
+        },
+        "media": { "type": "img", "url": "http://res.cloudinary.com/dvirco123/image/upload/v1684840023/signup_ujwobs.png" },
+        "isPinned": false,
+        "labels": [{ "name": "Movies", "id": "l103", "isChecked": false }],
+        "style": { "backgroundColor": "", "backgroundImg": "" }
+    },
+    {
+        "type": "txt",
+        "isPinned": true,
+        "media": null,
+        "info": { "title": "Hi there", "txt": "Make me rich! 🙏" },
+        "style": { "backgroundColor": "#cbf0f8", "backgroundImg": "https://www.gstatic.com/keep/backgrounds/notes_light_0609.svg" },
+        "labels": [{ "name": "Work", "id": "l101", "isChecked": false }],
+        "isArchived": false
+    },
+    {
+        "type": "todos",
+        "isPinned": true,
+        "media": null,
+        "info": {
+            "title": "Win sprint 3",
+            "todos": [
+                { "id": "1", "txt": "Avoid shit in the code", "isDone": false, "doneAt": null },
+                { "id": "2", "txt": "Resolve food from wolt", "isDone": true, "doneAt": 187111111 },
+                { "id": "3", "txt": "Catch brain errors", "isDone": false, "doneAt": 187111111 },
+                { "id": "4", "txt": "Remember to shower", "isDone": true, "doneAt": 187111111 }
+            ]
+        },
+        "style": { "backgroundColor": "#aecbfa", "backgroundImg": "" },
+        "labels": [{ "name": "Work", "id": "l101", "isChecked": false }]
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": { "type": "img", "url": "http://res.cloudinary.com/dvirco123/image/upload/v1685443927/sax_2_pzl40q.png" },
+        "info": { "title": "Satruday evening", "txt": "hello there" },
+        "style": { "backgroundColor": "", "backgroundImg": "https://www.gstatic.com/keep/backgrounds/grocery_light_0609.svg" }
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": { "type": "audio", "url": "assets/audio/forest-lullaby.mp3" },
+        "info": { "txt": "", "title": "Relaxing Music" },
+        "style": { "backgroundColor": "#f28b82", "backgroundImg": "" },
+        "labels": [{ "id": "l101", "name": "Work", "color": "#e03131" }]
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": { "type": "img", "url": "https://res.cloudinary.com/dvirco123/image/upload/v1658095564/sax_2_afhafq.png" },
+        "info": { "txt": "", "title": "" },
+        "style": { "backgroundColor": "#ff922b" },
+        "labels": []
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": null,
+        "info": { "title": "Check out the paintbrush", "txt": "I owned the canvas" },
+        "style": { "backgroundColor": "#e8eaed", "backgroundImg": "" },
+        "labels": [{ "id": "l101", "name": "Work", "color": "#e03131" }]
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": { "type": "img", "url": "https://res.cloudinary.com/dvirco123/image/upload/v1669330155/8_nydchf.jpg" },
+        "info": { "txt": "", "title": "Waiting....." },
+        "style": { "backgroundColor": "", "backgroundImg": "" }
+    },
+    {
+        "type": "todos",
+        "isPinned": false,
+        "media": null,
+        "info": {
+            "title": "What's next...",
+            "todos": [
+                { "id": "1", "txt": "Improve my CV", "isDone": false, "doneAt": null },
+                { "id": "2", "txt": "Improve my Github profile", "isDone": true, "doneAt": null },
+                { "id": "3", "txt": "Remember we can walk", "isDone": false, "doneAt": 187111111 }
+            ]
+        },
+        "style": { "backgroundColor": "#d7aefb", "backgroundImg": "https://www.gstatic.com/keep/backgrounds/travel_light_0614.svg" },
+        "labels": [{ "name": "Work", "id": "l101", "isChecked": false }]
+    },
+    {
+        "type": "txt",
+        "isPinned": false,
+        "media": null,
+        "info": { "title": "", "txt": "" },
+        "style": { "backgroundColor": "#f06595" },
+        "labels": []
+    }
+]
