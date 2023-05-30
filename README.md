@@ -10,15 +10,13 @@ A live demo of the application can be found [HERE](https://your-username.github.
 ![Screenshot 2](/screenshots/screenshot2.png) -->
 
 ## Features:
-- **Note Creation**: Create new notes with titles, content (text or todos) and madia.
-- **Note Editing**: Edit existing notes.
-- **Note Deletion**: Delete unwanted notes.
+- **Notes CRUDL**: Create new notes with titles, content (text or todos) and madia, edit and delete.
+- **Note Searching**: Users can search for specific notes based on titles or content (include todos).
 - **Note organization**: Users can assign different colors to their notes, Pin important notes and add label for better organization.
 - **Note Archiving**: Archive notes to keep them hidden from the main view.
-- **Note Searching**: Users can search for specific notes based on titles or content (include todos).
 
 ## Technologies Used:
-- **Frontend**: Angular, HTML, CSS, TypeScript, Bootstrap
+- **Frontend**: Angular, HTML5, SCSS, TypeScript
 - **Backend**: Node.js, Express
 
 <!-- ## Technologies Used:
