@@ -1,46 +1,21 @@
-<!-- <section class="note-list">
-    <ngx-masonry
-        [options]="masonryOptions"
-        [ordered]="true"
-        style="margin: 70px 0; min-width: 500px"
-    >
-        <h3 class="notes-sep">PINNED</h3>
-        <note-preview
-            ngxMasonryItem
-            class="masonry-item"
-            *ngFor="let note of pinnedNotes; trackBy: trackByFn"
-            [note]="note"
-            (onUpdateNote)="onUpdateNote.emit($event)"
-        ></note-preview>
-    </ngx-masonry>
-    <ngx-masonry
-        [options]="masonryOptions"
-        style="margin: 70px 0; min-width: 500px"
-        [ordered]="true"
-    >
-        <h3 class="notes-sep">OTHERS</h3>
-        <note-preview
-            ngxMasonryItem
-            class="masonry-item"
-            *ngFor="let note of unpinnedNotes"
-            [note]="note"
-            (onUpdateNote)="onUpdateNote.emit($event)"
-        ></note-preview>
-    </ngx-masonry>
-</section> -->
 <section class="note-list" [responsiveColumns]="240" >
     <div class="no-notes flex-center"  *ngIf="!notes?.length; else noteList">
         <h1>{{isSearch? 'No notes found': 'No notes with this label yet'}}</h1>
         <!-- No notes with this label yet -->
     </div>
     <ng-template #noteList>
-        <ul class="list-section">
-            <h3 class="notes-sep">PINNED</h3>
-            <note-preview *ngFor="let note of pinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
+        <ul class="list-section" *ngIf="currRoute !== 'keep'; else mainPage">
+            <note-preview  *ngFor="let note of notes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
         </ul>
-        <ul class="list-section">
-            <h3 class="notes-sep">OTHERS</h3>
-            <note-preview *ngFor="let note of unpinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
-        </ul>
+        <ng-template #mainPage>
+            <ul class="list-section">
+                <h3 class="notes-sep">PINNED</h3>
+                <note-preview *ngFor="let note of pinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
+            </ul>
+            <ul class="list-section">
+                <h3 class="notes-sep">OTHERS</h3>
+                <note-preview *ngFor="let note of unpinnedNotes" [note]="note" [isCurrNote]="note._id === currNote?._id" (onUpdateNote)="onUpdateNote.emit($event)"></note-preview>
+            </ul>
+        </ng-template>
     </ng-template>
 </section>

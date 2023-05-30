@@ -48,6 +48,7 @@ export class NoteListComponent implements OnInit {
 
     @Input() notes!: Note[] | null;
     @Input() currNote!: Note | null;
+    @Input() currRoute!: string;
 
     // ngOnChanges(changes: SimpleChanges): void {
     //     // Check if the "myProperty" input has changed

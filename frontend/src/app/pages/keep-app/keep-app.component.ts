@@ -19,6 +19,7 @@ export class KeepAppComponent implements OnInit {
     currNote$!: Observable<Note | null>;
     currEditedNote: Note | null = null;
     labelId!: string;
+    currRoute: string = '';
 
     isArchiveRoute!: boolean;
     isTrashRoute!: boolean;
@@ -34,8 +35,8 @@ export class KeepAppComponent implements OnInit {
         //   });
         this.route.url.subscribe((segments) => {
             const currentRoute = segments[segments.length - 1].path;
-            console.log('currentRoute: ', currentRoute);
-            this.keepService.setArchiveTrashRoute(currentRoute);
+            this.currRoute = currentRoute;
+            this.keepService.setCurrRoute(currentRoute);
 
             this.isArchiveRoute = currentRoute === 'archive';
             this.isTrashRoute = currentRoute === 'trash';

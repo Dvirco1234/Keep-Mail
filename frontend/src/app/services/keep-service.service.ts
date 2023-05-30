@@ -28,6 +28,7 @@ export class KeepService {
 
     public searchTerm: string = '';
     public currLabelId: string = '';
+    public currRoute: string = '';
     public isArchivedFilter: boolean = false;
     public isTrashNotes: boolean = false;
 
@@ -41,7 +42,9 @@ export class KeepService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     httpStringHeader = {
-        headers: new HttpHeaders({ 'Content-Type': 'text/plain; charset=utf-8'}),
+        headers: new HttpHeaders({
+            'Content-Type': 'text/plain; charset=utf-8',
+        }),
     };
 
     constructor(private utilService: UtilService, private http: HttpClient) {}
@@ -90,8 +93,12 @@ export class KeepService {
     public async removeNote(id: string) {
         const url = `${BASE_URL}note/${id}`;
         try {
-            const res = await lastValueFrom(this.http.delete(url));
-            this._notesDb = this._notesDb.filter((note) => note._id !== id);
+            const res = await lastValueFrom(
+                this.http.delete<{ removedId: string }>(url)
+            );
+            this._notesDb = this._notesDb.filter(
+                (note) => note._id !== res.removedId
+            );
             this._notes$.next(this._filter(this._notesDb));
         } catch (error) {
             console.error(error);
@@ -109,22 +116,22 @@ export class KeepService {
     }
     public setCurrLabelId(labelId: string) {
         this.currLabelId = labelId;
-        if (!this.currLabelId) return this._notes$.next(this._filter(this._notesDb));
+        if (!this.currLabelId)
+            return this._notes$.next(this._filter(this._notesDb));
         const notes = this._notesDb.filter(
             (note: Note) =>
                 note.labels?.some((l) => l.id === this.currLabelId) || false
         );
         this._notes$.next(this._filter(notes));
     }
-    public setArchiveTrashRoute(route: string) {
+    public setCurrRoute(route: string) {
         // let notes = this._notesDb;
         // if (route === 'archive') this._notes$.next(notes.filter(note => note.isArchived));
         // else if (route === 'trash') this._notes$.next(notes.filter(note => note.deletedAt));
+        this.currRoute = route;
         this.isArchivedFilter = route === 'archive';
-        if (this.isArchivedFilter) {
-            const notes = this._filter(this._notesDb);
-            this._notes$.next(notes);
-        }
+        const notes = this._filter(this._notesDb);
+        this._notes$.next(notes);
     }
 
     public async updateNote(note: Note) {
@@ -216,7 +223,7 @@ export class KeepService {
     }
 
     private _filter(notes: Note[]) {
-        const term = this.searchTerm
+        const term = this.searchTerm;
         return notes.filter((note: Note) => {
             if (this.isArchivedFilter) return note.isArchived;
             else if (!this.isArchivedFilter && note.isArchived) return false;

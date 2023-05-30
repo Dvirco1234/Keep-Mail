@@ -2,7 +2,7 @@
     <side-nav-filter></side-nav-filter>
     <main class="main-note-app">
         <note-add *ngIf="!isTrashRoute && !isArchiveRoute"></note-add>
-        <note-list class="note-list" [notes]="notes$ | async" [currNote]="currNote$ | async" (onUpdateNote)="updateNote($event)"></note-list>
+        <note-list class="note-list" [notes]="notes$ | async" [currNote]="currNote$ | async" (onUpdateNote)="updateNote($event)" [currRoute]="currRoute"></note-list>
         <router-outlet></router-outlet>
     </main>
 </section>
