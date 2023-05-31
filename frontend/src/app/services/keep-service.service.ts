@@ -104,31 +104,38 @@ export class KeepService {
     }
 
     public setFilterBy(filterBy: {[key: string]: string | boolean}) {
-        this.filterBy = {...this.filterBy, ...filterBy};
+        this.filterBy = { ...this.filterBy, ...filterBy };
+        console.log('this.filterBy: ', this.filterBy);
+        this.loadNotes();
     }
 
-    public setSearchFilter(term: string) {
-        this.filterBy.searchTerm = term;
-        const notes = this._filter(this._notesDb);
-        this._notes$.next(notes);
-    }
-    public setCurrLabelId(labelId: string) {
-        this.filterBy.labelId = labelId;
-        console.log('this.filterBy.labelId: ', this.filterBy.labelId);
-        if (!this.filterBy.labelId) return this._notes$.next(this._filter(this._notesDb));
-        const notes = this._notesDb.filter((note: Note) => note.labels?.some((l) => l.id === this.filterBy.labelId));
-        console.log('notes: ', notes);
-        console.log('this._filter(notes): ', this._filter(notes));
-        this._notes$.next(this._filter(notes));
-    }
+    // public setSearchFilter(term: string) {
+    //     this.filterBy.searchTerm = term;
+    //     const notes = this._filter(this._notesDb);
+    //     this._notes$.next(notes);
+    // }
+    // public setCurrLabelId(labelId: string) {
+    //     this.filterBy.labelId = labelId;
+    //     if (!this.filterBy.labelId) return this._notes$.next(this._filter(this._notesDb));
+    //     const notes = this._notesDb.filter((note: Note) => note.labels?.some((l) => l.id === this.filterBy.labelId));
+    //     this._notes$.next(this._filter(notes));
+    // }
     public setCurrRoute(route: string) {
         if (route === 'keep' || route === 'archive' || route === 'trash') {
             this.currRoute = route;
             this.filterBy.archiveOnly = route === 'archive';
-            const notes = this._filter(this._notesDb);
-            this._notes$.next(notes);
+            this.filterBy.isTrash = route === 'trash';
+            this.loadNotes();
         }
     }
+    // public setCurrRoute(route: string) {
+    //     if (route === 'keep' || route === 'archive' || route === 'trash') {
+    //         this.currRoute = route;
+    //         this.filterBy.archiveOnly = route === 'archive';
+    //         const notes = this._filter(this._notesDb);
+    //         this._notes$.next(notes);
+    //     }
+    // }
 
     public async updateNote(note: Note) {
         const url = `${BASE_URL}note/${note._id}`;

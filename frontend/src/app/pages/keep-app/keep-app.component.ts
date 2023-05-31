@@ -27,7 +27,8 @@ export class KeepAppComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params) => {
             this.labelId = params['labelId'];
-            this.keepService.setCurrLabelId(this.labelId);
+            // this.keepService.setCurrLabelId(this.labelId);
+            this.keepService.setFilterBy({ labelId: this.labelId || '' });
         });
         // this.route.firstChild?.paramMap.subscribe(params => {
         //     const childSegment = params.get('childSegment');

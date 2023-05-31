@@ -17,7 +17,13 @@ export class AppHeaderComponent implements OnInit {
 
     search() {
         // console.log('searchTerm: ', this.searchTerm);
-        this.keepService.setSearchFilter(this.searchTerm)
+        // this.keepService.setSearchFilter(this.searchTerm)
+        this.keepService.setFilterBy({ searchTerm: this.searchTerm })
+    }
+
+    clearSearch() {
+        this.searchTerm = '';
+        this.search();
     }
 
     ngOnInit(): void {

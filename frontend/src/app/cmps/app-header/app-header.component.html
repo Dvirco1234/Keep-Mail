@@ -17,7 +17,7 @@
             ></svg-icon>
         </div>
         <input type="text" placeholder="Search" [(ngModel)]="searchTerm" name="input" (input)="search()">
-        <div class="icon-ctr flex-center">
+        <div class="icon-ctr flex-center" (click)="clearSearch()">
             <svg-icon
                 [icon]="{ name: 'x', isLarge: false }"
                 class="svg-icon"

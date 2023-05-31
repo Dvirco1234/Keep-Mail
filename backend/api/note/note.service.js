@@ -109,55 +109,24 @@ module.exports = {
 }
 
 function _buildCriteria(filterBy) {
-    console.log('filterBy: ', filterBy)
-    // const { searchTerm, archiveOnly, labelId } = filterBy
-    const labelId = ''
-    const searchTerm = ''
-    const archiveOnly = false
+    const { searchTerm, archiveOnly, labelId } = filterBy
+    // const labelId = ''
+    // const searchTerm = ''
+    // const archiveOnly = false
     const criteria = {
         $and: [
             {
                 $or: [
-                    { 'info.title': { $regex: searchTerm, $options: 'i' } }, // Match title
-                    { 'info.txt': { $regex: searchTerm, $options: 'i' } }, // Match txt
+                    { 'info.title': { $regex: searchTerm, $options: 'i' } }, 
+                    { 'info.txt': { $regex: searchTerm, $options: 'i' } }, 
                     {
-                        'info.todos.txt': { $regex: searchTerm, $options: 'i' }, // Match todos.txt
+                        'info.todos.txt': { $regex: searchTerm, $options: 'i' }, 
                     },
                 ],
             },
             { isArchived: { $eq: JSON.parse(archiveOnly) } },
-            // { 'labels.id': labelId },
-            // {
-            //     $or: [
-            //       { isArchived: { $exists: false } }, // Handle missing key as false
-            //       { isArchived: { $eq: archiveOnly } }, // Match isArchived
-            //     ],
-            //   },
-            // {
-            //     $or: [
-            //       { isArchived: { $exists: false } }, // Handle missing key as false
-            //       { isArchived: { $eq: archiveOnly } }, // Match isArchived
-            //     ],
-            //   },
-            //   {
-            //     $or: [
-            //       { isArchived: { $exists: true } }, // Include documents with the key
-            //       { isArchived: { $eq: false } }, // Match isArchived as false
-            //     ],
-            //   },
         ],
-        // $or: [
-        //     { 'info.title': { $regex: searchTerm, $options: 'i' } }, // Match title
-        //     { 'info.txt': { $regex: searchTerm, $options: 'i' } }, // Match txt
-        //     {
-        //         'info.todos': {
-        //             $elemMatch: { txt: { $regex: searchTerm, $options: 'i' } },
-        //         }, // Match todos.txt
-        //     },
-        // ],
-        // isArchive: { $eq: archiveOnly }, // Match isArchive
     }
-    // if (archiveOnly) criteria.$and.push()
     if (labelId) criteria.$and.push({ 'labels.id': labelId })
     return criteria
 }
