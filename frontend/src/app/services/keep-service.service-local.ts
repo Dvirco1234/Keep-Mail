@@ -5,13 +5,6 @@ import { AsyncStorageService } from './async-storage-service.service';
 import { UtilService } from './util-service.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-// const notes = [] as Note[];
-// const notes: Note[] = ;
-const BASE_URL =
-    process.env['NODE_ENV'] === 'production'
-        ? '/api/'
-        : '//localhost:3030/api/';
-
 @Injectable({
     providedIn: 'root',
 })
@@ -20,11 +13,18 @@ export class KeepService {
     private LABELS_KEY: string = 'labelsDB';
     private _notesDb: Note[] = this._createNotes();
     private _labelsDb: Note[] = this._createLabels();
-
+    
+    public currRoute: string = '';
     public searchTerm: string = '';
     public currLabelId: string = '';
     public isArchivedFilter: boolean = false;
     public isTrashNotes: boolean = false;
+    public filterBy = {
+        labelId: '',
+        searchTerm: '',
+        archiveOnly: false,
+        isTrash: false,
+    }
 
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
@@ -50,12 +50,12 @@ export class KeepService {
 
     public loadNotes() {
         let notes = this._notesDb;
-        if (this.currLabelId)
+        if (this.filterBy.labelId)
             notes = notes.filter(
                 (note: Note) =>
-                    note.labels?.some((l) => l.id === this.currLabelId) || false
+                    note.labels?.some((l) => l.id === this.filterBy.labelId) || false
             );
-        notes = this._filter(notes, this.searchTerm);
+        notes = this._filter(notes, this.filterBy.searchTerm);
         this._notes$.next(this._sort(notes as Note[]));
     }
 
@@ -92,20 +92,26 @@ export class KeepService {
         return note._id ? this._updateNote(note) : this._addNote(note);
     }
 
+    public setFilterBy(filterBy: {[key: string]: string | boolean}) {
+        this.filterBy = { ...this.filterBy, ...filterBy };
+        this.loadNotes();
+    }
+
     public setSearchFilter(term: string) {
-        this.searchTerm = term;
+        this.filterBy.searchTerm = term;
         this.loadNotes();
     }
     public setCurrLabelId(labelId: string) {
-        this.currLabelId = labelId;
+        this.filterBy.labelId = labelId;
         this.loadNotes();
     }
-    public setArchiveTrashRoute(route: string) {
-        // let notes = this._notesDb;
-        // if (route === 'archive') this._notes$.next(notes.filter(note => note.isArchived));
-        // else if (route === 'trash') this._notes$.next(notes.filter(note => note.deletedAt));
-        this.isArchivedFilter = route === 'archive';
-        this.loadNotes();
+    public setCurrRoute(route: string) {
+        if (route === 'keep' || route === 'archive' || route === 'trash') {
+            this.currRoute = route;
+            this.filterBy.archiveOnly = route === 'archive';
+            this.filterBy.isTrash = route === 'trash';
+            this.loadNotes();
+        }
     }
 
     // public setFilterBy(filterBy: NoteFilter) {
@@ -163,21 +169,13 @@ export class KeepService {
 
     private _sort(notes: Note[]): Note[] {
         return notes;
-        // return notes.sort((a, b) => {
-        //     if (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) {
-        //         return -1;
-        //     }
-        //     if (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) {
-        //         return 1;
-        //     }
-        //     return 0;
-        // });
+
     }
 
     private _filter(notes: Note[], term: string) {
         return notes.filter((note: Note) => {
-            if (this.isArchivedFilter) return note.isArchived;
-            else if (!this.isArchivedFilter && note.isArchived) return false;
+            if (this.filterBy.archiveOnly) return note.isArchived;
+            else if (!this.filterBy.archiveOnly && note.isArchived) return false;
             const { title, txt, todos } = note.info;
             const regex = new RegExp(term, 'i');
             if (title) {
@@ -190,19 +188,7 @@ export class KeepService {
                 if (todos.some((todo) => regex.test(todo.txt))) return true;
             }
             return false;
-            // return (
-            //     (!title || regex.test(title)) ||
-            //     (!txt || regex.test(txt)) ||
-            //     (!todos || !todos.length || todos.some(todo => regex.test(todo.txt)))
-            //   )
         });
-        // return notes.filter((note) => {
-        //     return (
-        //         note.name.toLocaleLowerCase().includes(term) ||
-        //         note.phone.toLocaleLowerCase().includes(term) ||
-        //         note.email.toLocaleLowerCase().includes(term)
-        //     );
-        // });
     }
 
     private _createNotes() {
