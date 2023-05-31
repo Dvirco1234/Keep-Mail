@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 const cookieParser = require('cookie-parser')
+const dotenv = require('dotenv')
 
 const app = express()
 const http = require('http').createServer(app)
@@ -18,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
         credentials: true
     }
     app.use(cors(corsOptions))
+    dotenv.config()
 }
 
 const authRoutes = require('./api/auth/auth.routes')

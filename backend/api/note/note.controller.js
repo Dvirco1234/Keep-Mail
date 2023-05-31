@@ -5,9 +5,8 @@ const logger = require('../../services/logger.service.js')
 async function getNotes(req, res) {
     try {
         logger.debug('Getting Notes')
-        const filterBy = {
-            txt: req.query.txt || '',
-        }
+        const filterBy = { ...req.query }
+        console.log('filterBy: ', filterBy);
         const notes = await noteService.query(filterBy)
         res.json(notes)
     } catch (err) {

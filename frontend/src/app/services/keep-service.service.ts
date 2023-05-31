@@ -22,15 +22,19 @@ const BASE_URL =
     providedIn: 'root',
 })
 export class KeepService {
-    private NOTES_KEY: string = 'notesDB';
-    private LABELS_KEY: string = 'labelsDB';
     private _notesDb: Note[] = [];
 
-    public searchTerm: string = '';
-    public currLabelId: string = '';
+    // public searchTerm: string = '';
+    // public currLabelId: string = '';
     public currRoute: string = '';
-    public isArchivedFilter: boolean = false;
+    // public isArchivedFilter: boolean = false;
     public isTrashNotes: boolean = false;
+    public filterBy = {
+        labelId: '',
+        searchTerm: '',
+        archiveOnly: false,
+        isTrash: false,
+    }
 
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
@@ -47,36 +51,26 @@ export class KeepService {
         }),
     };
 
-    constructor(private utilService: UtilService, private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
     public loadNotes(): void {
-        const params = {
-            labelId: this.currLabelId,
-            searchTerm: this.searchTerm,
-            archiveOnly: this.isArchivedFilter,
-        };
-
+        const params = this.filterBy
         this.http.get(`${BASE_URL}note`, { params }).subscribe(
             (notes) => {
                 this._notesDb = notes as Note[];
-                let filteredNotes = this._notesDb;
-                if (this.currLabelId) {
-                    filteredNotes = this._notesDb.filter(
-                        (note: Note) =>
-                            note.labels?.some(
-                                (l) => l.id === this.currLabelId
-                            ) || false
-                    );
-                }
+                // let filteredNotes = this._notesDb;
+                // if (this.filterBy.labelId) {
+                //     filteredNotes = this._notesDb.filter(
+                //         (note: Note) =>
+                //             note.labels?.some(
+                //                 (l) => l.id === this.filterBy.labelId
+                //             ) || false
+                //     );
+                // }
 
-                filteredNotes = this._filter(this._notesDb);
-
-                // this._notesDb = this._filter(
-                //     this._notesDb as Note[],
-                //     this.searchTerm
-                // );
-                // this._notesDb = this._sort(this._notesDb as Note[]);
-                this._notes$.next(filteredNotes);
+                // filteredNotes = this._filter(this._notesDb);
+                // this._notes$.next(filteredNotes);
+                this._notes$.next(this._notesDb);
             },
             (error) => {
                 console.error(error);
@@ -109,16 +103,20 @@ export class KeepService {
         return note._id ? this._updateNote(note) : this._addNote(note);
     }
 
+    public setFilterBy(filterBy: {[key: string]: string | boolean}) {
+        this.filterBy = {...this.filterBy, ...filterBy};
+    }
+
     public setSearchFilter(term: string) {
-        this.searchTerm = term;
+        this.filterBy.searchTerm = term;
         const notes = this._filter(this._notesDb);
         this._notes$.next(notes);
     }
     public setCurrLabelId(labelId: string) {
-        this.currLabelId = labelId;
-        console.log('this.currLabelId: ', this.currLabelId);
-        if (!this.currLabelId) return this._notes$.next(this._filter(this._notesDb));
-        const notes = this._notesDb.filter((note: Note) => note.labels?.some((l) => l.id === this.currLabelId));
+        this.filterBy.labelId = labelId;
+        console.log('this.filterBy.labelId: ', this.filterBy.labelId);
+        if (!this.filterBy.labelId) return this._notes$.next(this._filter(this._notesDb));
+        const notes = this._notesDb.filter((note: Note) => note.labels?.some((l) => l.id === this.filterBy.labelId));
         console.log('notes: ', notes);
         console.log('this._filter(notes): ', this._filter(notes));
         this._notes$.next(this._filter(notes));
@@ -126,7 +124,7 @@ export class KeepService {
     public setCurrRoute(route: string) {
         if (route === 'keep' || route === 'archive' || route === 'trash') {
             this.currRoute = route;
-            this.isArchivedFilter = route === 'archive';
+            this.filterBy.archiveOnly = route === 'archive';
             const notes = this._filter(this._notesDb);
             this._notes$.next(notes);
         }
@@ -202,29 +200,17 @@ export class KeepService {
             media: null,
             _id: '',
             isPinned: false,
+            isArchived: false,
             labels: [],
             style: { backgroundColor: '', backgroundImg: '' },
         };
     }
 
-    private _sort(notes: Note[]): Note[] {
-        return notes;
-        // return notes.sort((a, b) => {
-        //     if (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) {
-        //         return -1;
-        //     }
-        //     if (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) {
-        //         return 1;
-        //     }
-        //     return 0;
-        // });
-    }
-
     private _filter(notes: Note[]) {
-        const term = this.searchTerm;
+        const term = this.filterBy.searchTerm;
         return notes.filter((note: Note) => {
-            if (this.isArchivedFilter) return note.isArchived;
-            else if (!this.isArchivedFilter && note.isArchived) return false;
+            if (this.filterBy.archiveOnly) return note.isArchived;
+            else if (!this.filterBy.archiveOnly && note.isArchived) return false;
             const { title, txt, todos } = note.info;
             const regex = new RegExp(term, 'i');
             if (title) {
@@ -237,353 +223,7 @@ export class KeepService {
                 if (todos.some((todo) => regex.test(todo.txt))) return true;
             }
             return false;
-            // return (
-            //     (!title || regex.test(title)) ||
-            //     (!txt || regex.test(txt)) ||
-            //     (!todos || !todos.length || todos.some(todo => regex.test(todo.txt)))
-            //   )
         });
-        // return notes.filter((note) => {
-        //     return (
-        //         note.name.toLocaleLowerCase().includes(term) ||
-        //         note.phone.toLocaleLowerCase().includes(term) ||
-        //         note.email.toLocaleLowerCase().includes(term)
-        //     );
-        // });
-    }
-
-    private _createNotes() {
-        let notes = this.utilService.load(this.NOTES_KEY);
-        if (!notes || !notes.length) {
-            notes = [
-                {
-                    type: 'txt',
-                    info: {
-                        title: '',
-                        txt: 'עכי',
-                    },
-                    media: null,
-                    _id: 'UXoBH4pl',
-                    isPinned: false,
-                    labels: [],
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg: '',
-                    },
-                },
-                {
-                    type: 'txt',
-                    info: {
-                        title: '',
-                        txt: '',
-                    },
-                    media: {
-                        type: 'img',
-                        url: 'http://res.cloudinary.com/dvirco123/image/upload/v1684940100/123_jkjqsf.png',
-                    },
-                    _id: 'bseTUnis',
-                    isPinned: false,
-                    labels: [
-                        {
-                            name: 'Ideas',
-                            id: 'l102',
-                            isChecked: false,
-                        },
-                    ],
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg: '',
-                    },
-                },
-                {
-                    type: 'txt',
-                    info: {
-                        title: '',
-                        txt: 'fgh',
-                    },
-                    media: null,
-                    _id: 'TT0fQzCv',
-                    isPinned: false,
-                    labels: [
-                        {
-                            name: 'Movies',
-                            id: 'l103',
-                            isChecked: false,
-                        },
-                    ],
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg: '',
-                    },
-                },
-                {
-                    type: 'txt',
-                    info: {
-                        title: 'Movies ',
-                        txt: 'Here i should insert movies ideas, \nbut maybe it is a better idea to use checklist note for that',
-                    },
-                    media: {
-                        type: 'img',
-                        url: 'http://res.cloudinary.com/dvirco123/image/upload/v1684840023/signup_ujwobs.png',
-                    },
-                    _id: 'b4STN0wn',
-                    isPinned: false,
-                    labels: [
-                        {
-                            name: 'Movies',
-                            id: 'l103',
-                            isChecked: false,
-                        },
-                    ],
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg: '',
-                    },
-                },
-                {
-                    _id: 'n101',
-                    type: 'txt',
-                    isPinned: true,
-                    media: null,
-                    info: {
-                        title: 'Hi there',
-                        txt: 'Make me rich! 🙏',
-                    },
-                    style: {
-                        backgroundColor: '#cbf0f8',
-                        backgroundImg:
-                            'https://www.gstatic.com/keep/backgrounds/notes_light_0609.svg',
-                    },
-                    labels: [
-                        {
-                            name: 'Work',
-                            id: 'l101',
-                            isChecked: false,
-                        },
-                    ],
-                    isArchived: false,
-                },
-                {
-                    _id: 'n102',
-                    type: 'todos',
-                    isPinned: true,
-                    media: null,
-                    info: {
-                        title: 'Win sprint 3',
-                        todos: [
-                            {
-                                id: '1',
-                                txt: 'Avoid shit in the code',
-                                isDone: false,
-                                doneAt: null,
-                            },
-                            {
-                                id: '2',
-                                txt: 'Resolve food from wolt',
-                                isDone: true,
-                                doneAt: 187111111,
-                            },
-                            {
-                                id: '3',
-                                txt: 'Catch brain errors',
-                                isDone: false,
-                                doneAt: 187111111,
-                            },
-                            {
-                                id: '4',
-                                txt: 'Remember to shower',
-                                isDone: true,
-                                doneAt: 187111111,
-                            },
-                        ],
-                    },
-                    style: {
-                        backgroundColor: '#aecbfa',
-                        backgroundImg: '',
-                    },
-                    labels: [
-                        {
-                            name: 'Work',
-                            id: 'l101',
-                            isChecked: false,
-                        },
-                    ],
-                },
-                {
-                    _id: 'n103',
-                    type: 'txt',
-                    isPinned: false,
-                    media: {
-                        type: 'img',
-                        url: 'http://res.cloudinary.com/dvirco123/image/upload/v1685443927/sax_2_pzl40q.png',
-                    },
-                    info: {
-                        title: 'Satruday evening',
-                        txt: 'hello there',
-                    },
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg:
-                            'https://www.gstatic.com/keep/backgrounds/grocery_light_0609.svg',
-                    },
-                },
-                {
-                    _id: 'n104',
-                    type: 'txt',
-                    isPinned: false,
-                    media: {
-                        type: 'audio',
-                        url: 'assets/audio/forest-lullaby.mp3',
-                    },
-                    info: {
-                        txt: '',
-                        title: 'Relaxing Music',
-                    },
-                    style: {
-                        backgroundColor: '#f28b82',
-                        backgroundImg: '',
-                    },
-                    labels: [
-                        {
-                            id: 'l101',
-                            name: 'Work',
-                            color: '#e03131',
-                        },
-                    ],
-                },
-                {
-                    _id: 'n105',
-                    type: 'txt',
-                    isPinned: false,
-                    media: {
-                        type: 'img',
-                        url: 'https://res.cloudinary.com/dvirco123/image/upload/v1658095564/sax_2_afhafq.png',
-                    },
-                    info: {
-                        txt: '',
-                        title: '',
-                    },
-                    style: {
-                        backgroundColor: '#ff922b',
-                    },
-                    labels: [],
-                },
-                {
-                    _id: 'n106',
-                    type: 'txt',
-                    isPinned: false,
-                    media: null,
-                    info: {
-                        title: 'Check out the paintbrush',
-                        txt: 'I owned the canvas',
-                    },
-                    style: {
-                        backgroundColor: '#e8eaed',
-                        backgroundImg: '',
-                    },
-                    labels: [
-                        {
-                            id: 'l101',
-                            name: 'Work',
-                            color: '#e03131',
-                        },
-                    ],
-                },
-                {
-                    _id: 'n107',
-                    type: 'txt',
-                    isPinned: false,
-                    media: {
-                        type: 'img',
-                        url: 'https://res.cloudinary.com/dvirco123/image/upload/v1669330155/8_nydchf.jpg',
-                    },
-                    info: {
-                        txt: '',
-                        title: 'Waiting.....',
-                    },
-                    style: {
-                        backgroundColor: '',
-                        backgroundImg: '',
-                    },
-                },
-                {
-                    _id: 'n108',
-                    type: 'todos',
-                    isPinned: false,
-                    media: null,
-                    info: {
-                        title: "What's next...",
-                        todos: [
-                            {
-                                id: '1',
-                                txt: 'Improve my CV',
-                                isDone: false,
-                                doneAt: null,
-                            },
-                            {
-                                id: '2',
-                                txt: 'Improve my Github profile',
-                                isDone: true,
-                                doneAt: null,
-                            },
-                            {
-                                id: '3',
-                                txt: 'Remember we can walk',
-                                isDone: false,
-                                doneAt: 187111111,
-                            },
-                        ],
-                    },
-                    style: {
-                        backgroundColor: '#d7aefb',
-                        backgroundImg:
-                            'https://www.gstatic.com/keep/backgrounds/travel_light_0614.svg',
-                    },
-                    labels: [
-                        {
-                            name: 'Work',
-                            id: 'l101',
-                            isChecked: false,
-                        },
-                    ],
-                },
-                {
-                    _id: 'n109',
-                    type: 'txt',
-                    isPinned: false,
-                    media: null,
-                    info: {
-                        title: '',
-                        txt: '',
-                    },
-                    style: {
-                        backgroundColor: '#f06595',
-                    },
-                    labels: [],
-                },
-            ];
-
-            // const pinned = notes.filter((note: Note) => note.isPinned);
-            // const unpinned = notes.filter((note: Note) => !note.isPinned);
-
-            // notes = [...pinned, ...unpinned];
-        }
-        this.utilService.save(this.NOTES_KEY, notes);
-        return notes;
-    }
-
-    private _createLabels() {
-        let labels = this.utilService.load(this.LABELS_KEY);
-        if (!labels || !labels.length) {
-            labels = [
-                {
-                    name: 'Work',
-                    color: '',
-                },
-            ];
-        }
-        this.utilService.save(this.LABELS_KEY, labels);
-        return labels;
     }
 }
 

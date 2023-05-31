@@ -3,12 +3,10 @@ const logger = require('../../services/logger.service')
 const utilService = require('../../services/util.service')
 const ObjectId = require('mongodb').ObjectId
 
-async function query(filterBy = { txt: '' }) {
+async function query(filterBy = { searchTerm: '' }) {
     try {
-        // console.log('process.env.DB_KEY:', process.env.DB_KEY)
-        const criteria = {
-            // vendor: { $regex: filterBy.txt, $options: 'i' }
-        }
+        console.log('process.env.DB_KEY:', process.env.DB_KEY)
+        const criteria = _buildCriteria(filterBy)
         const collection = await dbService.getCollection('note')
         var notes = await collection.find(criteria).sort({ _id: 1 }).toArray()
         return notes
@@ -108,4 +106,58 @@ module.exports = {
     updateByKey,
     addNoteMsg,
     removeNoteMsg,
+}
+
+function _buildCriteria(filterBy) {
+    console.log('filterBy: ', filterBy)
+    // const { searchTerm, archiveOnly, labelId } = filterBy
+    const labelId = ''
+    const searchTerm = ''
+    const archiveOnly = false
+    const criteria = {
+        $and: [
+            {
+                $or: [
+                    { 'info.title': { $regex: searchTerm, $options: 'i' } }, // Match title
+                    { 'info.txt': { $regex: searchTerm, $options: 'i' } }, // Match txt
+                    {
+                        'info.todos.txt': { $regex: searchTerm, $options: 'i' }, // Match todos.txt
+                    },
+                ],
+            },
+            { isArchived: { $eq: JSON.parse(archiveOnly) } },
+            // { 'labels.id': labelId },
+            // {
+            //     $or: [
+            //       { isArchived: { $exists: false } }, // Handle missing key as false
+            //       { isArchived: { $eq: archiveOnly } }, // Match isArchived
+            //     ],
+            //   },
+            // {
+            //     $or: [
+            //       { isArchived: { $exists: false } }, // Handle missing key as false
+            //       { isArchived: { $eq: archiveOnly } }, // Match isArchived
+            //     ],
+            //   },
+            //   {
+            //     $or: [
+            //       { isArchived: { $exists: true } }, // Include documents with the key
+            //       { isArchived: { $eq: false } }, // Match isArchived as false
+            //     ],
+            //   },
+        ],
+        // $or: [
+        //     { 'info.title': { $regex: searchTerm, $options: 'i' } }, // Match title
+        //     { 'info.txt': { $regex: searchTerm, $options: 'i' } }, // Match txt
+        //     {
+        //         'info.todos': {
+        //             $elemMatch: { txt: { $regex: searchTerm, $options: 'i' } },
+        //         }, // Match todos.txt
+        //     },
+        // ],
+        // isArchive: { $eq: archiveOnly }, // Match isArchive
+    }
+    // if (archiveOnly) criteria.$and.push()
+    if (labelId) criteria.$and.push({ 'labels.id': labelId })
+    return criteria
 }

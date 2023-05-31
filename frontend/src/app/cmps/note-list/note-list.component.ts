@@ -62,7 +62,7 @@ export class NoteListComponent implements OnInit {
     // }
     
     get isSearch(): boolean {
-        return this.keepService.searchTerm? true : false;
+        return this.keepService.filterBy.searchTerm? true : false;
     }
 
     get pinnedNotes(): Note[] {
