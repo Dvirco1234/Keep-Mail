@@ -36,6 +36,8 @@ export class KeepService {
         isTrash: false,
     }
 
+    public isSideMenuOpen: boolean = true;
+
     private _notes$ = new BehaviorSubject<Note[]>([]);
     public notes$ = this._notes$.asObservable();
 
@@ -105,7 +107,6 @@ export class KeepService {
 
     public setFilterBy(filterBy: {[key: string]: string | boolean}) {
         this.filterBy = { ...this.filterBy, ...filterBy };
-        console.log('this.filterBy: ', this.filterBy);
         this.loadNotes();
     }
 
@@ -165,6 +166,10 @@ export class KeepService {
         } catch (error) {
             console.error(error);
         }
+    }
+
+    public toggleSideMenu() {
+        this.isSideMenuOpen = !this.isSideMenuOpen;
     }
 
     private async _updateNote(note: Note) {

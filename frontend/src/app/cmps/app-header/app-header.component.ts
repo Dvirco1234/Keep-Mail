@@ -26,6 +26,10 @@ export class AppHeaderComponent implements OnInit {
         this.search();
     }
 
+    toggleMenu() {
+        this.keepService.toggleSideMenu()
+    }
+
     ngOnInit(): void {
         this.search = this.utilService.debounce(this.search.bind(this), 700);
     }

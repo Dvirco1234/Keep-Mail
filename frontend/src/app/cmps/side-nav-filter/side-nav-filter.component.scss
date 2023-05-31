@@ -1,6 +1,7 @@
 .side-nav {
     padding-top: 8px;
     width: 280px;
+    transition: width .3s, border-radius .3s;
     a {
         text-decoration: none;
         &.active .nav-link {
@@ -37,6 +38,22 @@
             // font-weight: 500;
             line-height: 1.25rem;
             margin: 0 0 0 32px;
+        }
+    }
+
+    &.close {
+        width: 80px;
+
+
+        .nav-link {
+            border-radius: 50%;
+            padding-left: 0;
+            // margin-left: 24px;
+            margin-left: 12px;
+            width: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 }

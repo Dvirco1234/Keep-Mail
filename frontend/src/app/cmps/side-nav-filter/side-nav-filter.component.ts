@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Label } from 'src/app/models'
+import { KeepService } from 'src/app/services/keep-service.service'
 import { UserService } from 'src/app/services/user-service.service'
 
 @Component({
@@ -8,14 +9,19 @@ import { UserService } from 'src/app/services/user-service.service'
     styleUrls: ['./side-nav-filter.component.scss'],
 })
 export class SideNavFilterComponent implements OnInit {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService, private keepService: KeepService) {}
 
+    // isMenuOpen = true;
     navLinks = [
         { icon: 'bulb', act: this.try.bind(this), txt: 'Notes', link: '/keep', },
         { icon: 'edit', act: this.try.bind(this), txt: 'Edit labels', link: '/keep/labels-modal', },
         { icon: 'archive', act: this.try.bind(this), txt: 'Archive', link: '/keep/archive', },
         { icon: 'trash', act: this.try.bind(this), txt: 'Trash', link: '/keep/trash', },
     ];
+
+    get isMenuOpen() {
+        return this.keepService.isSideMenuOpen
+    }
 
     try() {
         console.log('try');

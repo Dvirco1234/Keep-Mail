@@ -1,4 +1,4 @@
-<section class="side-nav">
+<section class="side-nav" [class.close]="!isMenuOpen">
     <ul class="links clean-list">
         <!-- <li class="nav-link" *ngFor="let link of links"></li> -->
         <a
@@ -15,7 +15,8 @@
                         isLarge: true
                     }"
                 ></svg-icon>
-                <h2>{{ link.txt }}</h2>
+                <h2 *ngIf="isMenuOpen">{{ link.txt }}</h2>
+                <!-- <h2 >{{ link.txt }}</h2> -->
             </li>
         </a>
     </ul>
