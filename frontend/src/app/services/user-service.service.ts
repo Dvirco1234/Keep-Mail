@@ -14,10 +14,10 @@ export class UserService {
     private KEY = 'currUser';
     private USERS_KEY = 'usersDB';
     private users: User[] =
-        this.utilService.load(this.USERS_KEY) ||
-        [
+        this.utilService.load(this.USERS_KEY) || []
+        // [
             // { name: '', coins: 100, moves: [] },
-        ];
+        // ];
     private loggedInUser!: User | null;
     private _user$ = new BehaviorSubject<User>(
         this.utilService.load(this.KEY) //|| this._getEmptyUser()
