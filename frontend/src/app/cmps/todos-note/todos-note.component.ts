@@ -67,7 +67,9 @@ export class TodosNoteComponent implements OnInit, AfterViewInit {
         
     }
 
-    removeTodo(idx: number) {
+    removeTodo(idx: number, ev: Event | null = null) {
+        if (ev) ev.stopPropagation()
+        console.log('idx: ', idx);
         const todos = this.info.todos;
         if (!todos) return;
         todos.splice(idx, 1);
