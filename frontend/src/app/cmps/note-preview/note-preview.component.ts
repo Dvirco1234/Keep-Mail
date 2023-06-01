@@ -129,10 +129,10 @@ export class NotePreviewComponent implements OnInit {
     }
     openLabels() {
         if (this.isLabelsModalOpen) return;
-        setTimeout(() => {
+        // setTimeout(() => {
             this.isLabelsModalOpen = !this.isLabelsModalOpen;
             this.isShown = !this.isShown;
-        });
+        // });
     }
     closeLabels() {
         if (!this.isLabelsModalOpen) return;

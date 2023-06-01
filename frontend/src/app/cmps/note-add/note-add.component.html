@@ -135,6 +135,7 @@
         [note]="note"
         class="background-modal labels-dropdown"
         [class.open]="isLabelsModalOpen"
+        *ngIf="isLabelsModalOpen"
         (onClose)="closeLabels()"
     ></labels-dropdown>
 </section>

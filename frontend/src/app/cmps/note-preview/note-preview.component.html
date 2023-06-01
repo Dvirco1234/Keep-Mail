@@ -105,11 +105,12 @@
         [note]="note"
         (onUpdateNote)="updateNote($event[0], $event[1])"
         (onClose)="closePalette()"
-    ></pallete-modal>
-    <labels-dropdown
+        ></pallete-modal>
+        <labels-dropdown
         [note]="note"
         class="preview-modal labels-dropdown"
         [class.open]="isLabelsModalOpen"
+        *ngIf="isLabelsModalOpen"
         (onClose)="closeLabels()"
     ></labels-dropdown>
     <input type="file" hidden accept="image/*" (change)="handleImage($event)" multiple="false" #fileInput>

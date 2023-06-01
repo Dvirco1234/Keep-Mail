@@ -23,7 +23,7 @@ import { UploadService } from 'src/app/services/upload-service.service';
     templateUrl: './note-add.component.html',
     styleUrls: ['./note-add.component.scss'],
     providers: [ClickOutsideDirective],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteAddComponent implements OnInit, AfterViewInit {
     constructor(
@@ -164,9 +164,9 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     }
     openLabels() {
         if (this.isLabelsModalOpen) return;
-        setTimeout(() => {
+        // setTimeout(() => {
             this.isLabelsModalOpen = true;  
-        })
+        // })
     }
     closeLabels() {
         if (!this.isLabelsModalOpen) return;
