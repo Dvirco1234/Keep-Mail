@@ -95,7 +95,7 @@ export class KeepService {
             this._notesDb = this._notesDb.filter(
                 (note) => note._id !== res.removedId
             );
-            this._notes$.next(this._filter(this._notesDb));
+            this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);
         }
@@ -147,7 +147,7 @@ export class KeepService {
             this._notesDb = this._notesDb.map((n) =>
                 updatedNote._id === n._id ? updatedNote : n
             );
-            this._notes$.next(this._filter(this._notesDb));
+            this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);
         }
@@ -162,7 +162,7 @@ export class KeepService {
             this._notesDb = this._notesDb.map((n) =>
                 updatedNote._id === n._id ? updatedNote : n
             );
-            this._notes$.next(this._filter(this._notesDb));
+            this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);
         }
@@ -181,7 +181,7 @@ export class KeepService {
             this._notesDb = this._notesDb.map((n) =>
                 updatedNote._id === n._id ? updatedNote : n
             );
-            this._notes$.next(this._filter(this._notesDb));
+            this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);
         }
@@ -195,7 +195,8 @@ export class KeepService {
             );
             console.log('addedNote: ', addedNote);
             this._notesDb.unshift(addedNote);
-            this._notes$.next(this._filter(this._notesDb));
+            console.log('this._notesDb: ', this._notesDb);
+            this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);
         }
@@ -215,6 +216,7 @@ export class KeepService {
             isArchived: false,
             labels: [],
             style: { backgroundColor: '', backgroundImg: '' },
+            lastEditedAt: Date.now(),
         };
     }
 

@@ -30,8 +30,8 @@ export class NoteListComponent implements OnInit {
     @Input() currNote!: Note | null;
     @Input() currRoute!: string;
     
-    get isSearch(): boolean {
-        return this.keepService.filterBy.searchTerm? true : false;
+    get filter() {
+        return this.keepService.filterBy;
     }
 
     get pinnedNotes(): Note[] {
@@ -40,6 +40,15 @@ export class NoteListComponent implements OnInit {
 
     get unpinnedNotes(): Note[] {
         return this.notes ? this.notes.filter((note) => !note.isPinned) : [];
+    }
+
+    get noNotes() {
+        let noNotes = { txt: '', icon: '' }
+        if (this.filter.searchTerm) noNotes.txt = 'No notes found'
+        if (this.filter.isTrash) noNotes = { txt: 'No notes in Trash', icon: 'trash' }
+        else if (this.filter.archiveOnly) noNotes = { txt: 'Your archived notes appear here', icon: 'archive' }
+        if (this.filter.labelId) noNotes = { txt: 'No notes with this label yet', icon: 'label' }
+        return noNotes
     }
 
     ngOnInit(): void {

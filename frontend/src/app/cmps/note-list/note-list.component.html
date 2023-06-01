@@ -1,7 +1,16 @@
 <section class="note-list" [responsiveColumns]="260" >
     <div class="no-notes flex-center"  *ngIf="!notes?.length; else noteList">
-        <h1>{{isSearch? 'No notes found': 'No notes with this label yet'}}</h1>
+        <!-- <h1>{{isSearch? 'No notes found': 'No notes with this label yet'}}</h1> -->
         <!-- No notes with this label yet -->
+        <div class="no-notes-msg flex flex-col align-center">
+            <div class="icon" *ngIf="noNotes.icon">
+                <svg-icon
+                [icon]="{ name: noNotes.icon, isLarge: false }"
+                class="svg-icon"
+            ></svg-icon>
+            </div>
+            <h1>{{ noNotes.txt }}</h1>
+        </div>
     </div>
     <ng-template #noteList>
         <ul class="list-section" *ngIf="currRoute !== 'keep'; else mainPage">

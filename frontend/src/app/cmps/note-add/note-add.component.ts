@@ -17,6 +17,7 @@ import { KeepService } from 'src/app/services/keep-service.service';
 import { UtilService } from 'src/app/services/util-service.service';
 import { TodosNoteComponent } from '../todos-note/todos-note.component';
 import { UploadService } from 'src/app/services/upload-service.service';
+import { UserService } from 'src/app/services/user-service.service'
 
 @Component({
     selector: 'note-add',
@@ -28,6 +29,7 @@ import { UploadService } from 'src/app/services/upload-service.service';
 export class NoteAddComponent implements OnInit, AfterViewInit {
     constructor(
         private keepService: KeepService,
+        private userService: UserService,
         private utilService: UtilService,
         private uploadService: UploadService
     ) {}
@@ -44,6 +46,7 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
     todosNoteCmp!: TodosNoteComponent;
 
     note: Note = this.keepService.getEmptyNote();
+    currLabelId: string = ''
     isDarkImg: boolean = false;
     isLabelsModalOpen: boolean = false;
     isOpen = false;
@@ -199,6 +202,17 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         }
     }
 
+    public openEditor() {
+        this.isOpen = true
+        const { labelId } = this.keepService.filterBy
+        this.currLabelId = labelId || ''
+        if (labelId) {
+            const labels = this.userService.getLoggedInUser()['labels']
+            const label = labels.find((l: Label) => l.id === labelId)
+            this.note.labels.push(label)
+        }
+    }
+
     public closeEditor(ev: MouseEvent): void {
         if (this.noteToEdit) {
             if(ev) this.onCloseEditor.emit();
@@ -210,26 +224,20 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
         const { title, txt, todos } = this.note.info;
         this.isOpen = false;
         this.isTodosNote = false;
-        if (!title && !txt && !todos?.length && !this.note.media && !this.note.labels?.length) return;
+        const emptyNote = !title && !txt && !todos?.length && !this.note.media 
+        // const onlyCurrLabel = this.note.labels[0].id === this.currLabelId && this.note.labels.length === 1
+        const onlyCurrLabel = !this.note.labels?.length || !this.note.labels.some(l => l.id !== this.currLabelId)
+        if (emptyNote && onlyCurrLabel) {
+            this.note = this.keepService.getEmptyNote();
+            return;
+        }
         this.keepService.saveNote(
             JSON.parse(JSON.stringify({ ...this.note, type }))
         );
-        // this.note.info = {
-        //     title: '',
-        //     txt: '',
-        // };
-        // this.note.media = null
         this.preElement.nativeElement.innerText = '';
         this.note = this.keepService.getEmptyNote();
-        // this.cdr.markForCheck();
     }
 
-    // setNoteTxt(txt: string | null) {
-    //     if (ev.target instanceof HTMLElement) {
-    //         console.log('ev: ', ev.target.innerText);
-    //         this.note.info.txt = ev.target.innerText;
-    //     }
-    // }
     setNoteTxt(ev: Event) {
         if (ev.target instanceof HTMLElement) {
             this.note.info.txt = ev.target.innerText;
