@@ -52,7 +52,7 @@ export class SideNavFilterComponent implements OnInit {
     //     return labels
     // }
     setNavLinks() {
-        let labels = this.user['labels'];
+        let labels = this.user['labels'] || [];
         if (labels?.length) labels = labels.map((label: Label) => ({
             icon: 'label', act: this.try.bind(this), txt: label.name, link: `/keep/label/${label.id}`,
         }))
