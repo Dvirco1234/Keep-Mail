@@ -259,3 +259,15 @@ button.long-click:active {
         }
     }
 }
+
+.add-note.edit-mode {
+    .background-modal {
+        .background-modal {
+            translate: -50% -50%;
+        }
+        .labels-dropdown {
+            translate: -50% -110%;
+        }
+    }
+}
+
