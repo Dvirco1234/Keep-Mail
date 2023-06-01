@@ -130,7 +130,7 @@
         </div>
     </div>
     <input type="file" hidden accept="image/*" (change)="handleImage($event)" multiple="false" #fileInput>
-    <pallete-modal class="background-modal" [class.open]="isPaletteOpen" [note]="note" (onUpdateNote)="setBackground($event[0], $event[1])" (onClose)="closePalette()"></pallete-modal>
+    <pallete-modal class="background-modal" [class.open]="isPaletteOpen" *ngIf="isPaletteOpen" [note]="note" (onUpdateNote)="setBackground($event[0], $event[1])" (onClose)="closePalette()"></pallete-modal>
     <labels-dropdown
         [note]="note"
         class="background-modal labels-dropdown"

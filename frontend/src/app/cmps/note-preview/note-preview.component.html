@@ -101,6 +101,7 @@
     <pallete-modal
         class="preview-modal"
         [ngClass]="{ open: isPaletteOpen }"
+        *ngIf="isPaletteOpen"
         [note]="note"
         (onUpdateNote)="updateNote($event[0], $event[1])"
         (onClose)="closePalette()"

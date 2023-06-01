@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     OnInit,
@@ -18,6 +19,7 @@ import { UserService } from 'src/app/services/user-service.service';
     templateUrl: './labels-modal.component.html',
     styleUrls: ['./labels-modal.component.scss'],
     providers: [ClickOutsideDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LabelsModalComponent implements AfterViewInit {
     constructor(private userService: UserService, private router: Router) {}

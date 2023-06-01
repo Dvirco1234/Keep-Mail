@@ -28,8 +28,8 @@ export class UserService {
     public users$ = this._users$.asObservable();
 
     public getUser() {
-        return this.user$;
-        // this._user$.next(this.loggedInUser)
+        // return this.user$;
+        this._user$.next(this.getLoggedInUser())
     }
 
     // getLoggedInUser(): void { 
@@ -68,13 +68,14 @@ export class UserService {
             user.labels.push(label)
         }
         this.utilService.save(this.KEY, user)
+        this._user$.next(user)
     }
 
     removeLabel(id: string) {
         const user = this.utilService.load(this.KEY)
-        // console.log('user: ', user);
         user.labels = user.labels.filter((label: Label) => label.id !== id)
         this.utilService.save(this.KEY, user)
+        this._user$.next(user)
     }
 
     // public getUsers() {

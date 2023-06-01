@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     EventEmitter,
@@ -11,16 +12,11 @@ import { Label, Note } from 'src/app/models';
 import { UtilService } from 'src/app/services/util-service.service';
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription, lastValueFrom } from 'rxjs';
+// import { Subscription, lastValueFrom } from 'rxjs';
 import { MoveToCenterDirective } from 'src/app/directives/move-to-center.directive';
 import { MoveModalToCenterDirective } from 'src/app/directives/move-modal-to-center.directive';
 import { UploadService } from 'src/app/services/upload-service.service';
 import { KeepService } from 'src/app/services/keep-service.service';
-// import { AudioNoteComponent } from '../notes/audio-note/audio-note.component';
-// import { ImgNoteComponent } from '../notes/img-note/img-note.component';
-// import { TodosNoteComponent } from '../notes/todos-note/todos-note.component';
-// import { TxtNoteComponent } from '../notes/txt-note/txt-note.component';
-// import { VideoNoteComponent } from '../notes/video-note/video-note.component';
 
 @Component({
     selector: 'note-preview',
@@ -31,6 +27,7 @@ import { KeepService } from 'src/app/services/keep-service.service';
         MoveToCenterDirective,
         MoveModalToCenterDirective,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotePreviewComponent implements OnInit {
     // cmpType = TxtNoteComponent;
@@ -144,10 +141,10 @@ export class NotePreviewComponent implements OnInit {
     }
     openPalette() {
         if (this.isPaletteOpen) return;
-        setTimeout(() => {
+        // setTimeout(() => {
             this.isPaletteOpen = !this.isPaletteOpen;
             this.isShown = !this.isShown;
-        });
+        // });
     }
     closePalette() {
         if (!this.isPaletteOpen) return;

@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -22,6 +23,7 @@ import { UploadService } from 'src/app/services/upload-service.service';
     templateUrl: './note-add.component.html',
     styleUrls: ['./note-add.component.scss'],
     providers: [ClickOutsideDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteAddComponent implements OnInit, AfterViewInit {
     constructor(
@@ -151,9 +153,9 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
 
     openPalette() {
         if (this.isPaletteOpen) return;
-        setTimeout(() => {
+        // setTimeout(() => {
             this.isPaletteOpen = true;  
-        })
+        // })
     }
     
     closePalette() {

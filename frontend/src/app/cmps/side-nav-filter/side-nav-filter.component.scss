@@ -10,6 +10,9 @@
     }
     .nav-link {
         width: 100%;
+        // transition: .3s;
+        justify-content: flex-start;
+        transition: all .3s, width .3s, border-radius .2s .1s;
         height: 48px;
         padding-left: 24px;
         // background-color: #feefc3;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive';
 import { Note } from 'src/app/models';
 
@@ -11,6 +11,7 @@ type KeyValue = {
     templateUrl: './pallete-modal.component.html',
     styleUrls: ['./pallete-modal.component.scss'],
     providers: [ClickOutsideDirective],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PalleteModalComponent implements OnInit {
     constructor() {}
@@ -94,6 +95,8 @@ export class PalleteModalComponent implements OnInit {
     ];
 
     closePalette() {
+        console.log('here');
+        
       this.onClose.emit();
     }
 

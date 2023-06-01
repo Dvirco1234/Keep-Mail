@@ -13,12 +13,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { AppHeaderComponent } from './cmps/app-header/app-header.component';
 import { SideNavFilterComponent } from './cmps/side-nav-filter/side-nav-filter.component';
 import { NoteAddComponent } from './cmps/note-add/note-add.component';
-import { NgxMasonryModule } from 'ngx-masonry';
 import { SvgIconComponent } from './cmps/utils/svg-icon/svg-icon.component';
 import { TodosNoteComponent } from './cmps/todos-note/todos-note.component';
 import { NoteTemplatesComponent } from './cmps/note-templates/note-templates.component';
 import { FormsModule } from '@angular/forms';
-import { MasonryDirective } from './directives/masonary.directive';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
@@ -46,7 +44,6 @@ import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
         SvgIconComponent,
         TodosNoteComponent,
         NoteTemplatesComponent,
-        MasonryDirective,
         ClickOutsideDirective,
         UppercaseFirstPipe,
         NoteEditComponent,
@@ -62,7 +59,6 @@ import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
     imports: [
         BrowserModule,
         AppRoutingModule,
-        NgxMasonryModule,
         HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
