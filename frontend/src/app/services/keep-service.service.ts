@@ -139,6 +139,7 @@ export class KeepService {
     // }
 
     public async updateNote(note: Note) {
+        note.lastEditedAt = Date.now();
         const url = `${BASE_URL}note/${note._id}`;
         try {
             const updatedNote = await lastValueFrom(
@@ -173,6 +174,7 @@ export class KeepService {
     }
 
     private async _updateNote(note: Note) {
+        note.lastEditedAt = Date.now();
         const url = `${BASE_URL}note/${note._id}`;
         try {
             const updatedNote = await lastValueFrom(
@@ -188,14 +190,14 @@ export class KeepService {
     }
 
     private async _addNote(note: Note) {
+        note.lastEditedAt = Date.now();
+        note.createdAt = Date.now();
         const url = `${BASE_URL}note`;
         try {
             const addedNote = await lastValueFrom(
                 this.http.post<any>(url, note)
             );
-            console.log('addedNote: ', addedNote);
             this._notesDb.unshift(addedNote);
-            console.log('this._notesDb: ', this._notesDb);
             this._notes$.next(this._notesDb);
         } catch (error) {
             console.error(error);

@@ -66,7 +66,7 @@ async function updateByKey(noteId, key, value) {
     const id = ObjectId(noteId)
     try {
         const collection = await dbService.getCollection('note')
-        const result = await collection.findOneAndUpdate({ _id: id }, { $set: { [key]: value } }, { returnOriginal: false })
+        const result = await collection.findOneAndUpdate({ _id: id }, { $set: { [key]: value, lastEditedAt: Date.now() } }, { returnOriginal: false })
         return result.value
     } catch (err) {
         logger.error('Error updating note:', err)

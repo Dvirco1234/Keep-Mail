@@ -231,6 +231,8 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
             this.note = this.keepService.getEmptyNote();
             return;
         }
+        this.note.lastEditedAt = Date.now();
+        if (!this.noteToEdit)  this.note.createdAt = Date.now();    
         this.keepService.saveNote(
             JSON.parse(JSON.stringify({ ...this.note, type }))
         );

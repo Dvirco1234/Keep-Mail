@@ -63,13 +63,13 @@ export class SideNavFilterComponent implements OnInit {
                 txt: 'Notes',
                 link: '/keep',
             },
+            ...labels,
             {
                 icon: 'edit',
                 act: this.try.bind(this),
                 txt: 'Edit labels',
                 link: '/keep/labels-modal',
             },
-            ...labels,
             {
                 icon: 'archive',
                 act: this.try.bind(this),

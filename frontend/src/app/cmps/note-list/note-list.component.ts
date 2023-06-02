@@ -45,9 +45,10 @@ export class NoteListComponent implements OnInit {
     get noNotes() {
         let noNotes = { txt: '', icon: '' }
         if (this.filter.searchTerm) noNotes.txt = 'No notes found'
-        if (this.filter.isTrash) noNotes = { txt: 'No notes in Trash', icon: 'trash' }
+        else if (this.filter.isTrash) noNotes = { txt: 'No notes in Trash', icon: 'trash' }
         else if (this.filter.archiveOnly) noNotes = { txt: 'Your archived notes appear here', icon: 'archive' }
-        if (this.filter.labelId) noNotes = { txt: 'No notes with this label yet', icon: 'label' }
+        else if (this.filter.labelId) noNotes = { txt: 'No notes with this label yet', icon: 'label' }
+        else noNotes = { txt: 'No notes yet', icon: 'bulb' }
         return noNotes
     }
 

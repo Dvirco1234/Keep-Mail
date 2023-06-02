@@ -40,6 +40,7 @@ export interface Note {
     style: { backgroundColor: string, backgroundImg?: string };
     deletedAt?: number | Date;
     lastEditedAt?: number | Date;
+    createdAt?: number | Date;
     isArchived?: boolean;
     [key: string]: any; // Index signature
 }
