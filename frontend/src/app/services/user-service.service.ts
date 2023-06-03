@@ -15,6 +15,7 @@ export class UserService {
     private USERS_KEY = 'usersDB';
     private users: User[] = this.utilService.load(this.USERS_KEY) || []
     private loggedInUser!: User | null;
+    //TODO: need to add users
     private _user$ = new BehaviorSubject<User>(
         this.utilService.load(this.KEY) //|| this._getEmptyUser()
     );
