@@ -6,7 +6,7 @@
                 class="svg-icon"
             ></svg-icon>
         </div>
-        <img src="../../../assets/imgs/keep-brand.png" >
+        <img src="../../../assets/imgs/keep-brand.png" />
         <h2>Keeper</h2>
     </div>
     <form class="search-form flex align-center">
@@ -16,7 +16,13 @@
                 class="svg-icon"
             ></svg-icon>
         </div>
-        <input type="text" placeholder="Search" [(ngModel)]="searchTerm" name="input" (input)="search()">
+        <input
+            type="text"
+            placeholder="Search"
+            [(ngModel)]="searchTerm"
+            name="input"
+            (input)="search()"
+        />
         <div class="icon-ctr flex-center" (click)="clearSearch()">
             <svg-icon
                 [icon]="{ name: 'x', isLarge: false }"
@@ -24,6 +30,17 @@
             ></svg-icon>
         </div>
     </form>
+    <!-- <section class="right"> -->
+    <div class="user flex">
+        <div class="user-img flex-center" (click)="toggleMenu()">
+            <svg-icon
+                        [icon]="{ name: 'user', isLarge: true }"
+                        class="svg-icon"
+                    ></svg-icon>
+            
+        </div>
+    </div>
+    <!-- </section> -->
     <nav>
         <a routerLink="/"></a>
         <a routerLink="/"></a>

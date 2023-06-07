@@ -16,6 +16,8 @@ export class UploadService {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', this.UPLOAD_PRESET);
+    formData.append('folder', 'Keeper'); // Add the folder parameter
+    formData.append('context', `collection=Keeper`);
 
     try {
       const res = await firstValueFrom(this.http.post(this.UPLOAD_URL, formData));
