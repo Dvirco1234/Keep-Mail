@@ -44,12 +44,14 @@ export class UserService {
         user = {
             _id: 'u101',
             name: 'Dvir Cohen',
+            imgUrl: 'https://res.cloudinary.com/dvirco123/image/upload/v1686137184/Keeper/me_tjm1zw.jpg',
             // labels: ['Work', 'Ideas', 'Movies']
             labels: [
                 {name: 'Work', id: 'l101'},
                 {name: 'Ideas', id: 'l102'},
                 {name: 'Movies', id: 'l103'},
-            ]
+            ],
+            email: 'dvirco123@gmail.com'
         }
         this.utilService.save(this.KEY, user)
         return user
@@ -96,13 +98,13 @@ export class UserService {
         this._user$.next(user);
     }
 
-    private _getEmptyUser(): User {
-        return {
-            // _id: 'u101',
-            name: '',
-            labels: [],
-        };
-    }
+    // private _getEmptyUser(): User {
+    //     return {
+    //         // _id: 'u101',
+    //         name: '',
+    //         labels: [],
+    //     };
+    // }
 
     
     // private _createLabels() {

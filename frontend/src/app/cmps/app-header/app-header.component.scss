@@ -64,9 +64,103 @@ header {
     .user {
         flex: 1;
         justify-content: flex-end;
+        position: relative;
         .user-img {
-            margin-inline-end: 14px;
+            margin-inline-end: 19px;
 
+            img {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                border-radius: 50%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 140%;
+            right: 19px;
+            min-height: 220px;
+            min-width: 370px;
+            border-radius: 24px;
+            background: #f3f6fc;
+            box-sizing: border-box;
+            height: 100%;
+            // padding-top: 4px;
+            overflow: hidden;
+            
+            main {
+                margin: 8px;
+                background-color: #fff;
+                border-radius: 24px;
+                min-height: 140px;
+                overflow: hidden;
+
+                .user-profile {
+                    padding: 16px;
+                    gap: 14px;
+                    border-bottom: 2px solid #f3f6fc;
+                    // padding-bottom: 50px;
+                    img {
+                        width: 64px;
+                        height: 64px;
+                        padding: 0;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+
+                    h5 {
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 20px;
+                        color: #1f1f1f;
+                    }
+
+                    p {
+                        font-size: 14px;
+                        line-height: 16px;
+                        letter-spacing: .1px;
+                        color: #444746;
+                        max-width: 250px;
+                    }
+                }
+
+                .login {
+                    cursor: pointer;
+                    height: 100%;
+                    flex: 1;
+                    gap: 14px;
+                    // padding-inline-start: 35px;
+                    padding-inline-start: 16px;
+
+                    &:hover {
+                        background-color: #e2ebf9;
+                    }
+                    
+                    .svg-icon {
+                        padding: 0 20px;
+                    }
+                }
+            }
+            
+            footer {
+                height: 48px;
+                padding: 0 24px;
+                gap: 14px;
+                cursor: pointer;
+                
+                
+                &:hover {
+                    background-color: #e2ebf9;
+                }
+                
+                .svg-icon {
+                    padding: 0 20px;
+                }
+            }
         }
     }
 }

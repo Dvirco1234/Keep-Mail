@@ -294,13 +294,20 @@ button.long-click:active {
 
 .user-img {
     margin-inline-end: 14px;
-
-    height: 40px;
-    width: 40px;
+    padding: 4px;
+    background-color: rgba(60,64,67,.08);
+    border-radius: 50%;
+    cursor: pointer;
+    // height: 40px;
+    // width: 40px;
+    &:hover {
+        box-shadow: 0 1px 0 rgba(0,0,0,.15);
+    }
     section.svg-icon {
         height: 40px !important;
         width: 40px !important;
         opacity: .57;
+
 
         svg {
             height: 40px;

@@ -32,13 +32,41 @@
     </form>
     <!-- <section class="right"> -->
     <div class="user flex">
-        <div class="user-img flex-center" (click)="toggleMenu()">
+        <div class="user-img flex-center" (click)="toggleUserMenu()">
             <svg-icon
-                        [icon]="{ name: 'user', isLarge: true }"
+                *ngIf="!user || !user['imgUrl']; else userImg"
+                [icon]="{ name: 'user', isLarge: true }"
+                class="svg-icon"
+            ></svg-icon>
+            <ng-template #userImg>
+                <img [src]="user['imgUrl']" />
+            </ng-template>
+        </div>
+        <article class="user-menu">
+            <main class="flex flex-col">
+                <div class="user-profile flex align-center">
+                    <img [src]="user['imgUrl']" />
+                    <div class="details">
+                        <h5>{{ user["name"] }}</h5>
+                        <p>{{ user["email"] }}</p>
+                    </div>
+                </div>
+                <div class="login flex align-center">
+                    <svg-icon
+                        [icon]="{ name: 'user-add', isLarge: true }"
                         class="svg-icon"
                     ></svg-icon>
-            
-        </div>
+                    <h4>Log in to another account</h4>
+                </div>
+            </main>
+            <footer class="login flex align-center">
+                <svg-icon
+                    [icon]="{ name: 'logout', isLarge: true }"
+                    class="svg-icon"
+                ></svg-icon>
+                <h4>Sign out</h4>
+            </footer>
+        </article>
     </div>
     <!-- </section> -->
     <nav>
