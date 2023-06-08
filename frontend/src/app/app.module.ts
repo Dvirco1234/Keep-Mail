@@ -28,7 +28,8 @@ import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component
 import { PalleteModalComponent } from './cmps/pallete-modal/pallete-modal.component';
 import { LabelsDropdownComponent } from './cmps/labels-dropdown/labels-dropdown.component';
 import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component';
-import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
+import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component';
+import { LoginSignupComponent } from './pages/login-signup/login-signup.component'
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
         LabelsDropdownComponent,
         ArchiveNotesComponent,
         TrashNotesComponent,
+        LoginSignupComponent,
     ],
     imports: [
         BrowserModule,

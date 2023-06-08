@@ -8,9 +8,14 @@ import { NoteResolver } from './services/note.resolver';
 import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component'
 import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component'
 import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
+import { LoginSignupComponent } from './pages/login-signup/login-signup.component'
 
 const routes: Routes = [
     // { path: 'keep/:id', component: NoteDetailsComponent },
+    {
+        path: 'login',
+        component: LoginSignupComponent,
+    },
     {
         path: 'keep/archive',
         component: KeepAppComponent,

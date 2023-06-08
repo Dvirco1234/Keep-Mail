@@ -1,0 +1,92 @@
+<section class="login-signup flex-center">
+    <main>
+        <article class="login-form flex flex-col align-center">
+            <h1 class="logo flex justify-center">
+                <span class="flex align-center"
+                    ><img
+                        class="icon"
+                        src="../../../assets/imgs/keep-brand.png"
+                    />
+                    Keeper</span
+                >
+            </h1>
+            <h2>{{ isNewUser ? "Sign up" : "Sign in" }}</h2>
+            <form
+                class="flex flex-col align-center"
+                (ngSubmit)="onSubmit($event)"
+            >
+                <div class="field" *ngIf="isNewUser" [class.open]="fullname">
+                    <label for="fullname">Enter fullname</label>
+                    <input
+                        type="text"
+                        id="fullname"
+                        name="fullname"
+                        [(ngModel)]="fullname"
+                    />
+                </div>
+                <div class="field" [class.open]="username">
+                    <label for="username">Enter username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        [(ngModel)]="username"
+                    />
+                </div>
+                <div class="field" [class.open]="password">
+                    <label for="password">Enter password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        [(ngModel)]="password"
+                    />
+                </div>
+                <!-- <input type="password" [(ngModel)]="password" name="password" placeholder="Enter password" /> -->
+                <button>{{ isNewUser ? "Sign up" : "Sign in" }}</button>
+            </form>
+            <!-- <form *ngIf="isNewUser" class="flex flex-col align-center" (submit)="signup()">
+                <div class="field" [class.open]="fullname">
+                    <label for="fullname">Enter fullname</label>
+                    <input type="text" id="fullname" name="fullname" [(ngModel)]="fullname" />
+                </div>
+                <div class="field" [class.open]="username">
+                    <label for="username">Enter username</label>
+                    <input type="text" id="username" name="username" [(ngModel)]="username" />
+                </div>
+                <div class="field" [class.open]="password">
+                    <label for="password">Enter password</label>
+                    <input type="password" id="password" name="password" [(ngModel)]="password" />
+                </div>
+                <button>Sign up</button>
+            </form> -->
+            <div class="flex flex-col status" *ngIf="!isNewUser">
+                <p class="seperator">OR</p>
+                <button class="flex-center google-btn clean-btn">
+                    <svg-icon
+                        [icon]="{ name: 'google', isLarge: false }"
+                        class="svg-icon"
+                    ></svg-icon>
+                    Continue with Google
+                </button>
+                <div class="bottom-form-separator"></div>
+                <p (click)="toggleStatus()" class="toggle-status">
+                    Sign up for an account
+                </p>
+            </div>
+            <div class="flex flex-col status" *ngIf="isNewUser">
+                <p class="seperator">Already have an account?</p>
+                <div class="bottom-form-separator"></div>
+                <p (click)="toggleStatus()" class="toggle-status">Log in</p>
+            </div>
+        </article>
+    </main>
+    <!-- <fieldset class="flex align-center">
+        <legend>hi there</legend>
+        <input type="text" placeholder="password">
+    </fieldset> -->
+    <!-- <fieldset class="flex align-center">
+                    <legend>{{credentials.username ? 'Email or username': ''}}</legend>
+                    <input [(ngModel)]="credentials.username" type="text" placeholder="password">
+                </fieldset> -->
+</section>

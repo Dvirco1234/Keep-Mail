@@ -32,7 +32,7 @@
     </form>
     <!-- <section class="right"> -->
     <div class="user flex">
-        <div class="user-img flex-center" (click)="toggleUserMenu()">
+        <div class="user-img flex-center" (click)="openUserMenu()">
             <svg-icon
                 *ngIf="!user || !user['imgUrl']; else userImg"
                 [icon]="{ name: 'user', isLarge: true }"
@@ -42,10 +42,18 @@
                 <img [src]="user['imgUrl']" />
             </ng-template>
         </div>
-        <article class="user-menu">
+        <article class="user-menu" *ngIf="isUserMenuOpen" [clickOutside]="closeUserMenu.bind(this)">
             <main class="flex flex-col">
                 <div class="user-profile flex align-center">
-                    <img [src]="user['imgUrl']" />
+                    <svg-icon
+                        *ngIf="!user || !user['imgUrl']; else userImg"
+                        [icon]="{ name: 'user', isLarge: true }"
+                        class="svg-icon"
+                    ></svg-icon>
+                    <ng-template #userImg>
+                        <img [src]="user['imgUrl']" />
+                    </ng-template>
+                    <!-- <img [src]="user['imgUrl']" /> -->
                     <div class="details">
                         <h5>{{ user["name"] }}</h5>
                         <p>{{ user["email"] }}</p>
