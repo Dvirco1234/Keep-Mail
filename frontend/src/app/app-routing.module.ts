@@ -9,6 +9,7 @@ import { LabelsModalComponent } from './cmps/labels-modal/labels-modal.component
 import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component'
 import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component'
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component'
+import { AuthGuard } from './services/auth.guard'
 
 const routes: Routes = [
     // { path: 'keep/:id', component: NoteDetailsComponent },
@@ -19,14 +20,17 @@ const routes: Routes = [
     {
         path: 'keep/archive',
         component: KeepAppComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'keep/trash',
         component: KeepAppComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'keep',
         component: KeepAppComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: 'labels-modal',
@@ -50,6 +54,7 @@ const routes: Routes = [
     {
         path: 'keep/label/:labelId',
         component: KeepAppComponent,
+        canActivate: [AuthGuard],
     },
     {
         path: '',

@@ -6,8 +6,14 @@
                 class="svg-icon"
             ></svg-icon>
         </div>
-        <img src="../../../assets/imgs/keep-brand.png" />
-        <h2>Keeper</h2>
+        <!-- <span class="logo flex-center">
+            <img src="../../../assets/imgs/keep-brand.png" />
+            <h2>Keeper</h2>
+        </span> -->
+        <a routerLink="/" class="logo flex-center">
+            <img src="../../../assets/imgs/keep-brand.png" />
+            <h2>Keeper</h2>
+        </a>
     </div>
     <form class="search-form flex align-center">
         <div class="icon-ctr flex-center">
@@ -48,15 +54,14 @@
                     <svg-icon
                         *ngIf="!user || !user['imgUrl']; else userImg"
                         [icon]="{ name: 'user', isLarge: true }"
-                        class="svg-icon"
+                        class="svg-icon user-icon"
                     ></svg-icon>
                     <ng-template #userImg>
                         <img [src]="user['imgUrl']" />
                     </ng-template>
-                    <!-- <img [src]="user['imgUrl']" /> -->
                     <div class="details">
-                        <h5>{{ user["name"] }}</h5>
-                        <p>{{ user["email"] }}</p>
+                        <h5>{{ user["fullname"] }}</h5>
+                        <p>{{ user["username"] }}</p>
                     </div>
                 </div>
                 <div class="login flex align-center">

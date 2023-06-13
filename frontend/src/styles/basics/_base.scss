@@ -270,9 +270,9 @@ button.long-click:active {
 }
 
 .no-notes-msg {
-    opacity: .87;
+    opacity: 0.87;
     .icon {
-        opacity: .57;
+        opacity: 0.57;
         width: 120px;
         height: 120px;
         section.svg-icon {
@@ -295,23 +295,32 @@ button.long-click:active {
 .user-img {
     margin-inline-end: 14px;
     padding: 4px;
-    background-color: rgba(60,64,67,.08);
+    background-color: rgba(60, 64, 67, 0.08);
     border-radius: 50%;
     cursor: pointer;
     // height: 40px;
     // width: 40px;
     &:hover {
-        box-shadow: 0 1px 0 rgba(0,0,0,.15);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
     }
     section.svg-icon {
         height: 40px !important;
         width: 40px !important;
-        opacity: .57;
-
+        opacity: 0.57;
 
         svg {
             height: 40px;
             width: 40px;
         }
+    }
+}
+
+.user-icon.svg-icon {
+    opacity: .57;
+    width: 64px;
+    height: 64px;
+    .svg-icon {
+        width: 64px;
+        height: 64px;
     }
 }

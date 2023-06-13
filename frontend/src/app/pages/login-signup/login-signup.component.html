@@ -42,8 +42,17 @@
                         [(ngModel)]="password"
                     />
                 </div>
+                <!-- <div class="field" *ngIf="isNewUser" [class.open]="confirmPassword">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        [(ngModel)]="confirmPassword"
+                    />
+                </div> -->
                 <!-- <input type="password" [(ngModel)]="password" name="password" placeholder="Enter password" /> -->
-                <button>{{ isNewUser ? "Sign up" : "Sign in" }}</button>
+                <button (click)="onSubmit($event)">{{ isNewUser ? "Sign up" : "Sign in" }}</button>
             </form>
             <!-- <form *ngIf="isNewUser" class="flex flex-col align-center" (submit)="signup()">
                 <div class="field" [class.open]="fullname">
