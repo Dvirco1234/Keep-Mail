@@ -108,11 +108,11 @@ module.exports = {
     removeNoteMsg,
 }
 
+// const labelId = ''
+// const searchTerm = ''
+// const archiveOnly = false
 function _buildCriteria(filterBy) {
-    const { searchTerm, archiveOnly, labelId } = filterBy
-    // const labelId = ''
-    // const searchTerm = ''
-    // const archiveOnly = false
+    const { searchTerm, archiveOnly, labelId, userId, isTrash } = filterBy
     const criteria = {
         $and: [
             {
@@ -125,8 +125,13 @@ function _buildCriteria(filterBy) {
                 ],
             },
             { isArchived: { $eq: JSON.parse(archiveOnly) } },
+            { userId: { $eq: userId } },
+            // { deletedAt: isTrash ? { $exists: true, $ne: null } : null },
         ],
     }
     if (labelId) criteria.$and.push({ 'labels.id': labelId })
+    // if (isTrash) criteria.$and.push({ 'deletedAt': { $exists: true, $ne: null } })
+    const trash = JSON.parse(isTrash) ? { $ne: null } : {$eq: null }
+    criteria.$and.push({ 'deletedAt': trash })
     return criteria
 }

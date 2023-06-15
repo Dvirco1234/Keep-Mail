@@ -232,7 +232,10 @@ export class NoteAddComponent implements OnInit, AfterViewInit {
             return;
         }
         this.note.lastEditedAt = Date.now();
-        if (!this.noteToEdit)  this.note.createdAt = Date.now();    
+        if (!this.noteToEdit) {
+            this.note.createdAt = Date.now();
+            this.note.userId = this.userService.getLoggedInUser()._id
+        }    
         this.keepService.saveNote(
             JSON.parse(JSON.stringify({ ...this.note, type }))
         );

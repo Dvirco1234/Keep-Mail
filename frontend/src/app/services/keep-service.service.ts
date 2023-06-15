@@ -10,6 +10,7 @@ import { Label, Note } from '../models';
 import { AsyncStorageService } from './async-storage-service.service';
 import { UtilService } from './util-service.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserService } from './user-service.service'
 
 // const notes = [] as Note[];
 // const notes: Note[] = ;
@@ -31,6 +32,7 @@ export class KeepService {
     public isTrashNotes: boolean = false;
     public filterBy = {
         labelId: '',
+        userId: '',
         searchTerm: '',
         archiveOnly: false,
         isTrash: false,
@@ -53,10 +55,11 @@ export class KeepService {
         }),
     };
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient, private userService: UserService) {}
 
     public loadNotes(): void {
         const params = this.filterBy
+        params.userId = this.userService.getLoggedInUser()._id;
         this.http.get(`${BASE_URL}note`, { params }).subscribe(
             (notes) => {
                 this._notesDb = notes as Note[];
@@ -81,12 +84,17 @@ export class KeepService {
         );
     }
 
-    public getNoteById(id: number): Observable<Note> {
+    public getNoteById(id: string): Observable<Note> {
         const url = `${BASE_URL}note/${id}`;
         return this.http.get<Note>(url);
     }
 
     public async removeNote(id: string) {
+        const note = await lastValueFrom(this.getNoteById(id));
+        if (!note.deletedAt) {
+            this.updateNoteByKey(note, 'deletedAt', Date.now())
+            return this.loadNotes();
+        }
         const url = `${BASE_URL}note/${id}`;
         try {
             const res = await lastValueFrom(
@@ -214,11 +222,13 @@ export class KeepService {
             info: { title: '', txt: '' },
             media: null,
             _id: '',
+            userId: '',
             isPinned: false,
             isArchived: false,
             labels: [],
             style: { backgroundColor: '', backgroundImg: '' },
             lastEditedAt: Date.now(),
+            deletedAt: null,
         };
     }
 

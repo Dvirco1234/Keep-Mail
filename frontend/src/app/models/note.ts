@@ -28,6 +28,7 @@ import { NoteTxt } from './';
 
 export interface Note {
     _id: string;
+    userId?: string;
     type: string;
     isPinned: boolean;
     media: { type: string; url: string } | null;
@@ -38,7 +39,7 @@ export interface Note {
         color?: string;
     }>;
     style: { backgroundColor: string, backgroundImg?: string };
-    deletedAt?: number | Date;
+    deletedAt?: number | Date | null;
     lastEditedAt?: number | Date;
     createdAt?: number | Date;
     isArchived?: boolean;
