@@ -125,13 +125,13 @@ function _buildCriteria(filterBy) {
                 ],
             },
             { isArchived: { $eq: JSON.parse(archiveOnly) } },
-            { userId: { $eq: userId } },
+            // { userId: { $eq: userId } },
             // { deletedAt: isTrash ? { $exists: true, $ne: null } : null },
         ],
     }
     if (labelId) criteria.$and.push({ 'labels.id': labelId })
     // if (isTrash) criteria.$and.push({ 'deletedAt': { $exists: true, $ne: null } })
     const trash = JSON.parse(isTrash) ? { $ne: null } : {$eq: null }
-    criteria.$and.push({ 'deletedAt': trash })
+    // criteria.$and.push({ 'deletedAt': trash })
     return criteria
 }

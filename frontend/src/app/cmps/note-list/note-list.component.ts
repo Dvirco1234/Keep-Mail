@@ -53,7 +53,14 @@ export class NoteListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log('this.notes:', this.notes);
+        // setTimeout(() => {
+        //     console.log('this.notes:', this.notes);
+        // this.notes?.map(n => {
+        //     console.log('n: ', n);
+        //     if (!n.createdAt || (n.createdAt + '').length > 13) n.createdAt = 1686847197707 - Math.floor(Math.random() * 1000000)
+        //     this.keepService.updateNote(n)
+        // })
+        // }, 5000);
     }
 
     trackByFn(idx: number, note: Note) {
