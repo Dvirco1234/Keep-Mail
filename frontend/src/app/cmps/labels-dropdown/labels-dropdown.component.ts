@@ -6,6 +6,7 @@ import {
     Output,
     SimpleChanges,
 } from '@angular/core';
+import { Observable, Subscription } from 'rxjs'
 import { Label, Note, User } from 'src/app/models';
 import { KeepService } from 'src/app/services/keep-service.service';
 import { UserService } from 'src/app/services/user-service.service';
@@ -27,9 +28,11 @@ export class LabelsDropdownComponent implements OnInit {
     user!: User;
     labels!: Label[];
     searchTerm: string = '';
+    user$!: Observable<User>;
+    subscription!: Subscription;
 
     loadUser() {
-        this.user = this.userService.getLoggedInUser();
+        // this.user = this.userService.getLoggedInUser();
         this.labels = this.user['labels'].map((l: Label) => ({
             ...l,
             isChecked:
@@ -59,6 +62,7 @@ export class LabelsDropdownComponent implements OnInit {
 
     toggleLabel(label: Label, ev: Event) {
         ev.stopPropagation();
+        // ev.preventDefault();
         let labels = JSON.parse(JSON.stringify(this.note.labels || []));
         if (label['isChecked'])
             labels = labels.filter((l: Label) => l.id !== label.id);
@@ -75,6 +79,10 @@ export class LabelsDropdownComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadUser();
+        // this.loadUser();
+        this.subscription = this.userService.user$.subscribe(user => {
+            this.user = user
+            this.loadUser();
+          })
     }
 }

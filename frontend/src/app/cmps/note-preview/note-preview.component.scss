@@ -2,7 +2,7 @@
     position: relative;
     break-inside: avoid;
     width: 240px;
-
+    
     &.curr-note {
         .check-note {
             display: none;
@@ -235,6 +235,7 @@
     }
 
     .labels-dropdown {
+        break-inside: avoid;
         position: absolute;
         left: 50%;
         translate: -50% 100%;

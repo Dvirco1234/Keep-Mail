@@ -27,8 +27,8 @@ export class LabelsModalComponent implements AfterViewInit {
     @ViewChild('newLabelInput') newLabelInput!: ElementRef;
     @ViewChildren('labelInput', { read: ElementRef })
     labelInput!: QueryList<ElementRef>;
-    // user$!: Observable<User>;
-    // subscription!: Subscription
+    user$!: Observable<User>;
+    subscription!: Subscription
     // isModalOpen: boolean = true;
     user!: User;
     isEdit: boolean = false;
@@ -69,12 +69,12 @@ export class LabelsModalComponent implements AfterViewInit {
         delete label.isEditable;
         delete label['mouseover'];
         this.userService.saveLabel(label);
-        this.loadUser();
+        // this.loadUser();
     }
 
     removeLabel(id: string) {
         this.userService.removeLabel(id);
-        this.loadUser();
+        // this.loadUser();
     }
 
     closeLabels() {
@@ -98,7 +98,7 @@ export class LabelsModalComponent implements AfterViewInit {
     }
 
     loadUser() {
-        this.user = this.userService.getLoggedInUser();
+        // this.user = this.userService.getLoggedInUser();
         this.labels = this.user['labels'].map((l: Label) => ({
             ...l,
             isEditable: false,
@@ -114,13 +114,13 @@ export class LabelsModalComponent implements AfterViewInit {
     // }
 
     ngOnInit(): void {
-        this.loadUser();
         // this.user$ = this.userService.user$;
         // this.user = this.userService.getLoggedInUser();
         // this.initLabels();
-        // this.subscription = this.userService.user$.subscribe(user => {
-        //       this.user = user
-        //   })
+        this.subscription = this.userService.user$.subscribe(user => {
+            this.user = user
+            this.loadUser();
+          })
     }
 
     ngAfterViewInit(): void {
