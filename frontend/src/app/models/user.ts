@@ -1,7 +1,8 @@
 export interface User {
     [key: string]: any;
     _id: string;
-    name: string;
+    username: string;
+    fullname: string;
     imgUrl?: string;
     // labels?: Array<{
     //     id: string;

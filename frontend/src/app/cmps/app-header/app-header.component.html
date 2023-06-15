@@ -64,15 +64,17 @@
                         <p>{{ user["username"] }}</p>
                     </div>
                 </div>
-                <div class="login flex align-center">
+                <!-- <a routerLink="/login"> -->
+                <div class="login flex align-center" (click)="goToLogin()">
                     <svg-icon
                         [icon]="{ name: 'user-add', isLarge: true }"
                         class="svg-icon"
                     ></svg-icon>
-                    <h4>Log in to another account</h4>
-                </div>
+                        <h4>Log in {{user._id !== 'guest'? 'to another account' : ''}}</h4>
+                    </div>
+                <!-- </a> -->
             </main>
-            <footer class="login flex align-center">
+            <footer class="login flex align-center" (click)="logout()">
                 <svg-icon
                     [icon]="{ name: 'logout', isLarge: true }"
                     class="svg-icon"
@@ -83,7 +85,7 @@
     </div>
     <!-- </section> -->
     <nav>
-        <a routerLink="/"></a>
+        <a ></a>
         <a routerLink="/"></a>
     </nav>
 </header>

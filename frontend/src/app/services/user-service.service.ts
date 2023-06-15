@@ -8,7 +8,7 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedInUser';
 const BASE_URL =
     process.env['NODE_ENV'] === 'production'
         ? '/api/'
-        : '//localhost:3030/api/auth/';
+        : '//localhost:3030/api/';
 
 @Injectable({
     providedIn: 'root',
@@ -19,10 +19,18 @@ export class UserService {
     private KEY = 'currUser';
     private USERS_KEY = 'usersDB';
     private users: User[] = this.utilService.load(this.USERS_KEY) || [];
+
+    private guest = {
+        _id: 'guest',
+        fullname: 'Hello guest',
+        imgUrl: '',
+        labels: [],
+        username: 'guest@gmail.com',
+    };
     private loggedInUser!: User | null;
     //TODO: need to add users
     private _user$ = new BehaviorSubject<User>(
-        this.utilService.load(this.KEY) //|| this._getEmptyUser()
+        this.utilService.load(this.KEY) || this.guest //|| this._getEmptyUser()
     );
     public user$ = this._user$.asObservable();
 
@@ -51,16 +59,23 @@ export class UserService {
     //     const user = this.utilService.load(this.KEY);
     //     return user;
     // }
+
+    //OBSERVABLE
+    // getLoggedInUser(): User {
+    //     let user = this.utilService.load(this.KEY);
+    //     if (user) return user;
+    //     user = {
+    //         _id: 'u101',
+    //         fullname: 'Hello guest',
+    //         imgUrl: '',
+    //         labels: [],
+    //         username: 'guest@gmail.com',
+    //     };
+    //     return user;
+    // }
     getLoggedInUser(): User {
         let user = this.utilService.load(this.KEY);
-        if (user) return user;
-        user = {
-            _id: 'u101',
-            fullname: 'Hello guest',
-            imgUrl: '',
-            labels: [],
-            username: 'guest@gmail.com',
-        };
+        if (!user) user = this.guest;
         return user;
     }
 
@@ -85,24 +100,59 @@ export class UserService {
     //     return user;
     // }
 
+    // saveLabel(label: Label) {
+    //     const user = this.getLoggedInUser()
+    //     if (label.id) {
+    //         const idx = user['labels'].findIndex((l: Label) => l.id === label.id);
+    //         user['labels'][idx] = label;
+    //     } else {
+    //         label.id = this.utilService.makeId();
+    //         user['labels'].push(label);
+    //     }
+    //     this.utilService.save(this.KEY, user);
+    //     this._user$.next(user);
+    // }
+
+    // removeLabel(id: string) {
+    //     const user = this.getLoggedInUser()
+    //     user['labels'] = user['labels'].filter((label: Label) => label.id !== id);
+    //     this.utilService.save(this.KEY, user);
+    //     this._user$.next(user);
+    // }
     saveLabel(label: Label) {
-        const user = this.utilService.load(this.KEY);
+        console.log('label: ', label);
+        const user = this.getLoggedInUser()
         if (label.id) {
-            const idx = user.labels.findIndex((l: Label) => l.id === label.id);
-            user.labels[idx] = label;
+            const idx = user['labels'].findIndex((l: Label) => l.id === label.id);
+            user['labels'][idx] = label;
         } else {
             label.id = this.utilService.makeId();
-            user.labels.push(label);
+            user['labels'].push(label);
         }
-        this.utilService.save(this.KEY, user);
-        this._user$.next(user);
+        this.updateUser(user);
+    }
+    
+    removeLabel(id: string) {
+        const user = this.getLoggedInUser()
+        user['labels'] = user['labels'].filter((label: Label) => label.id !== id);
+        this.updateUser(user);
+        // this.utilService.save(this.KEY, user);
+        // this._user$.next(user);
     }
 
-    removeLabel(id: string) {
-        const user = this.utilService.load(this.KEY);
-        user.labels = user.labels.filter((label: Label) => label.id !== id);
-        this.utilService.save(this.KEY, user);
-        this._user$.next(user);
+    async updateUser(user: User) {
+        const url = `${BASE_URL}user/${user['id']}`;
+        try {
+            const updatedUser = await lastValueFrom(
+                this.http.put<any>(url, user)
+            );
+            console.log('updatedUser: ', updatedUser);
+            this.utilService.save(this.KEY, updatedUser);
+            this._user$.next(updatedUser);
+            return updatedUser;
+        } catch (error) {
+            throw error;
+        }
     }
 
     // public getUsers() {
@@ -131,41 +181,48 @@ export class UserService {
         fullname: string;
     }) {
         console.log('credentials: ', credentials);
-        const url = `${BASE_URL}signup`;
+        const url = `${BASE_URL}auth/signup`;
         try {
             const user = await lastValueFrom(
                 this.http.post<any>(url, credentials)
             );
             console.log('user: ', user);
             this.utilService.save(this.KEY, user);
+            this._user$.next(user);
             // saveLocalUser(user);
+            return user;
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            throw error;
         }
     }
-
+    
     public async login(credentials: { username: string; password: string }) {
         console.log('credentials: ', credentials);
-        const url = `${BASE_URL}login`;
+        const url = `${BASE_URL}auth/login`;
         try {
             const user = await lastValueFrom(
                 this.http.post<any>(url, credentials)
-            );
-            console.log('user: ', user);
-            this.utilService.save(this.KEY, user);
-            // saveLocalUser(user);
+                );
+                console.log('user: ', user);
+                this.utilService.save(this.KEY, user);
+                this._user$.next(user);
+                // saveLocalUser(user);
+            return user;
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            throw error;
         }
     }
 
     public async logout() {
-        const url = `${BASE_URL}logout`;
+        const url = `${BASE_URL}auth/logout`;
         // sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER);
         localStorage.removeItem(this.KEY);
         try {
             const res = await lastValueFrom(this.http.post<any>(url, null));
             console.log('res: ', res);
+            this._user$.next(this.guest);
         } catch (error) {
             console.error(error);
         }

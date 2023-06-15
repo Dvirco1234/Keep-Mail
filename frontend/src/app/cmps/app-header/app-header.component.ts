@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
+import { Subscription } from 'rxjs'
 import { ClickOutsideDirective } from 'src/app/directives/click-outside.directive'
 import { User } from 'src/app/models'
 import { KeepService } from 'src/app/services/keep-service.service';
@@ -16,8 +18,10 @@ export class AppHeaderComponent implements OnInit {
         private utilService: UtilService,
         private keepService: KeepService,
         private userService: UserService,
+        private router: Router,
     ) {}
 
+    subscription!: Subscription;
     searchTerm: string = '';
     user!: User;
     isUserMenuOpen: boolean = false;
@@ -45,9 +49,23 @@ export class AppHeaderComponent implements OnInit {
         this.isUserMenuOpen = false;
     }
 
+    logout() {
+        this.userService.logout()
+        this.closeUserMenu()
+    }
+
+    goToLogin() {
+        this.closeUserMenu()
+        this.router.navigateByUrl(`/login`);
+    }
+
     ngOnInit(): void {
         this.search = this.utilService.debounce(this.search.bind(this), 700);
-        this.user = this.userService.getLoggedInUser();
-        console.log('this.user: ', this.user);
+        // this.user = this.userService.getLoggedInUser();
+        // console.log('this.user: ', this.user);
+        this.subscription = this.userService.user$.subscribe((user) => {
+            this.user = user;
+            console.log('this.user: ', this.user);
+        });
     }
 }
