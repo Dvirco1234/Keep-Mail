@@ -61,6 +61,7 @@ export class NoteListComponent implements OnInit {
         //     this.keepService.updateNote(n)
         // })
         // }, 5000);
+        
     }
 
     trackByFn(idx: number, note: Note) {
