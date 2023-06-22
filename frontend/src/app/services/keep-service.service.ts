@@ -92,7 +92,7 @@ export class KeepService {
     public async removeNote(id: string) {
         const note = await lastValueFrom(this.getNoteById(id));
         if (!note.deletedAt) {
-            this.updateNoteByKey(note, 'deletedAt', Date.now())
+            await this.updateNoteByKey(note, 'deletedAt', Date.now())
             return this.loadNotes();
         }
         const url = `${BASE_URL}note/${id}`;
