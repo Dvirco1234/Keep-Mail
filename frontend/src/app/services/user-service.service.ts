@@ -10,6 +10,9 @@ const BASE_URL =
         ? '/api/'
         : '//localhost:3030/api/';
 
+
+        //Client secret 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
+        //Client ID 260718967201-v3448p2okre1tii1j7k6rdq4ri1mlqqf.apps.googleusercontent.com
 @Injectable({
     providedIn: 'root',
 })

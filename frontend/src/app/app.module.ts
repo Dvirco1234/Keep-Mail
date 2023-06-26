@@ -16,7 +16,7 @@ import { NoteAddComponent } from './cmps/note-add/note-add.component';
 import { SvgIconComponent } from './cmps/utils/svg-icon/svg-icon.component';
 import { TodosNoteComponent } from './cmps/todos-note/todos-note.component';
 import { NoteTemplatesComponent } from './cmps/note-templates/note-templates.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { UppercaseFirstPipe } from './pipes/uppercase-first.pipe';
 import { NoteEditComponent } from './pages/note-edit/note-edit.component';
@@ -30,6 +30,8 @@ import { LabelsDropdownComponent } from './cmps/labels-dropdown/labels-dropdown.
 import { ArchiveNotesComponent } from './pages/archive-notes/archive-notes.component';
 import { TrashNotesComponent } from './pages/trash-notes/trash-notes.component';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component'
+import { SocialLoginModule, GoogleLoginProvider, SocialAuthServiceConfig  } from '@abacritt/angularx-social-login'
+
 
 @NgModule({
     declarations: [
@@ -64,9 +66,34 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
         HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
+        ReactiveFormsModule,
+        SocialLoginModule,
         // MasonryModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: 'SocialAuthServiceConfig',
+            useValue: {
+              autoLogin: true,
+              providers: [
+                {
+                  id: GoogleLoginProvider.PROVIDER_ID,
+                  provider: new GoogleLoginProvider('260718967201-v3448p2okre1tii1j7k6rdq4ri1mlqqf.apps.googleusercontent.com'),
+                },
+              ],
+            } as SocialAuthServiceConfig,
+          },
+    ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+    // constructor(private socialAuthService: SocialAuthService) {
+    //     this.socialAuthService.initState.subscribe(() => {
+    //       // Initialize Google Login Provider
+    //       this.socialAuthService.addConfig({
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider(googleClientId)
+    //       });
+    //     });
+    //   }
+}

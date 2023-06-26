@@ -118,21 +118,24 @@
             }
 
             .google-btn {
-                min-height: 44px;
-                border-radius: 0.3rem;
-                color: rgb(23, 43, 77);
-                font-size: 0.875rem;
-                gap: 0.5rem;
-                width: 100%;
-                box-shadow: rgba(9, 30, 66, 0.15) 1px 1px 5px 0px;
-                font-weight: 500;
-                padding: 0.5rem;
                 margin-bottom: 20px;
-
-                &:hover {
-                    background-color: rgb(249, 250, 252);
-                }
             }
+            // .google-btn {
+            //     min-height: 44px;
+            //     border-radius: 0.3rem;
+            //     color: rgb(23, 43, 77);
+            //     font-size: 0.875rem;
+            //     gap: 0.5rem;
+            //     width: 100%;
+            //     box-shadow: rgba(9, 30, 66, 0.15) 1px 1px 5px 0px;
+            //     font-weight: 500;
+            //     padding: 0.5rem;
+            //     margin-bottom: 20px;
+
+            //     &:hover {
+            //         background-color: rgb(249, 250, 252);
+            //     }
+            // }
 
             .status {
                 align-items: center;

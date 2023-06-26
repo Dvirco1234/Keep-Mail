@@ -53,7 +53,9 @@
                     />
                 </div> -->
                 <!-- <input type="password" [(ngModel)]="password" name="password" placeholder="Enter password" /> -->
-                <button (click)="onSubmit($event)">{{ isNewUser ? "Sign up" : "Sign in" }}</button>
+                <button (click)="onSubmit($event)">
+                    {{ isNewUser ? "Sign up" : "Sign in" }}
+                </button>
             </form>
             <!-- <form *ngIf="isNewUser" class="flex flex-col align-center" (submit)="signup()">
                 <div class="field" [class.open]="fullname">
@@ -72,13 +74,29 @@
             </form> -->
             <div class="flex flex-col status" *ngIf="!isNewUser">
                 <p class="seperator">OR</p>
-                <button class="flex-center google-btn clean-btn">
+                <asl-google-signin-button
+                    class="google-btn"
+                    [type]="'standard'"
+                    [size]="'large'"
+                    [text]="'signin_with'"
+                    [shape]="'rectangular'"
+                    [theme]="'outline'"
+                    [logo_alignment]="'left'"
+                    [locale]="'en'"
+                >
+                </asl-google-signin-button>
+                <!-- <asl-google-signin-button>login</asl-google-signin-button> -->
+                <!-- <asl-google-signin-button></asl-google-signin-button> -->
+                <!-- <button
+                    class="flex-center google-btn clean-btn"
+                    (click)="loginWithGoogle()"
+                >
                     <svg-icon
                         [icon]="{ name: 'google', isLarge: false }"
                         class="svg-icon"
                     ></svg-icon>
                     Continue with Google
-                </button>
+                </button> -->
                 <div class="bottom-form-separator"></div>
                 <p (click)="toggleStatus()" class="toggle-status">
                     Sign up for an account
