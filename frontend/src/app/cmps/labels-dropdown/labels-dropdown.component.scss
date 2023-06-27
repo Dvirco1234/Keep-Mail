@@ -1,5 +1,6 @@
 .labels-dropdown {
     // padding: 10px;
+    break-inside: avoid;
     position: relative;
     // position: absolute;
     background-color: #fff;
@@ -18,7 +19,6 @@
     
     form {
         padding-inline-end: 10px;
-
     }
 
     // .search-icon {

@@ -90,6 +90,7 @@ export class SideNavFilterComponent implements OnInit {
     }
     ngOnInit(): void {
         this.subscription = this.userService.user$.subscribe((user) => {
+            if (!user) return;
             this.user = user;
             this.setNavLinks();
         });

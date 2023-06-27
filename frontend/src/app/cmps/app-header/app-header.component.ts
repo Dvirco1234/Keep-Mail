@@ -42,6 +42,7 @@ export class AppHeaderComponent implements OnInit {
     }
     
     openUserMenu() {
+        if (!this.user) return
         this.isUserMenuOpen = true
     }
 
@@ -52,6 +53,7 @@ export class AppHeaderComponent implements OnInit {
     logout() {
         this.userService.logout()
         this.closeUserMenu()
+        this.goToLogin()
     }
 
     goToLogin() {

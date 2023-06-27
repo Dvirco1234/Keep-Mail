@@ -134,3 +134,11 @@ button.long-click:active {
 .ratio-poster {
     @include aspect-ratio(100, 150);
 }
+
+.w-100 {
+    width: 100%;
+}
+
+.j-self-end {
+    justify-self: flex-end;
+}

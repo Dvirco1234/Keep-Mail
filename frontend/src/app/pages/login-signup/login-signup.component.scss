@@ -114,6 +114,16 @@
                     &:hover {
                         background-color: rgb(24, 90, 188);
                     }
+
+                    &.demo {
+                        color: #0052cc;
+                        background-color: #fff;
+                        outline: 1px solid #0052cc;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
                 }
             }
 

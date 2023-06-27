@@ -72,6 +72,12 @@ export class LoginSignupComponent implements OnInit {
         this.isLoading = false;
     }
 
+    guestLogin() {
+        this.username = 'guest@gmail.com';
+        this.password = '1234';
+        this.login();
+    }
+
     loginWithGoogle(): void {
         // this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
         this.socialAuthService

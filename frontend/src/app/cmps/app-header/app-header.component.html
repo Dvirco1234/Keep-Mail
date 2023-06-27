@@ -1,6 +1,6 @@
 <header class="flex align-center">
     <div class="left flex align-center">
-        <div class="icon-ctr flex-center" (click)="toggleMenu()">
+        <div class="icon-ctr flex-center" (click)="toggleMenu()" *ngIf="user">
             <svg-icon
                 [icon]="{ name: 'hamburger', isLarge: true }"
                 class="svg-icon"
@@ -15,7 +15,7 @@
             <h2>Keeper</h2>
         </a>
     </div>
-    <form class="search-form flex align-center">
+    <form class="search-form flex align-center" *ngIf="user">
         <div class="icon-ctr flex-center">
             <svg-icon
                 [icon]="{ name: 'search', isLarge: false }"

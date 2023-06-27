@@ -29,11 +29,12 @@ export class UserService {
         imgUrl: '',
         labels: [],
         username: 'guest@gmail.com',
+        password: '1234',
     };
     private loggedInUser!: User | null;
     //TODO: need to add users
     private _user$ = new BehaviorSubject<User>(
-        this.utilService.load(this.KEY) || this.guest //|| this._getEmptyUser()
+        this.utilService.load(this.KEY)// || this.guest 
     );
     public user$ = this._user$.asObservable();
 
@@ -225,7 +226,8 @@ export class UserService {
         try {
             const res = await lastValueFrom(this.http.post<any>(url, null));
             console.log('res: ', res);
-            this._user$.next(this.guest);
+            // this._user$.next(this.guest);
+            this._user$.next(this.utilService.load(this.KEY));
         } catch (error) {
             console.error(error);
         }

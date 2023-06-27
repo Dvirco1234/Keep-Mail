@@ -57,7 +57,8 @@ export class NoteListComponent implements OnInit {
         //     console.log('this.notes:', this.notes);
         // this.notes?.map(n => {
         //     console.log('n: ', n);
-        //     if (!n.createdAt || (n.createdAt + '').length > 13) n.createdAt = 1686847197707 - Math.floor(Math.random() * 1000000)
+        //     // if (!n.createdAt || (n.createdAt + '').length > 13) n.createdAt = 1686847197707 - Math.floor(Math.random() * 1000000)
+        //     if (!n.userId) n.userId = '649af995254b188090512290'
         //     this.keepService.updateNote(n)
         // })
         // }, 5000);

@@ -10,6 +10,7 @@
     }
 
     .note-preview {
+        break-inside: avoid;
         position: relative;
         width: 240px;
         outline: 1px solid #e0e0e0;
