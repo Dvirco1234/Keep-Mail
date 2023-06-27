@@ -46,6 +46,7 @@ export class KeepAppComponent implements OnInit {
         this.notes$ = this.keepService.notes$;
         this.currNote$ = this.keepService.currNote$;
         // console.log('this.notes$: ', this.notes$);
+        // this.keepService.notes$.subscribe(notes => console.log('notes', notes));
     }
 
     updateNote({ note, key, value }: { note: Note; key: string; value: any }) {

@@ -125,7 +125,7 @@ function _buildCriteria(filterBy) {
                 ],
             },
             { isArchived: { $eq: JSON.parse(archiveOnly) } },
-            // { userId: { $eq: userId } },
+            { userId: { $eq: userId } },
             // { deletedAt: isTrash ? { $exists: true, $ne: null } : null },
         ],
     }

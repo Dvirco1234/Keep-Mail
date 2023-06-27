@@ -115,6 +115,7 @@ export class KeepService {
 
     public setFilterBy(filterBy: {[key: string]: string | boolean}) {
         this.filterBy = { ...this.filterBy, ...filterBy };
+        console.log('heree setFilterBy');
         this.loadNotes();
     }
 
@@ -134,6 +135,8 @@ export class KeepService {
             this.currRoute = route;
             this.filterBy.archiveOnly = route === 'archive';
             this.filterBy.isTrash = route === 'trash';
+            console.log('heree setCurrRoute');
+            
             this.loadNotes();
         }
     }
@@ -202,11 +205,15 @@ export class KeepService {
         note.createdAt = Date.now();
         const url = `${BASE_URL}note`;
         try {
+            console.log('here adding');
+            
             const addedNote = await lastValueFrom(
                 this.http.post<any>(url, note)
-            );
-            this._notesDb.unshift(addedNote);
-            this._notes$.next(this._notesDb);
+                );
+                this._notesDb.unshift(addedNote);
+                console.log('this._notesDb: ', this._notesDb);
+                this._notes$.next(this._notesDb);
+                console.log('addedNote: ', addedNote);
         } catch (error) {
             console.error(error);
         }

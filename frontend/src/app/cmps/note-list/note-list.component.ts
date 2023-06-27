@@ -19,7 +19,7 @@ import { KeepService } from 'src/app/services/keep-service.service'
     templateUrl: './note-list.component.html',
     styleUrls: ['./note-list.component.scss'],
     providers: [ResponsiveColumnsDirective],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteListComponent implements OnInit {
 
