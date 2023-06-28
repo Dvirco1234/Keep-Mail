@@ -18,6 +18,9 @@ export class SideNavFilterComponent implements OnInit {
     user$!: Observable<User>;
     subscription!: Subscription;
     user!: User;
+    isMenuOpenHover: boolean = false;
+    isHover: boolean = false;
+    hoverTimeoutId!: ReturnType<typeof setTimeout>;
     navLinks = [
         { icon: 'bulb', act: this.try.bind(this), txt: 'Notes', link: '/keep' },
         {
@@ -83,6 +86,22 @@ export class SideNavFilterComponent implements OnInit {
                 link: '/keep/trash',
             },
         ];
+    }
+
+    onMouseOver() {
+        if (this.isMenuOpen) return;
+        this.isHover = true;
+        this.hoverTimeoutId = setTimeout(() => { 
+            if (!this.isHover) return;
+            this.isMenuOpenHover = true;
+        }, 200)
+    }
+    
+    onMouseLeave() {
+        if (this.isMenuOpen) return;
+        this.isHover = false;
+        clearTimeout(this.hoverTimeoutId);
+        this.isMenuOpenHover = false;
     }
 
     try() {

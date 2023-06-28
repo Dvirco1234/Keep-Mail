@@ -1,23 +1,24 @@
-<section class="side-nav" [class.close]="!isMenuOpen">
-    <ul class="links clean-list">
-        <!-- <li class="nav-link" *ngFor="let link of links"></li> -->
-        <a
-            [routerLink]="link.link"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            *ngFor="let link of navLinks"
-        >
-            <li class="nav-link flex align-center">
-                <svg-icon
-                    class="nav-icon"
-                    [icon]="{
-                        name: link.icon,
-                        isLarge: true
-                    }"
-                ></svg-icon>
-                <h2 *ngIf="isMenuOpen">{{ link.txt }}</h2>
-                <!-- <h2 >{{ link.txt }}</h2> -->
-            </li>
-        </a>
-    </ul>
+<section class="side-nav" [class.close]="!isMenuOpen && !isMenuOpenHover" [class.open-hover]="isMenuOpenHover" >
+    <section class="list-wrapper" (mouseover)="onMouseOver()" (mouseleave)="onMouseLeave()">
+        <ul class="links clean-list">
+            <a
+                [routerLink]="link.link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                *ngFor="let link of navLinks"
+            >
+                <li class="nav-link flex align-center">
+                    <svg-icon
+                        class="nav-icon"
+                        [icon]="{
+                            name: link.icon,
+                            isLarge: true
+                        }"
+                    ></svg-icon>
+                    <h2 *ngIf="isMenuOpen || isMenuOpenHover">{{ link.txt }}</h2>
+                </li>
+            </a>
+        </ul>
+    </section>
 </section>
+
