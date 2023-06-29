@@ -84,7 +84,7 @@ export class SideNavFilterComponent implements OnInit {
                 act: this.try.bind(this),
                 txt: 'Trash',
                 link: '/keep/trash',
-            },
+            }
         ];
     }
 
